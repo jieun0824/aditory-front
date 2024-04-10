@@ -11,9 +11,12 @@ export default function InfoCard() {
         width={200}
         height={100}
       />
-      <div className='flex flex-col gap-1'>
-        <Button className='rounded-lg'>아이디로 로그인</Button>
-        <Button>google 아이디로 로그인</Button>
+      <div className='flex w-full flex-col gap-1'>
+        <Button className='rounded-2xl'>아이디로 로그인</Button>
+        <Button className='rounded-2xl'>google 아이디로 로그인</Button>
+        <span className='flex cursor-pointer justify-center text-zinc-600'>
+          <u>회원가입</u>
+        </span>
       </div>
     </>
   );
