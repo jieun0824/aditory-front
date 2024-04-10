@@ -1,3 +1,9 @@
+import InfoCard from './_component/info-card';
+
 export default function SigninPage() {
-  return <div></div>;
+  return (
+    <>
+      <InfoCard />
+    </>
+  );
 }
