@@ -1,3 +1,5 @@
+'use client';
+
 import {
   Card,
   CardContent,
@@ -8,27 +10,37 @@ import {
 } from '@/components/ui/card';
 import Image from 'next/image';
 
-export default function CategoryCard({ category }: { category: string }) {
+interface Props {
+  category: string;
+  selectedHandler: (category: string) => void;
+  selected: boolean;
+}
+export default function CategoryCard({
+  category,
+  selectedHandler,
+  selected,
+}: Props) {
   interface Images {
     [key: string]: string;
   }
 
   const images: Images = {
-    개발: 'develop',
-    패션: 'fashion',
-    여행: 'travel',
-    음악: 'music',
-    요리: 'food',
-    금융: 'money',
-    운동: 'sports',
-    미술: 'art',
+    development: 'develop',
+    fashion: 'fashion',
+    travel: 'travel',
+    music: 'music',
+    food: 'food',
+    money: 'money',
+    sports: 'sports',
+    art: 'art',
   };
 
   const image: string = images[category];
   return (
     <div className='flex flex-col items-center gap-2'>
       <Card
-        className={`w-full cursor-pointer border-none bg-cover shadow-lg transition hover:scale-110`}
+        className={`flex w-full cursor-pointer justify-center border-none bg-cover shadow-lg transition hover:scale-110 ${selected ? 'opacity-25' : ''}`}
+        onClick={() => selectedHandler(category)}
       >
         <CardHeader>
           <Image
@@ -39,7 +51,7 @@ export default function CategoryCard({ category }: { category: string }) {
           />
         </CardHeader>
       </Card>
-      <p>{category}</p>
+      <p className={selected ? 'opacity-25' : ''}>{category}</p>
     </div>
   );
 }

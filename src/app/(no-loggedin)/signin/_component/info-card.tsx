@@ -1,5 +1,6 @@
 import { Button } from '@/components/ui/button';
 import Image from 'next/image';
+import Link from 'next/link';
 
 export default function InfoCard() {
   return (
@@ -12,11 +13,14 @@ export default function InfoCard() {
         height={100}
       />
       <div className='flex w-full flex-col gap-1'>
-        <Button className='rounded-2xl'>아이디로 로그인</Button>
-        <Button className='rounded-2xl'>google 아이디로 로그인</Button>
-        <span className='flex cursor-pointer justify-center text-zinc-600'>
-          <u>회원가입</u>
-        </span>
+        <Button className='rounded-2xl'>Login</Button>
+        <Button className='rounded-2xl'>Google Login</Button>
+        <Link
+          href={'/signup'}
+          className='flex cursor-pointer justify-center text-zinc-600'
+        >
+          <u>signup</u>
+        </Link>
       </div>
     </>
   );
