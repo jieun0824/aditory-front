@@ -1,6 +1,3 @@
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { FaPlus } from 'react-icons/fa';
 import ReminderCard from './_component/reminder-card';
 import {
   Carousel,
@@ -8,22 +5,7 @@ import {
   CarouselItem,
 } from '@/components/ui/carousel';
 import MyAditory from './_component/my-aditory';
-
-function LinkInput() {
-  return (
-    <div>
-      <p className='text-md scroll-m-20 font-semibold tracking-tight'>
-        Save links
-      </p>
-      <div className='flex gap-2'>
-        <Input placeholder='Link' className='w-full rounded-xl bg-input py-8' />
-        <Button className='max-w-xs rounded-xl bg-input py-8'>
-          <FaPlus />
-        </Button>
-      </div>
-    </div>
-  );
-}
+import LinkInput from './_component/link-input';
 
 function LinkReminder() {
   return (

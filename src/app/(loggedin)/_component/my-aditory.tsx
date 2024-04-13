@@ -21,6 +21,7 @@ export default function MyAditory() {
           alt='Wood'
           width={180}
           height={25}
+          unoptimized
         />
         <p className='font-bold'>Lv1. wood</p>
         <p className='text-sm font-light'>wood</p>
