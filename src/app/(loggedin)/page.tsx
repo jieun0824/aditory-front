@@ -16,11 +16,8 @@ function LinkInput() {
         Save links
       </p>
       <div className='flex gap-2'>
-        <Input
-          placeholder='Link'
-          className='w-full rounded-xl bg-[#E1E1E1] py-8'
-        />
-        <Button className='max-w-xs rounded-xl bg-[#E1E1E1] py-8'>
+        <Input placeholder='Link' className='w-full rounded-xl bg-input py-8' />
+        <Button className='max-w-xs rounded-xl bg-input py-8'>
           <FaPlus />
         </Button>
       </div>

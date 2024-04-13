@@ -3,8 +3,8 @@ import Image from 'next/image';
 
 function AditoryProgressBar() {
   return (
-    <div className='my-4 rounded-lg bg-white p-6 shadow-md'>
-      <Progress value={10} className='bg-zinc-200' />
+    <div className='my-4 rounded-lg bg-card p-6 shadow-md'>
+      <Progress value={10} className='bg-zinc-200 dark:bg-gray-600' />
     </div>
   );
 }
