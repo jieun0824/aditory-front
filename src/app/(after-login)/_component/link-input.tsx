@@ -1,5 +1,6 @@
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
+import Link from 'next/link';
 import { FaPlus } from 'react-icons/fa';
 
 export default function LinkInput() {
@@ -14,9 +15,11 @@ export default function LinkInput() {
           className='w-full rounded-xl bg-input py-8'
           autoFocus
         />
-        <Button className='max-w-xs rounded-xl bg-input py-8 hover:bg-input/40'>
-          <FaPlus />
-        </Button>
+        <Link href={'/add'}>
+          <Button className='max-w-xs rounded-xl bg-input py-8 hover:bg-input/40'>
+            <FaPlus />
+          </Button>
+        </Link>
       </div>
     </div>
   );
