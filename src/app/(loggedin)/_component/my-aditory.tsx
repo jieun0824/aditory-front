@@ -1,4 +1,13 @@
+import { Progress } from '@/components/ui/progress';
 import Image from 'next/image';
+
+function AditoryProgressBar() {
+  return (
+    <>
+      <Progress value={10} className='bg-white' />
+    </>
+  );
+}
 
 export default function MyAditory() {
   return (
@@ -16,6 +25,7 @@ export default function MyAditory() {
         <p className='font-bold'>Lv1. wood</p>
         <p className='text-sm font-light'>wood</p>
       </div>
+      <AditoryProgressBar />
     </div>
   );
 }
