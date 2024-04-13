@@ -1,4 +1,6 @@
+'use client';
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import { IoMdSearch } from 'react-icons/io';
 import { IoHomeSharp } from 'react-icons/io5';
 import { IoPersonCircle } from 'react-icons/io5';
@@ -14,16 +16,28 @@ function MenuIcon({
 }
 
 export default function NavBar() {
+  const pathname = usePathname();
+  console.log(pathname);
+
   return (
     <div className='fixed bottom-0 flex h-14 w-full items-center justify-around rounded-t-xl bg-white shadow-[0_35px_60px_30px_rgba(0,0,0,0.1)] ring-offset-0'>
       <MenuIcon href='/search'>
-        <IoMdSearch size={22} color='#667080' />
+        <IoMdSearch
+          size={22}
+          color={pathname == '/search' ? '#4FD99F' : '#667080'}
+        />
       </MenuIcon>
       <MenuIcon href='/'>
-        <IoHomeSharp size={20} color='#667080' />
+        <IoHomeSharp
+          size={20}
+          color={pathname == '/' ? '#4FD99F' : '#667080'}
+        />
       </MenuIcon>
       <MenuIcon href='/mypage'>
-        <IoPersonCircle size={22} color='#667080' />
+        <IoPersonCircle
+          size={22}
+          color={pathname == '/mypage' ? '#4FD99F' : '#667080'}
+        />
       </MenuIcon>
     </div>
   );
