@@ -3,9 +3,9 @@ import Image from 'next/image';
 
 function AditoryProgressBar() {
   return (
-    <>
-      <Progress value={10} className='bg-white' />
-    </>
+    <div className='my-4 rounded-lg bg-white p-6 shadow-md'>
+      <Progress value={10} className='bg-zinc-200' />
+    </div>
   );
 }
 

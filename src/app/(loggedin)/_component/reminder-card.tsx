@@ -9,7 +9,7 @@ import {
 
 export default function ReminderCard() {
   return (
-    <Card className='bg-primary text-white shadow-md'>
+    <Card className='bg-primary text-white'>
       <CardHeader>
         <CardTitle>title</CardTitle>
       </CardHeader>
