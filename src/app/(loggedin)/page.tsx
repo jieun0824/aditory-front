@@ -2,6 +2,11 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { FaPlus } from 'react-icons/fa';
 import ReminderCard from './_component/reminder-card';
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+} from '@/components/ui/carousel';
 
 function LinkInput() {
   return (
@@ -25,7 +30,19 @@ function LinkReminder() {
       <p className='text-md scroll-m-20 font-semibold tracking-tight'>
         link reminder
       </p>
-      <ReminderCard />
+      <Carousel>
+        <CarouselContent>
+          <CarouselItem className='md:basis-1/2 lg:basis-1/3'>
+            <ReminderCard />
+          </CarouselItem>
+          <CarouselItem className='md:basis-1/2 lg:basis-1/3'>
+            <ReminderCard />
+          </CarouselItem>
+          <CarouselItem className='md:basis-1/2 lg:basis-1/3'>
+            <ReminderCard />
+          </CarouselItem>
+        </CarouselContent>
+      </Carousel>
     </div>
   );
 }

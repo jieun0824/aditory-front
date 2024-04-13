@@ -9,16 +9,15 @@ import {
 
 export default function ReminderCard() {
   return (
-    <Card>
+    <Card className='bg-primary text-white shadow-md'>
       <CardHeader>
-        <CardTitle>Card Title</CardTitle>
-        <CardDescription>Card Description</CardDescription>
+        <CardTitle>title</CardTitle>
       </CardHeader>
       <CardContent>
-        <p>Card Content</p>
+        <p>description</p>
       </CardContent>
       <CardFooter>
-        <p>Card Footer</p>
+        <p>additional info</p>
       </CardFooter>
     </Card>
   );
