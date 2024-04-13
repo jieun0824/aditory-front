@@ -15,7 +15,7 @@ function MenuIcon({
 
 export default function NavBar() {
   return (
-    <div className='absolute bottom-0 flex h-14 w-full items-center justify-around rounded-t-xl bg-white shadow-[0_35px_60px_30px_rgba(0,0,0,0.1)]'>
+    <div className='fixed bottom-0 flex h-14 w-full items-center justify-around rounded-t-xl bg-white shadow-[0_35px_60px_30px_rgba(0,0,0,0.1)] ring-offset-0'>
       <MenuIcon href='/search'>
         <IoMdSearch size={22} color='#667080' />
       </MenuIcon>
