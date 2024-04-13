@@ -15,15 +15,15 @@ function MenuIcon({
 
 export default function NavBar() {
   return (
-    <div className='absolute bottom-0 flex h-14 w-full items-center justify-around bg-white shadow-[0_35px_60px_30px_rgba(0,0,0,0.1)]'>
+    <div className='absolute bottom-0 flex h-14 w-full items-center justify-around rounded-t-xl bg-white shadow-[0_35px_60px_30px_rgba(0,0,0,0.1)]'>
       <MenuIcon href='/search'>
-        <IoMdSearch size={22} />
+        <IoMdSearch size={22} color='#667080' />
       </MenuIcon>
       <MenuIcon href='/'>
-        <IoHomeSharp size={20} />
+        <IoHomeSharp size={20} color='#667080' />
       </MenuIcon>
       <MenuIcon href='/mypage'>
-        <IoPersonCircle size={22} />
+        <IoPersonCircle size={22} color='#667080' />
       </MenuIcon>
     </div>
   );

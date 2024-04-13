@@ -7,6 +7,7 @@ import {
   CarouselContent,
   CarouselItem,
 } from '@/components/ui/carousel';
+import MyAditory from './_component/my-aditory';
 
 function LinkInput() {
   return (
@@ -15,7 +16,7 @@ function LinkInput() {
         Save links
       </p>
       <div className='flex gap-2'>
-        <Input placeholder='Link' className='w-full bg-[#E1E1E1] p-4' />
+        <Input placeholder='Link' className='w-full bg-[#E1E1E1]' />
         <Button className='max-w-xs bg-[#E1E1E1]'>
           <FaPlus />
         </Button>
@@ -49,9 +50,10 @@ function LinkReminder() {
 
 export default function Home() {
   return (
-    <div className='flex w-full flex-col gap-4'>
+    <div className='flex w-full flex-col gap-10'>
       <LinkInput />
       <LinkReminder />
+      <MyAditory />
     </div>
   );
 }
