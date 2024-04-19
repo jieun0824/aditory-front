@@ -28,7 +28,7 @@ export default function DrawerDemo() {
       </DrawerTrigger>
       <DrawerContent>
         <div className='mx-auto w-full max-w-sm'>
-          <DrawerHeader>
+          <DrawerHeader className='flex flex-col items-start gap-4'>
             <DrawerDescription>Category options</DrawerDescription>
             <DrawerTitle>Edit</DrawerTitle>
             <DrawerTitle>Delete</DrawerTitle>
