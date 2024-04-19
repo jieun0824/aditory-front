@@ -2,13 +2,7 @@ import Header from '../(without-logo)/_component/header';
 import NavBar from '../(with-logo)/_component/navbar';
 import { ReactNode } from 'react';
 
-export default function Layout({
-  children,
-  modal,
-}: {
-  children: ReactNode;
-  modal: ReactNode;
-}) {
+export default function Layout({ children }: { children: ReactNode }) {
   return (
     <div className='relative flex min-h-dvh w-screen flex-col items-center justify-center'>
       <Header />
@@ -16,7 +10,6 @@ export default function Layout({
         {children}
       </main>
       <NavBar />
-      {modal}
     </div>
   );
 }
