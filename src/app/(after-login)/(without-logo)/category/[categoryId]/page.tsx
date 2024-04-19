@@ -3,7 +3,7 @@ import { Label } from '@/components/ui/label';
 
 export default function CategoryDetailPage() {
   return (
-    <div className='flex h-full min-h-dvh w-full flex-col items-center gap-4 rounded-xl bg-card p-10'>
+    <div className='flex h-full min-h-dvh w-full flex-col items-center gap-4'>
       <Label htmlFor='categoryName' className='text-2xl font-semibold'>
         category name
       </Label>

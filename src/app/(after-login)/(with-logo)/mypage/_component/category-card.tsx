@@ -12,7 +12,7 @@ import Link from 'next/link';
 export default function CategoryCard() {
   return (
     <Link href={'/category/1'} className='h-full min-h-52 w-full'>
-      <Card className='h-3/4'>
+      <Card className='h-3/4 border-none'>
         <CardHeader>
           {/* <CardTitle>Card Title</CardTitle>
           <CardDescription>Card Description</CardDescription> */}
