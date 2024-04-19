@@ -2,7 +2,7 @@
 import { ModeToggle } from '@/components/mode-toggle';
 import { useRouter } from 'next/navigation';
 import { IoIosArrowBack } from 'react-icons/io';
-import { IoIosMore } from 'react-icons/io';
+import MoreButton from './more-button';
 
 export default function Header() {
   const router = useRouter();
@@ -13,7 +13,7 @@ export default function Header() {
         className='cursor-pointer hover:opacity-60'
         size={30}
       />
-      <IoIosMore size={30} />
+      <MoreButton />
     </div>
   );
 }
