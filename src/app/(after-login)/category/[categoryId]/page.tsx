@@ -4,7 +4,7 @@ import { Label } from '@/components/ui/label';
 export default function CategoryDetailPage({
   categoryId,
 }: {
-  categoryId: string;
+  categoryId?: string;
 }) {
   return (
     <div className='flex h-full min-h-dvh w-full flex-col items-center gap-4 rounded-xl bg-card p-10'>

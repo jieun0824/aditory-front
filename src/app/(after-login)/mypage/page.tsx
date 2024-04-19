@@ -5,7 +5,12 @@ export default function MyPage() {
   return (
     <>
       <ProfileCard />
-      <div className='grid w-full grid-cols-2 gap-4'>
+      <div className='grid h-full w-full grid-cols-2 gap-x-4'>
+        <CategoryCard />
+        <CategoryCard />
+        <CategoryCard />
+        <CategoryCard />
+        <CategoryCard />
         <CategoryCard />
         <CategoryCard />
         <CategoryCard />
