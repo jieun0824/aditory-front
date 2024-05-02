@@ -1,10 +1,12 @@
-'use client';
-
 import { Button } from '@/components/ui/button';
-import CategoryCard from './_component/category-card';
-import { useState } from 'react';
+import CategoryCard from './category-card';
 
-export default function SignUp() {
+type Props = {
+  selected: string[];
+  selectedHandler: (category: string) => void;
+};
+
+export default function ThirdStep({ selected, selectedHandler }: Props) {
   const categories: string[] = [
     'development',
     'fashion',
@@ -15,20 +17,12 @@ export default function SignUp() {
     'sports',
     'art',
   ];
-  const [selected, setSelected] = useState<string[]>([]);
-  const selectedHandler = (category: string) => {
-    if (selected.includes(category)) {
-      setSelected(selected.filter((item) => item !== category));
-    } else {
-      setSelected([...selected, category]);
-    }
-  };
   return (
     <>
-      <h3 className='scroll-m-20 text-2xl font-semibold tracking-tight'>
+      <h3 className='scroll-m-20 text-center text-2xl font-semibold tracking-tight'>
         Choose your interests.
       </h3>
-      <p>
+      <p className='text-center'>
         {selected.length}/{categories.length}
       </p>
       <div className='grid w-full grid-cols-2 gap-4'>
@@ -43,7 +37,6 @@ export default function SignUp() {
           );
         })}
       </div>
-      <Button className='mt-6 rounded-2xl px-4'>Next</Button>
     </>
   );
 }

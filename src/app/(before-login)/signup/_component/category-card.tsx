@@ -37,7 +37,7 @@ export default function CategoryCard({
 
   const image: string = images[category];
   return (
-    <div className='flex flex-col items-center gap-2'>
+    <div className='flex h-full flex-col items-center gap-2'>
       <Card
         className={`flex w-full cursor-pointer justify-center border-none bg-cover shadow-lg transition hover:scale-110 ${selected ? 'opacity-25' : ''}`}
         onClick={() => selectedHandler(category)}

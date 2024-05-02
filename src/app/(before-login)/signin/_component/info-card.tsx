@@ -13,12 +13,12 @@ export default function InfoCard() {
         height={100}
       />
       <div className='flex w-full flex-col gap-1'>
-        <Button className='rounded-2xl text-white shadow-md'>Login</Button>
-        <Button className='rounded-2xl text-white shadow-md'>
-          Google Login
-        </Button>
+        <Link href={'/login'}>
+          <Button className='w-full text-white shadow-md'>Login</Button>
+        </Link>
+        <Button className='text-white shadow-md'>Google Login</Button>
         <Link
-          href={'/signup'}
+          href={'/signup/1'}
           className='flex cursor-pointer justify-center text-zinc-600'
         >
           <u>signup</u>
