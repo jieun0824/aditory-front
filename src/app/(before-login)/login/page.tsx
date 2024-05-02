@@ -8,11 +8,13 @@ import useUserInfo from '@/app/store/useUserInfo';
 import { useRouter } from 'next/navigation';
 import { Input } from '@/components/ui/input';
 import { CiUser, CiLock } from 'react-icons/ci';
+import useToken from '@/app/store/useToken';
 
 export type stateName = 'username' | 'password' | 'nickname' | 'contact';
 export default function SignUp() {
   const [username, setUsername] = useState<string>('');
   const [password, setPassword] = useState<string>('');
+  const setToken = useToken((state: any) => state.setToken);
 
   const router = useRouter();
 
@@ -38,6 +40,7 @@ export default function SignUp() {
 
       const data = await response.json();
       localStorage.setItem('userInfo', JSON.stringify(data.data));
+      setToken(data.data.accessToken);
       console.log(data);
       router.push('/');
     } catch (error) {

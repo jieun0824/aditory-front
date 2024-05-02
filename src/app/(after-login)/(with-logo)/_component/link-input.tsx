@@ -84,7 +84,12 @@ export default function LinkInput() {
             // ref={inputRef}
           />
           <Link href={'/add'}>
-            <Button className='max-w-xs rounded-xl bg-input py-8 hover:bg-input/40'>
+            <Button
+              className='max-w-xs rounded-xl bg-input py-8 hover:bg-input/40'
+              onClick={() => {
+                localStorage.setItem('url', previewUrl);
+              }}
+            >
               <FaPlus />
             </Button>
           </Link>

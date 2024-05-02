@@ -5,42 +5,44 @@ import CategoryCard from './_component/category-card';
 import { MdLibraryBooks } from 'react-icons/md';
 import { FaCirclePlus } from 'react-icons/fa6';
 import { useEffect, useState } from 'react';
+import useCategories from '@/app/store/useCategories';
 
 export default function MyPage() {
   let userInfo = { accessToken: '' };
   if (localStorage.getItem('userInfo')) {
     userInfo = JSON.parse(localStorage.getItem('userInfo')!);
   }
-  const [categories, setCategories] = useState([]);
+  //const [categories, setCategories] = useState([]);
+  const categories = useCategories((state: any) => state.categories);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await fetch(`http://localhost:8080/categories`, {
-          method: 'GET',
-          credentials: 'include',
-          headers: {
-            'Content-Type': 'application/json',
-            'Access-Control-Allow-Origin': 'http://localhost:3000',
-            'Access-Control-Allow-Credentials': 'true',
-            Authorization: `Bearer ${userInfo.accessToken!}`,
-          },
-        });
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     try {
+  //       const response = await fetch(`http://localhost:8080/categories`, {
+  //         method: 'GET',
+  //         credentials: 'include',
+  //         headers: {
+  //           'Content-Type': 'application/json',
+  //           'Access-Control-Allow-Origin': 'http://localhost:3000',
+  //           'Access-Control-Allow-Credentials': 'true',
+  //           Authorization: `Bearer ${userInfo.accessToken!}`,
+  //         },
+  //       });
 
-        if (!response.ok) {
-          throw new Error('Failed to fetch categories');
-        }
+  //       if (!response.ok) {
+  //         throw new Error('Failed to fetch categories');
+  //       }
 
-        const data = await response.json();
-        //console.log(data);
-        setCategories(data.data.categoryList);
-      } catch (error) {
-        console.error('Error fetching categories:', error);
-      }
-    };
+  //       const data = await response.json();
+  //       //console.log(data);
+  //       setCategories(data.data.categoryList);
+  //     } catch (error) {
+  //       console.error('Error fetching categories:', error);
+  //     }
+  //   };
 
-    fetchData();
-  }, []);
+  //   fetchData();
+  // }, []);
 
   useEffect(() => {
     console.log(categories);

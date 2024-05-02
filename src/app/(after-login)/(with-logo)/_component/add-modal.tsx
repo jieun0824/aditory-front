@@ -20,12 +20,57 @@ import {
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { useRouter } from 'next/navigation';
+import { useEffect, useState } from 'react';
+import useCategories from '@/app/store/useCategories';
+import useToken from '@/app/store/useToken';
 
 export default function AddModal() {
+  const categories = useCategories((state: any) => state.categories);
   const router = useRouter();
   const onClickClose = () => {
     router.back();
   };
+  const [title, setTitle] = useState<string>('');
+  const [description, setDescription] = useState<string>('');
+  const [category, setCategory] = useState(5);
+  const [link, setLink] = useState<string>('');
+  const token = useToken((state: any) => state.token);
+
+  let userInfo = { accessToken: '' };
+  if (localStorage.getItem('userInfo')) {
+    userInfo = JSON.parse(localStorage.getItem('userInfo')!);
+  }
+
+  const getPost = async () => {
+    try {
+      const response = await fetch(`http://localhost:8080/links`, {
+        method: 'POST',
+        credentials: 'include',
+        body: JSON.stringify({
+          autoComplete: false, // 아직 구현 안됨
+          title: title,
+          summary: description,
+          url: localStorage.getItem('url')?.toString(),
+          categoryId: category,
+        }),
+        headers: {
+          'Content-Type': 'application/json',
+          'Access-Control-Allow-Origin': 'http://localhost:3000',
+          'Access-Control-Allow-Credentials': 'true',
+          Authorization: `Bearer ${userInfo.accessToken}`,
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      router.back();
+    } catch (error) {
+      alert("There's something wrong");
+      console.error(error);
+    }
+  };
+
   return (
     <div className='fixed inset-0 flex items-center justify-center bg-black bg-opacity-50'>
       <Card className='w-full max-w-md'>
@@ -48,6 +93,8 @@ export default function AddModal() {
                   placeholder='add title of the link'
                   className='border-none bg-card'
                   autoFocus
+                  value={title}
+                  onChange={(e) => setTitle(e.target.value)}
                 />
               </div>
               <div className='flex items-center gap-2'>
@@ -56,6 +103,8 @@ export default function AddModal() {
                   id='description'
                   placeholder='add title of the link'
                   className='border-none bg-card'
+                  value={description}
+                  onChange={(e) => setDescription(e.target.value)}
                 />
               </div>
               <div className='flex items-center gap-2'>
@@ -65,9 +114,15 @@ export default function AddModal() {
                     <SelectValue placeholder='auto' />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value='light'>Sports</SelectItem>
-                    <SelectItem value='dark'>Fashion</SelectItem>
-                    <SelectItem value='system'>Music</SelectItem>
+                    {categories.map((category, i) => (
+                      <SelectItem
+                        value={category.categoryName}
+                        onSelect={() => setCategory(category.categoryId)}
+                        key={i}
+                      >
+                        {category.categoryName}
+                      </SelectItem>
+                    ))}
                   </SelectContent>
                 </Select>
               </div>
@@ -75,7 +130,9 @@ export default function AddModal() {
           </form>
         </CardContent>
         <CardFooter className='flex justify-center'>
-          <Button className='w-full rounded-xl text-white'>Save</Button>
+          <Button className='w-full rounded-xl text-white' onClick={getPost}>
+            Save
+          </Button>
         </CardFooter>
       </Card>
     </div>
