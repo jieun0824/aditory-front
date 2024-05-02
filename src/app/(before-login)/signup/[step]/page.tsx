@@ -29,7 +29,7 @@ export default function SignUp({ params }: { params: { step: string } }) {
     await fetch(`http://localhost:8080/users/signup`, {
       method: 'POST',
       credentials: 'include',
-      body: JSON.stringify(userInfo),
+      body: JSON.stringify({ ...userInfo, userCategories: selected }),
       headers: {
         'Content-Type': 'application/json',
         'Access-Control-Allow-Origin': 'http://localhost:3000',
