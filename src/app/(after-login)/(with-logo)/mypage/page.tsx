@@ -13,36 +13,37 @@ export default function MyPage() {
     userInfo = JSON.parse(localStorage.getItem('userInfo')!);
   }
   //const [categories, setCategories] = useState([]);
-  const categories = useCategories((state: any) => state.categories);
+  //const categories = useCategories((state: any) => state.categories);
+  const [categories, setCategories] = useState([]);
 
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     try {
-  //       const response = await fetch(`http://localhost:8080/categories`, {
-  //         method: 'GET',
-  //         credentials: 'include',
-  //         headers: {
-  //           'Content-Type': 'application/json',
-  //           'Access-Control-Allow-Origin': 'http://localhost:3000',
-  //           'Access-Control-Allow-Credentials': 'true',
-  //           Authorization: `Bearer ${userInfo.accessToken!}`,
-  //         },
-  //       });
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch(`http://localhost:8080/categories`, {
+          method: 'GET',
+          credentials: 'include',
+          headers: {
+            'Content-Type': 'application/json',
+            'Access-Control-Allow-Origin': 'http://localhost:3000',
+            'Access-Control-Allow-Credentials': 'true',
+            Authorization: `Bearer ${userInfo.accessToken!}`,
+          },
+        });
 
-  //       if (!response.ok) {
-  //         throw new Error('Failed to fetch categories');
-  //       }
+        if (!response.ok) {
+          throw new Error('Failed to fetch categories');
+        }
 
-  //       const data = await response.json();
-  //       //console.log(data);
-  //       setCategories(data.data.categoryList);
-  //     } catch (error) {
-  //       console.error('Error fetching categories:', error);
-  //     }
-  //   };
+        const data = await response.json();
+        //console.log(data);
+        setCategories(data.data.categoryList);
+      } catch (error) {
+        console.error('Error fetching categories:', error);
+      }
+    };
 
-  //   fetchData();
-  // }, []);
+    fetchData();
+  }, []);
 
   useEffect(() => {
     console.log(categories);
@@ -63,7 +64,7 @@ export default function MyPage() {
       </div>
       <div className='grid h-full w-full grid-cols-2 gap-x-4'>
         {categories.map((item, i) => (
-          <CategoryCard key={i} category={item.categoryName} />
+          <CategoryCard key={i} category={item} />
         ))}
       </div>
     </>

@@ -32,9 +32,8 @@ export default function AddModal() {
   };
   const [title, setTitle] = useState<string>('');
   const [description, setDescription] = useState<string>('');
-  const [category, setCategory] = useState(5);
-  const [link, setLink] = useState<string>('');
-  const token = useToken((state: any) => state.token);
+  const [category, setCategory] = useState(0);
+  //const token = useToken((state: any) => state.token);
 
   let userInfo = { accessToken: '' };
   if (localStorage.getItem('userInfo')) {
@@ -109,18 +108,27 @@ export default function AddModal() {
               </div>
               <div className='flex items-center gap-2'>
                 <Label htmlFor='category'>Category</Label>
-                <Select>
+
+                <Select
+                  onValueChange={(value) => {
+                    setCategory(
+                      categories.filter(
+                        (item) => item.categoryName === value
+                      )[0].categoryId
+                    );
+                  }}
+                >
                   <SelectTrigger className='w-[180px] bg-card'>
                     <SelectValue placeholder='auto' />
                   </SelectTrigger>
                   <SelectContent>
-                    {categories.map((category, i) => (
+                    {categories.map((item, i) => (
                       <SelectItem
-                        value={category.categoryName}
-                        onSelect={() => setCategory(category.categoryId)}
+                        value={item.categoryName}
+                        onClick={() => setCategory(item.categoryId)}
                         key={i}
                       >
-                        {category.categoryName}
+                        {item.categoryName}
                       </SelectItem>
                     ))}
                   </SelectContent>

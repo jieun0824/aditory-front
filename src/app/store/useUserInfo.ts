@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 
-// 초기 상태 설정
+// initial state
 const initialState = {
   userInfo: {
     username: '',
@@ -11,10 +11,9 @@ const initialState = {
   },
 };
 
-// Zustand 스토어 생성
 const useUserInfo = create((set) => ({
   userInfo: initialState.userInfo,
-  // userInfo를 업데이트하는 액션
+  //update userInfo
   setUserInfo: (newUserInfo: Object) =>
     set((state: any) => ({
       userInfo: {
@@ -23,7 +22,7 @@ const useUserInfo = create((set) => ({
       },
     })),
 
-  // userInfo를 초기 상태로 재설정하는 액션
+  //reset userInfo
   resetUserInfo: () => set({ userInfo: initialState.userInfo }),
 }));
 

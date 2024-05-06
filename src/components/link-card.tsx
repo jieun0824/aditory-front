@@ -2,17 +2,21 @@
 import {
   Card,
   CardDescription,
+  CardFooter,
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
 
-export default function LinkCard() {
+import { CiRead, CiUnread } from 'react-icons/ci';
+
+export default function LinkCard({ link }: any) {
   return (
-    <Card className='w-full cursor-pointer overflow-hidden transition hover:scale-105 dark:border-zinc-700'>
+    <Card className='flex w-full cursor-pointer justify-between overflow-hidden transition hover:scale-105 dark:border-zinc-700'>
       <CardHeader>
-        <CardTitle className='text-md'>Card Title</CardTitle>
-        <CardDescription className='text-xs'>Card Description</CardDescription>
+        <CardTitle className='text-md'>{link.title}</CardTitle>
+        <CardDescription className='text-xs'>{link.summary}</CardDescription>
       </CardHeader>
+      <CardFooter>{link.status ? <CiRead /> : <CiUnread />}</CardFooter>
     </Card>
   );
 }

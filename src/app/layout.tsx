@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { Noto_Sans } from 'next/font/google';
 import { ThemeProvider } from '@/components/theme-provider';
 import './globals.css';
+import ReactQueryProviders from '@/hooks/useReactQuery';
 
 const notoSans = Noto_Sans({
   subsets: ['latin'],
@@ -29,7 +30,7 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          {children}
+          <ReactQueryProviders>{children}</ReactQueryProviders>
         </ThemeProvider>
       </body>
     </html>
