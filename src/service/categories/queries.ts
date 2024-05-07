@@ -49,6 +49,7 @@ const queryOptions = {
     onSuccess: async (data: any) => {
       return data;
     },
+    onError: errorHandler,
   }),
   public: () => ({
     queryKey: queryKeys.public,

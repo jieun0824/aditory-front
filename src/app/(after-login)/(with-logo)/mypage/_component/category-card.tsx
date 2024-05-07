@@ -10,6 +10,7 @@ import {
 import { Label } from '@/components/ui/label';
 import Link from 'next/link';
 import { useMyCategories } from '@/service/categories/useCategoryService';
+import queryOptions from '@/service/categories/queries';
 
 function CategoryCard({ category }: any) {
   return (
@@ -37,6 +38,7 @@ function CategoryCard({ category }: any) {
 
 export default function Categories() {
   const { data, error, isLoading } = useMyCategories();
+  const { queryFn, queryKey, onSuccess, onError } = queryOptions.my();
 
   return (
     <>

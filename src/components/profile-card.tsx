@@ -8,12 +8,25 @@ import {
 } from '@/components/ui/card';
 import { Button } from './ui/button';
 import { User } from '@/model/user';
+import { useUsers } from '@/service/user/useUserService';
+import { useRouter } from 'next/navigation';
+import { useEffect } from 'react';
 
 export default function ProfileCard() {
+  const router = useRouter();
   let userInfo: User = {};
   if (userInfo) {
     userInfo = JSON.parse(localStorage.getItem('userInfo')!);
   }
+
+  const { data, error, isLoading } = useUsers();
+  useEffect(() => {
+    if (error) {
+      alert('login again');
+      router.push('/login');
+    }
+  }, [error]);
+
   return (
     <Card className='flex w-full items-center'>
       <CardHeader>
