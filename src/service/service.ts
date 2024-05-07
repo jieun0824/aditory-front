@@ -13,7 +13,7 @@ class Service {
   private baseURL: string;
   private headers: Record<string, string>;
   constructor() {
-    this.baseURL = `http://localhost:8080`;
+    this.baseURL = `${process.env.NEXT_PUBLIC_BASE_URL}`;
     this.headers = {
       csrf: 'token',
       Referer: this.baseURL,
@@ -52,7 +52,6 @@ class Service {
       if (!response.ok) {
         throw new Error('Network response was not ok');
       }
-
       const responseData: T = await response.json();
       return responseData;
     } catch (error) {

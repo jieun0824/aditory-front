@@ -7,8 +7,13 @@ import {
   CardHeader,
 } from '@/components/ui/card';
 import { Button } from './ui/button';
+import { User } from '@/model/user';
 
-export default function ProfileCard({ userInfo }: any) {
+export default function ProfileCard() {
+  let userInfo: User = {};
+  if (userInfo) {
+    userInfo = JSON.parse(localStorage.getItem('userInfo')!);
+  }
   return (
     <Card className='flex w-full items-center'>
       <CardHeader>

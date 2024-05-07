@@ -1,3 +1,4 @@
+'use client';
 import {
   Card,
   CardContent,
@@ -8,8 +9,9 @@ import {
 } from '@/components/ui/card';
 import { Label } from '@/components/ui/label';
 import Link from 'next/link';
+import { useMyCategories } from '@/service/categories/useCategoryService';
 
-export default function CategoryCard({ category }: any) {
+function CategoryCard({ category }: any) {
   return (
     <Link
       href={`/category/${category.categoryId}`}
@@ -30,5 +32,18 @@ export default function CategoryCard({ category }: any) {
         </Label>
       </div>
     </Link>
+  );
+}
+
+export default function Categories() {
+  const { data, error, isLoading } = useMyCategories();
+
+  return (
+    <>
+      {typeof data !== 'undefined' &&
+        data.data.categoryList.map((category: any) => (
+          <CategoryCard key={category.categoryId} category={category} />
+        ))}
+    </>
   );
 }
