@@ -9,45 +9,18 @@ import { useRouter } from 'next/navigation';
 import { Input } from '@/components/ui/input';
 import { CiUser, CiLock } from 'react-icons/ci';
 import useToken from '@/app/store/useToken';
+import queryOptions from '@/service/user/queries';
 
 export type stateName = 'username' | 'password' | 'nickname' | 'contact';
-export default function SignUp() {
+export default function SignIn() {
   const [username, setUsername] = useState<string>('');
   const [password, setPassword] = useState<string>('');
   const setToken = useToken((state: any) => state.setToken);
-
   const router = useRouter();
-
-  const getPost = async () => {
-    try {
-      const response = await fetch(`http://localhost:8080/users/login`, {
-        method: 'POST',
-        credentials: 'include',
-        body: JSON.stringify({
-          username: username,
-          password: password,
-        }),
-        headers: {
-          'Content-Type': 'application/json',
-          'Access-Control-Allow-Origin': 'http://localhost:3000',
-          'Access-Control-Allow-Credentials': 'true',
-        },
-      });
-
-      if (!response.ok) {
-        throw new Error('Network response was not ok');
-      }
-
-      const data = await response.json();
-      localStorage.setItem('userInfo', JSON.stringify(data.data));
-      setToken(data.data.accessToken);
-      console.log(data);
-      router.push('/');
-    } catch (error) {
-      alert("There's something wrong");
-      console.error(error);
-    }
-  };
+  const { queryKey, queryFn, onSuccess, onError } = queryOptions.signIn({
+    username,
+    password,
+  });
 
   return (
     <div className='item flex h-full min-h-96 w-full flex-col justify-between'>
@@ -72,7 +45,17 @@ export default function SignUp() {
         </div>
       </form>
       <div>
-        <Button className='mt-6 w-full gap-2 px-4 text-white' onClick={getPost}>
+        <Button
+          className='mt-6 w-full gap-2 px-4 text-white'
+          onClick={() => {
+            queryFn()
+              .then((data) => {
+                onSuccess(data);
+                router.push('/');
+              })
+              .catch((err) => onError(err));
+          }}
+        >
           <FaArrowRightLong />
           LOGIN
         </Button>
