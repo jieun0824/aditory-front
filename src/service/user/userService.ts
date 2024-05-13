@@ -1,5 +1,5 @@
 import Service from '@/service/service';
-import { User } from '@/model/user';
+import { Login, User } from '@/model/user';
 
 let authorization = { headers: {} };
 if (typeof window !== 'undefined') {
@@ -16,7 +16,7 @@ class UserService extends Service {
     return this.http.get<User>(`/users`, authorization);
   }
   postSignIn({ username, password }: { username: string; password: string }) {
-    return this.http.post<User>(`/users/login`, {
+    return this.http.post<Login>(`/users/login`, {
       username,
       password,
     });

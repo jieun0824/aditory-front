@@ -3,11 +3,36 @@ import ProfileCard from '../../../../components/profile-card';
 import { MdLibraryBooks } from 'react-icons/md';
 import { FaCirclePlus } from 'react-icons/fa6';
 import Categories from './_component/category-card';
+import { Suspense } from 'react';
+import Loading from './loading';
 
-export default function MyPage() {
+// async function getMyCategories() {
+//   const
+//   const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/categories/my`,
+//     headers:{
+
+//     }
+//   );
+//   return res.json();
+// }
+
+// async function getUserData() {
+//   const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/users`);
+//   return res.json();
+// }
+
+export default async function MyPage() {
+  // const userData = getUserData();
+  // const categoryData = getMyCategories();
+  // const [user, category] = await Promise.all([userData, categoryData]);
+  // console.log(user, category);
   return (
     <>
-      <ProfileCard />
+      <ProfileCard
+
+      // username={data?.data.username}
+      // nickname={data?.data.nickname}
+      />
       <div className='flex w-full justify-between'>
         <div className='flex items-center gap-2 text-left'>
           <MdLibraryBooks className='text-md' />
@@ -19,7 +44,9 @@ export default function MyPage() {
         </div>
       </div>
       <div className='grid h-full w-full grid-cols-2 gap-x-4'>
-        <Categories />
+        <Suspense fallback={<Loading />}>
+          <Categories />
+        </Suspense>
       </div>
     </>
   );

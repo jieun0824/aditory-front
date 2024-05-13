@@ -37,7 +37,7 @@ function CategoryCard({ category }: any) {
 }
 
 export default function Categories() {
-  const { data, error, isLoading } = useMyCategories();
+  const { data, error, isLoading }: any = useMyCategories();
   const { queryFn, queryKey, onSuccess, onError } = queryOptions.my();
 
   return (

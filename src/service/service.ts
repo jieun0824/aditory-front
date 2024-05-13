@@ -17,6 +17,7 @@ class Service {
     this.headers = {
       csrf: 'token',
       Referer: this.baseURL,
+      'Content-Type': 'Application/json',
     };
 
     this.http = {
