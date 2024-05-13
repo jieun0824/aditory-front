@@ -13,3 +13,7 @@ export interface Login {
   success: boolean;
   data: User;
 }
+
+export interface Refresh {
+  refreshToken: string;
+}

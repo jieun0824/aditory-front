@@ -2,20 +2,22 @@ import Service from '@/service/service';
 import { Category } from '@/model/category';
 import { headers } from 'next/headers';
 
-let authorization = { headers: {} };
-if (typeof window !== 'undefined') {
-  if (localStorage.getItem('userInfo')) {
-    const accessToken = JSON.parse(
-      localStorage.getItem('userInfo')!
-    ).accessToken;
-    authorization = { headers: { Authorization: `Bearer ${accessToken}` } };
-  }
-}
+// let authorization = { headers: {} };
+// if (typeof window !== 'undefined') {
+//   if (localStorage.getItem('userInfo')) {
+//     const accessToken = JSON.parse(
+//       localStorage.getItem('userInfo')!
+//     ).accessToken;
+//     authorization = { headers: { Authorization: `Bearer ${accessToken}` } };
+//   }
+// }
 
 class CategoryService extends Service {
   //get my categories
-  getMyCategories() {
-    return this.http.get<Category[]>(`/categories/my`, authorization);
+  getMyCategories({ accessToken }: { accessToken: string }) {
+    return this.http.get<Category[]>(`/categories/my`, {
+      headers: { Authorization: `Bearer ${accessToken}` },
+    });
   }
 
   //get specific category (linklist)

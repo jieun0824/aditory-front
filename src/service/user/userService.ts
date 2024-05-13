@@ -1,5 +1,5 @@
 import Service from '@/service/service';
-import { Login, User } from '@/model/user';
+import { Login, Refresh, User } from '@/model/user';
 
 let authorization = { headers: {} };
 if (typeof window !== 'undefined') {
@@ -19,6 +19,11 @@ class UserService extends Service {
     return this.http.post<Login>(`/users/login`, {
       username,
       password,
+    });
+  }
+  refreshAccess({ refreshToken }: { refreshToken: string }) {
+    return this.http.post<Refresh>('/users/refresh', {
+      refreshToken,
     });
   }
 }

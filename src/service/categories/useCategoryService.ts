@@ -1,8 +1,8 @@
 import { useMutation, useQuery } from '@tanstack/react-query';
 import queryOptions from '@/service/categories/queries';
 //get
-export function useMyCategories() {
-  return useQuery(queryOptions.my());
+export function useMyCategories({ accessToken }: { accessToken: string }) {
+  return useQuery(queryOptions.my({ accessToken }));
 }
 
 export function usePublic() {

@@ -5,6 +5,7 @@ const queryKeys = {
   all: ['user'] as const,
   signIn: ({ username, password }: { username: string; password: string }) =>
     ['user', 'signIn'] as const,
+  refresh: ['refresh'] as const,
 };
 
 const queryOptions = {
@@ -24,6 +25,10 @@ const queryOptions = {
       alert('잘못된 아이디 혹은 비밀번호입니다.');
       console.error(error);
     },
+  }),
+  refresh: ({ refreshToken }: { refreshToken: string }) => ({
+    queryKey: queryKeys.refresh,
+    queryFn: () => UserService.refreshAccess({ refreshToken }),
   }),
 };
 
