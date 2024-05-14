@@ -61,26 +61,30 @@ import { useStorage } from '@/lib/useStorage';
 
 export function useAccessToken() {
   const { userInfo, addUserInfo, removeUserInfo } = useStorage();
-  const [accessToken, setAccessToken] = useState(userInfo.accessToken);
+  const [accessToken, setAccessToken] = useState<string>('');
   const [accessTokenExpires, setAccessTokenExpires] = useState(
     userInfo.accessTokenExpires
   );
 
   const getRefreshToken = useCallback(async () => {
-    const { userInfo, addUserInfo, removeUserInfo } = useStorage();
     const refreshToken = userInfo.refreshToken;
     const refreshTokenExpires = userInfo.refreshTokenExpires;
+    const userId = userInfo.userId;
+    const lastAccessToken = userInfo.accessToken;
 
     if (refreshTokenExpires && refreshTokenExpires <= Date.now()) {
-      alert('You need to login again');
+      console.error('You need to login again');
       return false;
     } else {
+      console.log(refreshToken);
       const res = await fetch(
         `${process.env.NEXT_PUBLIC_BASE_URL}/users/refresh`,
         {
           method: 'POST',
           credentials: 'include',
-          body: JSON.stringify({ refreshToken }),
+          body: JSON.stringify({
+            refreshToken: refreshToken,
+          }),
           headers: {
             'Content-Type': 'application/json',
           },
@@ -110,18 +114,21 @@ export function useAccessToken() {
 
   useEffect(() => {
     const checkAccessToken = async () => {
+      console.log('check access token');
       if (accessTokenExpires && accessTokenExpires <= Date.now()) {
+        console.log('need to refresh token');
         try {
           const newAccessToken = await getRefreshToken();
           setAccessToken(newAccessToken);
         } catch (error) {
           console.error(error);
         }
+      } else {
+        setAccessToken(userInfo.accessToken!);
       }
     };
-    console.log(accessTokenExpires);
     checkAccessToken();
-  }, [accessTokenExpires, getRefreshToken]);
+  }, [userInfo]);
 
-  return accessToken;
+  return { accessToken, getRefreshToken };
 }

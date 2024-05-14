@@ -15,7 +15,7 @@ import { useAccessToken } from '../../../../hooks/useAccessToken';
 export default function MyPage() {
   const { userInfo } = useStorage();
   const [categories, setCategories] = useState<Category[]>([]);
-  const accessToken = useAccessToken();
+  const { accessToken, getRefreshToken } = useAccessToken();
   const fetchData = async () => {
     const data = await fetch(
       `${process.env.NEXT_PUBLIC_BASE_URL}/categories/my`,
@@ -26,16 +26,11 @@ export default function MyPage() {
           Authorization: `Bearer ${accessToken}`,
         },
       }
-    );
-    return await data.json();
+    ).then((data) => console.log(typeof data));
   };
 
   useEffect(() => {
     if (accessToken) {
-      fetchData().then((data) => {
-        console.log(data);
-        setCategories(data.data.categoryList);
-      });
     } else {
       console.log('no access token');
     }
