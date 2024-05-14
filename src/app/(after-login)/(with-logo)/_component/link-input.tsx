@@ -11,6 +11,7 @@ import {
   HoverCardContent,
   HoverCardTrigger,
 } from '@/components/ui/hover-card';
+import { Category } from '@/model/category';
 
 export default function LinkInput() {
   // const inputRef = useRef<HTMLInputElement>(null);

@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import { Noto_Sans } from 'next/font/google';
 import { ThemeProvider } from '@/components/theme-provider';
 import './globals.css';
-import ReactQueryProviders from '@/hooks/query-provider';
+import ReactQueryProviders from '@/lib/provider/query-provider';
 
 const notoSans = Noto_Sans({
   subsets: ['latin'],

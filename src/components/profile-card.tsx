@@ -9,11 +9,8 @@ import {
 import { Button } from './ui/button';
 import { User } from '@/model/user';
 
-export default function ProfileCard() {
-  let userInfo: User = {};
-  if (userInfo) {
-    userInfo = JSON.parse(localStorage.getItem('userInfo')!);
-  }
+export default function ProfileCard({ data }: any) {
+  console.log(data);
   return (
     <Card className='flex w-full items-center'>
       <CardHeader>
@@ -23,8 +20,8 @@ export default function ProfileCard() {
         </Avatar>
       </CardHeader>
       <CardContent className='flex w-full flex-col gap-2 p-6'>
-        <p>{userInfo.nickname}</p>
-        <CardDescription>{userInfo.username}</CardDescription>
+        <p>{data.nickname}</p>
+        <CardDescription>{data.username}</CardDescription>
         <Button className='mx-8 rounded-xl text-white'>Logout</Button>
       </CardContent>
     </Card>

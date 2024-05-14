@@ -1,6 +1,5 @@
 import { useMutation, useQuery } from '@tanstack/react-query';
 import queryOptions from '@/service/user/queries';
-import { Variable } from 'lucide-react';
 
 export function useUsers() {
   return useQuery(queryOptions.all());
@@ -14,4 +13,8 @@ export function useSignIn({
   password: string;
 }) {
   return useMutation(queryOptions.signIn({ username, password }));
+}
+
+export function useRefresh({ refreshToken }: { refreshToken: string }) {
+  return useMutation(queryOptions.refresh({ refreshToken }));
 }

@@ -10,6 +10,8 @@ import {
 import { Label } from '@/components/ui/label';
 import Link from 'next/link';
 import { useMyCategories } from '@/service/categories/useCategoryService';
+import queryOptions from '@/service/categories/queries';
+import { Category } from '@/model/category';
 
 function CategoryCard({ category }: any) {
   return (
@@ -35,15 +37,13 @@ function CategoryCard({ category }: any) {
   );
 }
 
-export default function Categories() {
-  const { data, error, isLoading } = useMyCategories();
-
+export default function Categories({ categories }: any) {
+  console.log(categories);
   return (
     <>
-      {typeof data !== 'undefined' &&
-        data.data.categoryList.map((category: any) => (
-          <CategoryCard key={category.categoryId} category={category} />
-        ))}
+      {categories.map((category: any) => (
+        <CategoryCard key={category.categoryId} category={category} />
+      ))}
     </>
   );
 }

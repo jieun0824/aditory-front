@@ -5,4 +5,7 @@ export interface Link {
   categoryState: boolean;
   createdAt: Date;
   lastModifiedAt: Date;
+  url?: string;
+  categoryId?: number;
+  autoComplete?: boolean;
 }

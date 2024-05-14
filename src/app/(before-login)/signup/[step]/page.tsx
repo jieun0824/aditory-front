@@ -7,7 +7,7 @@ import FirstStep from '../_component/first-step';
 import SecondStep from '../_component/second-step';
 import ThirdStep from '../_component/third-step';
 import Link from 'next/link';
-import useUserInfo from '@/app/store/useUserInfo';
+import useUserInfo from '@/store/useUserInfo';
 import { useRouter } from 'next/navigation';
 
 export type stateName = 'username' | 'password' | 'nickname' | 'contact';
@@ -26,7 +26,7 @@ export default function SignUp({ params }: { params: { step: string } }) {
   };
 
   const getPost = async () => {
-    await fetch(`http://localhost:8080/users/signup`, {
+    await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/users/signup`, {
       method: 'POST',
       credentials: 'include',
       body: JSON.stringify({ ...userInfo, userCategories: selected }),

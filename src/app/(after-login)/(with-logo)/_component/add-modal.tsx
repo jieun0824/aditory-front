@@ -21,11 +21,10 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
-import useCategories from '@/app/store/useCategories';
-import useToken from '@/app/store/useToken';
+import useCategories from '@/store/useCategories';
+import { Category } from '@/model/category';
 
-export default function AddModal() {
-  const categories = useCategories((state: any) => state.categories);
+export default function AddModal({ categories }: { categories: Category[] }) {
   const router = useRouter();
   const onClickClose = () => {
     router.back();
@@ -40,35 +39,35 @@ export default function AddModal() {
     userInfo = JSON.parse(localStorage.getItem('userInfo')!);
   }
 
-  const getPost = async () => {
-    try {
-      const response = await fetch(`http://localhost:8080/links`, {
-        method: 'POST',
-        credentials: 'include',
-        body: JSON.stringify({
-          autoComplete: false, // 아직 구현 안됨
-          title: title,
-          summary: description,
-          url: localStorage.getItem('url')?.toString(),
-          categoryId: category,
-        }),
-        headers: {
-          'Content-Type': 'application/json',
-          'Access-Control-Allow-Origin': 'http://localhost:3000',
-          'Access-Control-Allow-Credentials': 'true',
-          Authorization: `Bearer ${userInfo.accessToken}`,
-        },
-      });
+  // const getPost = async () => {
+  //   try {
+  //     const response = await fetch(`http://localhost:8080/links`, {
+  //       method: 'POST',
+  //       credentials: 'include',
+  //       body: JSON.stringify({
+  //         autoComplete: false, // 아직 구현 안됨
+  //         title: title,
+  //         summary: description,
+  //         url: localStorage.getItem('url')?.toString(),
+  //         categoryId: category,
+  //       }),
+  //       headers: {
+  //         'Content-Type': 'application/json',
+  //         'Access-Control-Allow-Origin': 'http://localhost:3000',
+  //         'Access-Control-Allow-Credentials': 'true',
+  //         Authorization: `Bearer ${userInfo.accessToken}`,
+  //       },
+  //     });
 
-      if (!response.ok) {
-        throw new Error('Network response was not ok');
-      }
-      router.back();
-    } catch (error) {
-      alert("There's something wrong");
-      console.error(error);
-    }
-  };
+  //     if (!response.ok) {
+  //       throw new Error('Network response was not ok');
+  //     }
+  //     router.back();
+  //   } catch (error) {
+  //     alert("There's something wrong");
+  //     console.error(error);
+  //   }
+  // };
 
   return (
     <div className='fixed inset-0 flex items-center justify-center bg-black bg-opacity-50'>
@@ -108,7 +107,6 @@ export default function AddModal() {
               </div>
               <div className='flex items-center gap-2'>
                 <Label htmlFor='category'>Category</Label>
-
                 <Select
                   onValueChange={(value) => {
                     setCategory(
@@ -122,7 +120,7 @@ export default function AddModal() {
                     <SelectValue placeholder='auto' />
                   </SelectTrigger>
                   <SelectContent>
-                    {categories.map((item, i) => (
+                    {/* {categories.map((item, i) => (
                       <SelectItem
                         value={item.categoryName}
                         onClick={() => setCategory(item.categoryId)}
@@ -130,7 +128,7 @@ export default function AddModal() {
                       >
                         {item.categoryName}
                       </SelectItem>
-                    ))}
+                    ))} */}
                   </SelectContent>
                 </Select>
               </div>
@@ -138,9 +136,7 @@ export default function AddModal() {
           </form>
         </CardContent>
         <CardFooter className='flex justify-center'>
-          <Button className='w-full rounded-xl text-white' onClick={getPost}>
-            Save
-          </Button>
+          <Button className='w-full rounded-xl text-white'>Save</Button>
         </CardFooter>
       </Card>
     </div>

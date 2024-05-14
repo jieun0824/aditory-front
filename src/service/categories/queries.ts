@@ -3,7 +3,7 @@ import CategoryService from '@/service/categories/categoryService';
 //create unique key
 const queryKeys = {
   //get method
-  my: ['myCategory'] as const,
+  my: ({ accessToken }: { accessToken: string }) => ['myCategory'] as const,
   public: ['publicCategory'] as const,
   specific: ({ categoryId }: { categoryId: number }) => {
     return ['specificCategory', categoryId] as const;
@@ -43,12 +43,13 @@ const errorHandler = (error: any) => {
 
 const queryOptions = {
   //get method
-  my: () => ({
-    queryKey: queryKeys.my,
-    queryFn: async () => await CategoryService.getMyCategories(),
+  my: ({ accessToken }: { accessToken: string }) => ({
+    queryKey: queryKeys.my({ accessToken }),
+    queryFn: async () => await CategoryService.getMyCategories({ accessToken }),
     onSuccess: async (data: any) => {
       return data;
     },
+    onError: errorHandler,
   }),
   public: () => ({
     queryKey: queryKeys.public,
