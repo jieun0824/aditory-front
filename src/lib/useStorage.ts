@@ -7,6 +7,8 @@ export interface loginInfo {
   nickname?: string;
   accessToken?: string;
   refreshToken?: string;
+  accessTokenExpires?: number;
+  refreshTokenExpires?: number;
 }
 
 interface State {
@@ -19,12 +21,17 @@ export const useStorage = create<State>()(
   persist(
     (set) => ({
       userInfo: {},
-      addUserInfo: (state: loginInfo) => set({ userInfo: { ...state } }),
+      addUserInfo: (state: loginInfo) =>
+        set({
+          userInfo: {
+            ...state,
+          },
+        }),
       removeUserInfo: () => set({ userInfo: {} }),
     }),
     {
       name: 'userInfo', // name of the item in the storage (must be unique)
-      storage: createJSONStorage(() => sessionStorage), // (optional) by default, 'localStorage' is used
+      storage: createJSONStorage(() => localStorage), // (optional) by default, 'localStorage' is used
     }
   )
 );

@@ -7,7 +7,7 @@ import { useRouter } from 'next/navigation';
 import { Input } from '@/components/ui/input';
 import { CiUser, CiLock } from 'react-icons/ci';
 import queryOptions from '@/service/user/queries';
-import { loginInfo, useStorage } from '@/store/useStorage';
+import { loginInfo, useStorage } from '@/lib/useStorage';
 import { Login } from '@/model/user';
 
 export type stateName = 'username' | 'password' | 'nickname' | 'contact';
@@ -21,17 +21,28 @@ export default function SignIn() {
     password,
   });
 
-  const handleSubmit = async (e: any) => {
+  const handleLogin = async (e: any) => {
     e.preventDefault();
-    await queryFn().then((data: Login) => {
-      addUserInfo(data.data);
-      router.push('/');
-    });
+    try {
+      await queryFn().then((data: Login) => {
+        const accessTokenExpires = Date.now() + 30 * 60 * 1000;
+        const refreshTokenExpires = Date.now() + 7 * 24 * 60 * 60 * 1000;
+
+        addUserInfo({
+          ...data.data,
+          accessTokenExpires: accessTokenExpires,
+          refreshTokenExpires: refreshTokenExpires,
+        });
+        router.push('/');
+      });
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   return (
     <div className='item flex h-full min-h-96 w-full flex-col justify-between'>
-      <form onSubmit={(e) => handleSubmit(e)}>
+      <form onSubmit={(e) => handleLogin(e)}>
         <div className='w-full'>
           <span className='text-md flex items-center gap-1'>
             <CiUser />

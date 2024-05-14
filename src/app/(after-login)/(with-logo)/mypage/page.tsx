@@ -3,31 +3,44 @@ import { Label } from '@/components/ui/label';
 import ProfileCard from '../../../../components/profile-card';
 import { MdLibraryBooks } from 'react-icons/md';
 import { FaCirclePlus } from 'react-icons/fa6';
-import Categories from './_component/category-card';
-import { Suspense, useEffect } from 'react';
+import { Suspense, useEffect, useState } from 'react';
 import Loading from './loading';
-import { useStorage } from '@/store/useStorage';
-import { useMyCategories } from '@/service/categories/useCategoryService';
 import queryOptions from '@/service/categories/queries';
-import { useRouter } from 'next/navigation';
-import { useRefresh } from '@/service/user/useUserService';
+import { useStorage } from '@/lib/useStorage';
+import { getAccessToken } from '@/lib/token';
+import { Category } from '@/model/category';
+import Categories from './_component/category-card';
+import { useAccessToken } from '../../../../../hooks/useAccessToken';
 
-export default async function MyPage() {
-  const { userInfo, addUserInfo, removeUserInfo } = useStorage();
-  const accessToken = userInfo.accessToken;
-  const refreshToken = userInfo.refreshToken;
+export default function MyPage() {
+  const { userInfo } = useStorage();
+  const [categories, setCategories] = useState<Category[]>([]);
+  const accessToken = useAccessToken();
+  const fetchData = async () => {
+    const data = await fetch(
+      `${process.env.NEXT_PUBLIC_BASE_URL}/categories/my`,
+      {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${accessToken}`,
+        },
+      }
+    );
+    return await data.json();
+  };
 
-  const { queryFn, queryKey, onSuccess, onError } = queryOptions.my({
-    accessToken,
-  });
-
-  const data = await queryFn()
-    .then((state) => {
-      return state;
-    })
-    .catch((err) => {
-      console.log(err);
-    });
+  useEffect(() => {
+    if (accessToken) {
+      fetchData().then((data) => {
+        console.log(data);
+        setCategories(data.data.categoryList);
+      });
+    } else {
+      console.log('no access token');
+    }
+    console.log(accessToken);
+  }, [accessToken]);
 
   return (
     <>
@@ -44,7 +57,7 @@ export default async function MyPage() {
           </div>
         </div>
         <div className='grid h-full w-full grid-cols-2 gap-x-4'>
-          {/* <Categories categories={data.data.categoryList} /> */}
+          <Categories categories={categories} />
         </div>
       </Suspense>
     </>
