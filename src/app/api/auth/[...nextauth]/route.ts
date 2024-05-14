@@ -66,7 +66,13 @@ const handler = NextAuth({
           console.log(user);
           // const session = useSession();
           // console.log(session);
-          return user;
+          return {
+            username: user.username,
+            accessToken: user.accessToken,
+            refreshToken: user.refreshToken,
+            accessTokenExpires: Date.now() + 60 * 30 * 1000,
+            refreshTokenExpires: Date.now() + 24 * 60 * 60 * 7 * 1000,
+          };
         } catch (error) {
           console.error('로그인 에러', error);
         }
@@ -75,16 +81,16 @@ const handler = NextAuth({
   ],
   callbacks: {
     jwt: async ({ token, user }) => {
-      // if (user) {
-      //   (token.accessToken = user.accessToken),
-      //     (token.refreshToken = user.refreshToken),
-      //     (token.accessTokenExpires = Date.now() + 60 * 30 * 1000);
-      // }
-      // if (Date.now() < token.accessTokenExpires) {
-      //   return token;
-      // }
-      // return await refreshAccessToken(token);
-      return { ...token, ...user };
+      if (user) {
+        token.accessToken = user.accessToken;
+        token.refreshToken = user.refreshToken;
+        token.accessTokenExpires = user.accessTokenExpires;
+        token.refreshTokenExpires = user.refreshTokenExpires;
+      }
+      if (Date.now() < token.accessTokenExpires) {
+        return token;
+      }
+      return await refreshAccessToken(token);
     },
     session: async ({ session, token, user }) => {
       // return {
@@ -94,7 +100,15 @@ const handler = NextAuth({
       //     id: user.id,
       //   },
       // };
-      session.user = token as any;
+      session.user = {
+        username: token.username,
+      };
+      session.token = {
+        accessToken: token.accessToken,
+        refreshToken: token.refreshToken,
+        accessTokenExpires: token.accessTokenExpires,
+        refreshTokenExpires: token.refreshTokenExpires,
+      };
       return session;
     },
   },
