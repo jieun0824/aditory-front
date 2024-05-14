@@ -9,8 +9,11 @@ import MyAditory from './_component/my-aditory';
 import LinkInput from './_component/link-input';
 import useCategories from '@/app/store/useCategories';
 import { useEffect } from 'react';
+import { useSession } from 'next-auth/react';
 
 function LinkReminder() {
+  const session = useSession();
+  console.log(session);
   return (
     <div>
       <p className='text-md scroll-m-20 font-semibold tracking-tight'>

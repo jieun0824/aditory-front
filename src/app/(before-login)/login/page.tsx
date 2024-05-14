@@ -3,13 +3,12 @@
 import { Button } from '@/components/ui/button';
 import { useCallback, useEffect, useState } from 'react';
 import { FaArrowRightLong } from 'react-icons/fa6';
-import Link from 'next/link';
-import useUserInfo from '@/app/store/useUserInfo';
 import { useRouter } from 'next/navigation';
 import { Input } from '@/components/ui/input';
 import { CiUser, CiLock } from 'react-icons/ci';
 import useToken from '@/app/store/useToken';
 import queryOptions from '@/service/user/queries';
+import { signIn } from 'next-auth/react';
 
 export type stateName = 'username' | 'password' | 'nickname' | 'contact';
 export default function SignIn() {
@@ -22,6 +21,24 @@ export default function SignIn() {
     password,
   });
 
+  const handleLoginBtn = async () => {
+    try {
+      await signIn('Credentials', {
+        username: username,
+        password: password,
+      })
+        .then((data) => {
+          console.log(data);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    } catch (e) {
+      console.log(e);
+      throw new Error(e.response.data.msg);
+    }
+  };
+
   return (
     <div className='item flex h-full min-h-96 w-full flex-col justify-between'>
       <form>
@@ -31,6 +48,7 @@ export default function SignIn() {
             ID
           </span>
           <Input
+            name='username'
             onChange={(e) => setUsername(e.target.value)}
             className='border-b-1 border-x-0 border-t-0'
           />
@@ -39,27 +57,21 @@ export default function SignIn() {
             password
           </span>
           <Input
+            name='password'
             onChange={(e) => setPassword(e.target.value)}
             className='border-b-1 border-x-0 border-t-0'
           />
         </div>
+        <div>
+          <Button
+            className='mt-6 w-full gap-2 px-4 text-white'
+            onClick={handleLoginBtn}
+          >
+            <FaArrowRightLong />
+            LOGIN
+          </Button>
+        </div>
       </form>
-      <div>
-        <Button
-          className='mt-6 w-full gap-2 px-4 text-white'
-          onClick={() => {
-            queryFn()
-              .then((data) => {
-                onSuccess(data);
-                router.push('/');
-              })
-              .catch((err) => onError(err));
-          }}
-        >
-          <FaArrowRightLong />
-          LOGIN
-        </Button>
-      </div>
     </div>
   );
 }

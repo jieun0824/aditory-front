@@ -2,7 +2,8 @@ import type { Metadata } from 'next';
 import { Noto_Sans } from 'next/font/google';
 import { ThemeProvider } from '@/components/theme-provider';
 import './globals.css';
-import ReactQueryProviders from '@/hooks/query-provider';
+import ReactQueryProviders from '@/lib/provider/query-provider';
+import LoginProvider from '@/lib/provider/auth-provider';
 
 const notoSans = Noto_Sans({
   subsets: ['latin'],
@@ -24,14 +25,16 @@ export default function RootLayout({
   return (
     <html lang='en'>
       <body className={notoSans.className}>
-        <ThemeProvider
-          attribute='class'
-          defaultTheme='system'
-          enableSystem
-          disableTransitionOnChange
-        >
-          <ReactQueryProviders>{children}</ReactQueryProviders>
-        </ThemeProvider>
+        <LoginProvider>
+          <ThemeProvider
+            attribute='class'
+            defaultTheme='system'
+            enableSystem
+            disableTransitionOnChange
+          >
+            <ReactQueryProviders>{children}</ReactQueryProviders>
+          </ThemeProvider>
+        </LoginProvider>
       </body>
     </html>
   );
