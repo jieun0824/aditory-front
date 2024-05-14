@@ -10,7 +10,7 @@ import { useStorage } from '@/lib/useStorage';
 import { getAccessToken } from '@/lib/token';
 import { Category } from '@/model/category';
 import Categories from './_component/category-card';
-import { useAccessToken } from '../../../../../hooks/useAccessToken';
+import { useAccessToken } from '../../../../hooks/useAccessToken';
 
 export default function MyPage() {
   const { userInfo } = useStorage();
