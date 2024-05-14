@@ -26,11 +26,13 @@ export default function MyPage() {
           Authorization: `Bearer ${accessToken}`,
         },
       }
-    ).then((data) => console.log(typeof data));
+    );
+    return await data.json();
   };
 
   useEffect(() => {
     if (accessToken) {
+      fetchData().then((data) => setCategories(data.data.categoryList));
     } else {
       console.log('no access token');
     }

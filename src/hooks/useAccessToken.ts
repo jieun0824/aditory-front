@@ -83,7 +83,8 @@ export function useAccessToken() {
           method: 'POST',
           credentials: 'include',
           body: JSON.stringify({
-            refreshToken: refreshToken,
+            refreshToken: 'Bearer ' + refreshToken,
+            userId: userId,
           }),
           headers: {
             'Content-Type': 'application/json',
