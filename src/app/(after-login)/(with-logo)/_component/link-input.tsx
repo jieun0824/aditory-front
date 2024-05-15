@@ -12,6 +12,11 @@ import {
   HoverCardTrigger,
 } from '@/components/ui/hover-card';
 import { Category } from '@/model/category';
+import { Dialog, DialogTrigger } from '@/components/ui/dialog';
+import { DialogContent } from '@radix-ui/react-dialog';
+import AddModal from './add-modal';
+import { useAccessToken } from '@/hooks/useAccessToken';
+import { useMyCategories } from '@/service/categories/useCategoryService';
 
 export default function LinkInput() {
   // const inputRef = useRef<HTMLInputElement>(null);
@@ -29,11 +34,6 @@ export default function LinkInput() {
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setPreviewUrl(event.target.value);
   };
-
-  useEffect(() => {
-    isValidUrl(previewUrl);
-    console.log(isValid);
-  }, [previewUrl]);
 
   // 클립보드에서 붙여넣기하는 함수
   const pasteFromClipboard = () => {
@@ -84,16 +84,19 @@ export default function LinkInput() {
             onChange={handleInputChange}
             // ref={inputRef}
           />
-          <Link href={'/add'}>
-            <Button
-              className='max-w-xs rounded-xl bg-input py-8 hover:bg-input/40'
-              onClick={() => {
-                localStorage.setItem('url', previewUrl);
-              }}
-            >
-              <FaPlus />
-            </Button>
-          </Link>
+          <Dialog>
+            <DialogTrigger>
+              <Button
+                className='max-w-xs rounded-xl bg-input py-8 hover:bg-input/40'
+                onClick={() => {
+                  localStorage.setItem('url', previewUrl);
+                }}
+              >
+                <FaPlus />
+              </Button>
+            </DialogTrigger>
+            <AddModal url={previewUrl} />
+          </Dialog>
         </div>
       </div>
     </>

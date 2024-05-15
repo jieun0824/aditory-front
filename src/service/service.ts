@@ -34,8 +34,7 @@ class Service {
     method: string,
     url: string,
     data?: unknown,
-    config?: RequestInit,
-    accessToken?: string
+    config?: RequestInit
   ): Promise<T> {
     try {
       const response = await fetch(this.baseURL + url, {
@@ -47,7 +46,6 @@ class Service {
         },
         credentials: 'include',
         body: data ? JSON.stringify(data) : undefined,
-        ...config,
       });
 
       if (!response.ok) {

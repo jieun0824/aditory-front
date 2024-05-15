@@ -51,6 +51,7 @@ const queryOptions = {
       return data;
     },
     onError: errorHandler,
+    enabled: !!accessToken,
   }),
   public: ({ accessToken }: { accessToken: string }) => ({
     queryKey: queryKeys.public,
