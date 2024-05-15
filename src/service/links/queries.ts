@@ -44,6 +44,7 @@ const queryOptions = {
     queryKey: queryKeys.reminder({ accessToken }),
     queryFn: () => LinkService.getLinkReminder({ accessToken }),
     onError: errorHandler,
+    enabled: !!accessToken,
   }),
   //post method
   newLink: ({
