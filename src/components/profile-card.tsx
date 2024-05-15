@@ -8,8 +8,14 @@ import {
 } from '@/components/ui/card';
 import { Button } from './ui/button';
 import { User } from '@/model/user';
+import { useStorage } from '@/lib/useStorage';
 
 export default function ProfileCard({ data }: any) {
+  const { removeUserInfo } = useStorage();
+  const LogoutHandler = () => {
+    removeUserInfo();
+    window.location.reload();
+  };
   console.log(data);
   return (
     <Card className='flex w-full items-center'>
@@ -22,7 +28,9 @@ export default function ProfileCard({ data }: any) {
       <CardContent className='flex w-full flex-col gap-2 p-6'>
         <p>{data.nickname}</p>
         <CardDescription>{data.username}</CardDescription>
-        <Button className='mx-8 rounded-xl text-white'>Logout</Button>
+        <Button className='mx-8 rounded-xl text-white' onClick={LogoutHandler}>
+          Logout
+        </Button>
       </CardContent>
     </Card>
   );

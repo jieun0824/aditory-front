@@ -3,6 +3,7 @@ import { Noto_Sans } from 'next/font/google';
 import { ThemeProvider } from '@/components/theme-provider';
 import './globals.css';
 import ReactQueryProviders from '@/lib/provider/query-provider';
+import CheckAccess from '@/lib/provider/check-access';
 
 const notoSans = Noto_Sans({
   subsets: ['latin'],
@@ -19,7 +20,8 @@ export const metadata: Metadata = {
 export default function RootLayout({
   children,
 }: Readonly<{
-  children: React.ReactNode;
+  children: React.ReactElement;
+  show: boolean;
 }>) {
   return (
     <html lang='en'>
@@ -30,7 +32,9 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <ReactQueryProviders>{children}</ReactQueryProviders>
+          <ReactQueryProviders>
+            <CheckAccess>{children}</CheckAccess>
+          </ReactQueryProviders>
         </ThemeProvider>
       </body>
     </html>
