@@ -2,47 +2,62 @@ import Service from '@/service/service';
 import { Category } from '@/model/category';
 import { headers } from 'next/headers';
 
-// let authorization = { headers: {} };
-// if (typeof window !== 'undefined') {
-//   if (localStorage.getItem('userInfo')) {
-//     const accessToken = JSON.parse(
-//       localStorage.getItem('userInfo')!
-//     ).accessToken;
-//     authorization = { headers: { Authorization: `Bearer ${accessToken}` } };
-//   }
-// }
-
 class CategoryService extends Service {
+  authorization = (accessToken: string) => {
+    return {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    };
+  };
   //get my categories
   getMyCategories({ accessToken }: { accessToken: string }) {
-    return this.http.get<Category[]>(`/categories/my`, {
-      headers: { Authorization: `Bearer ${accessToken}` },
-    });
+    return this.http.get<Category[]>(
+      `/categories/my`,
+      this.authorization(accessToken)
+    );
   }
 
   //get specific category (linklist)
-  getCategory({ categoryId }: { categoryId: number }) {
-    return this.http.get<Category>(`/categories/${categoryId}`, authorization);
+  getCategory({
+    accessToken,
+    categoryId,
+  }: {
+    accessToken: string;
+    categoryId: number;
+  }) {
+    return this.http.get<Category>(
+      `/categories/${categoryId}`,
+      this.authorization(accessToken)
+    );
   }
 
   //add new category
-  postCategory({ categoryName }: { categoryName: string }) {
+  postCategory({
+    accessToken,
+    categoryName,
+  }: {
+    accessToken: string;
+    categoryName: string;
+  }) {
     return this.http.post<Category>(
       `/categories`,
       {
         categoryName,
       },
-      authorization
+      this.authorization(accessToken)
     );
   }
 
   //update category
   updateCategory({
+    accessToken,
     categoryId,
     categoryName,
     categoryState,
     asCategoryName,
   }: {
+    accessToken: string;
     categoryId: number;
     categoryName: string;
     categoryState: boolean;
@@ -55,53 +70,82 @@ class CategoryService extends Service {
         categoryState,
         asCategoryName,
       },
-      authorization
+      this.authorization(accessToken)
     );
   }
 
   //delete category
-  deleteCategory({ categoryId }: { categoryId: number }) {
+  deleteCategory({
+    accessToken,
+    categoryId,
+  }: {
+    accessToken: string;
+    categoryId: number;
+  }) {
     return this.http.delete<Category>(
       `/categories/${categoryId}`,
-      authorization
+      this.authorization(accessToken)
     );
   }
 
   //get public category lists
-  getPublicCategories() {
-    return this.http.get<Category[]>(`/categories/public`, authorization);
+  getPublicCategories({ accessToken }: { accessToken: string }) {
+    return this.http.get<Category[]>(
+      `/categories/public`,
+      this.authorization(accessToken)
+    );
   }
 
   //add like to public category
-  postLike({ categoryId }: { categoryId: number }) {
+  postLike({
+    accessToken,
+    categoryId,
+  }: {
+    accessToken: string;
+    categoryId: number;
+  }) {
     return this.http.post<Category>(
       `/categories/${categoryId}/like`,
-      authorization
+      this.authorization(accessToken)
     );
   }
 
   //remove like from public category
-  deleteLike({ categoryId }: { categoryId: number }) {
+  deleteLike({
+    accessToken,
+    categoryId,
+  }: {
+    accessToken: string;
+    categoryId: number;
+  }) {
     return this.http.delete<Category>(
       `/categories/${categoryId}/like`,
-      authorization
+      this.authorization(accessToken)
     );
   }
 
   //copy public category to my category
-  copyCategory({ categoryId }: { categoryId: number }) {
+  copyCategory({
+    accessToken,
+    categoryId,
+  }: {
+    accessToken: string;
+    categoryId: number;
+  }) {
     return this.http.post<Category>(
       `/categories/${categoryId}/copy`,
-      authorization
+      this.authorization(accessToken)
     );
   }
 
   //링크 목록의 카테고리 이동 ??
   moveCategory({
+    accessToken,
     categoryId,
     linkIdList,
     targetCategoryId,
   }: {
+    accessToken: string;
     categoryId: number;
     linkIdList: number[];
     targetCategoryId: number;
@@ -112,7 +156,7 @@ class CategoryService extends Service {
         linkIdList,
         targetCategoryId,
       },
-      authorization
+      this.authorization(accessToken)
     );
   }
 }

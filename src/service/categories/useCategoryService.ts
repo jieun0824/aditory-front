@@ -5,49 +5,82 @@ export function useMyCategories({ accessToken }: { accessToken: string }) {
   return useQuery(queryOptions.my({ accessToken }));
 }
 
-export function usePublic() {
-  return useQuery(queryOptions.public());
+export function usePublic({ accessToken }: { accessToken: string }) {
+  return useQuery(queryOptions.public({ accessToken }));
 }
 
-export function useSpecific({ categoryId }: { categoryId: number }) {
-  return useQuery(queryOptions.specific({ categoryId }));
+export function useSpecific({
+  accessToken,
+  categoryId,
+}: {
+  accessToken: string;
+  categoryId: number;
+}) {
+  return useQuery(queryOptions.specific({ accessToken, categoryId }));
 }
 
 //post
-export function useCreateCategory({ categoryName }: { categoryName: string }) {
-  return useMutation(queryOptions.newCategory({ categoryName }));
+export function useCreateCategory({
+  accessToken,
+  categoryName,
+}: {
+  accessToken: string;
+  categoryName: string;
+}) {
+  return useMutation(queryOptions.newCategory({ accessToken, categoryName }));
 }
 
-export function useLike({ categoryId }: { categoryId: number }) {
-  return useMutation(queryOptions.addLike({ categoryId }));
+export function useLike({
+  accessToken,
+  categoryId,
+}: {
+  accessToken: string;
+  categoryId: number;
+}) {
+  return useMutation(queryOptions.addLike({ accessToken, categoryId }));
 }
 
-export function useCopyCategory({ categoryId }: { categoryId: number }) {
-  return useMutation(queryOptions.copyCategory({ categoryId }));
+export function useCopyCategory({
+  accessToken,
+  categoryId,
+}: {
+  accessToken: string;
+  categoryId: number;
+}) {
+  return useMutation(queryOptions.copyCategory({ accessToken, categoryId }));
 }
 
 export function useMoveCategory({
+  accessToken,
   categoryId,
   linkIdList,
   targetCategoryId,
 }: {
+  accessToken: string;
   categoryId: number;
   linkIdList: number[];
   targetCategoryId: number;
 }) {
   return useMutation(
-    queryOptions.moveCategory({ categoryId, linkIdList, targetCategoryId })
+    queryOptions.moveCategory({
+      accessToken,
+      categoryId,
+      linkIdList,
+      targetCategoryId,
+    })
   );
 }
 
 //patch method
 
 export function useUpdateCategory({
+  accessToken,
   categoryId,
   categoryName,
   categoryState,
   asCategoryName,
 }: {
+  accessToken: string;
   categoryId: number;
   categoryName: string;
   categoryState: boolean;
@@ -55,6 +88,7 @@ export function useUpdateCategory({
 }) {
   return useMutation(
     queryOptions.updateCategory({
+      accessToken,
       categoryId,
       categoryName,
       categoryState,
@@ -64,10 +98,22 @@ export function useUpdateCategory({
 }
 
 //delete method
-export function useDeleteCategory({ categoryId }: { categoryId: number }) {
-  return useMutation(queryOptions.deleteCategory({ categoryId }));
+export function useDeleteCategory({
+  accessToken,
+  categoryId,
+}: {
+  accessToken: string;
+  categoryId: number;
+}) {
+  return useMutation(queryOptions.deleteCategory({ accessToken, categoryId }));
 }
 
-export function useUnLink({ categoryId }: { categoryId: number }) {
-  return useMutation(queryOptions.deleteLike({ categoryId }));
+export function useUnLink({
+  accessToken,
+  categoryId,
+}: {
+  accessToken: string;
+  categoryId: number;
+}) {
+  return useMutation(queryOptions.deleteLike({ accessToken, categoryId }));
 }

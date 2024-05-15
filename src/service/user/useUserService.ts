@@ -1,8 +1,8 @@
 import { useMutation, useQuery } from '@tanstack/react-query';
 import queryOptions from '@/service/user/queries';
 
-export function useUsers() {
-  return useQuery(queryOptions.all());
+export function useUsers({ accessToken }: { accessToken: string }) {
+  return useQuery(queryOptions.all({ accessToken }));
 }
 
 export function useSignIn({
@@ -15,6 +15,12 @@ export function useSignIn({
   return useMutation(queryOptions.signIn({ username, password }));
 }
 
-export function useRefresh({ refreshToken }: { refreshToken: string }) {
-  return useMutation(queryOptions.refresh({ refreshToken }));
+export function useRefresh({
+  userId,
+  refreshToken,
+}: {
+  userId: number;
+  refreshToken: string;
+}) {
+  return useMutation(queryOptions.refresh({ userId, refreshToken }));
 }

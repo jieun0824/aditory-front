@@ -1,19 +1,11 @@
 import Service from '@/service/service';
 import { Login, Refresh, User } from '@/model/user';
 
-let authorization = { headers: {} };
-if (typeof window !== 'undefined') {
-  if (localStorage.getItem('userInfo')) {
-    const accessToken = JSON.parse(
-      localStorage.getItem('userInfo')!
-    ).accessToken;
-    authorization = { headers: { Authorization: `Bearer ${accessToken}` } };
-  }
-}
-
 class UserService extends Service {
-  getUsers() {
-    return this.http.get<User>(`/users`, authorization);
+  getUsers({ accessToken }: { accessToken: string }) {
+    return this.http.get<User>(`/users`, {
+      headers: { Authorization: `Bearer ${accessToken}` },
+    });
   }
   postSignIn({ username, password }: { username: string; password: string }) {
     return this.http.post<Login>(`/users/login`, {
@@ -21,8 +13,15 @@ class UserService extends Service {
       password,
     });
   }
-  refreshAccess({ refreshToken }: { refreshToken: string }) {
+  refreshAccess({
+    userId,
+    refreshToken,
+  }: {
+    userId: number;
+    refreshToken: string;
+  }) {
     return this.http.post<Refresh>('/users/refresh', {
+      userId,
       refreshToken,
     });
   }

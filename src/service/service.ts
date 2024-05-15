@@ -34,15 +34,16 @@ class Service {
     method: string,
     url: string,
     data?: unknown,
-    config?: RequestInit
+    config?: RequestInit,
+    accessToken?: string
   ): Promise<T> {
     try {
       const response = await fetch(this.baseURL + url, {
         method,
         headers: {
           ...this.headers,
-          'Content-Type': 'application/json',
           ...config?.headers,
+          'Content-Type': 'application/json',
         },
         credentials: 'include',
         body: data ? JSON.stringify(data) : undefined,
