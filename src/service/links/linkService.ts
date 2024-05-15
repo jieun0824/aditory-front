@@ -4,68 +4,106 @@ import { Link } from '@/model/link';
 class LinkService extends Service {
   //get method
   //get link by linkId
-  getLink({ linkId }: { linkId: number }) {
-    return this.http.get<Link>(`/links/${linkId}`);
+  authorization = (accessToken: string) => {
+    return {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    };
+  };
+  getLink({ accessToken, linkId }: { accessToken: string; linkId: number }) {
+    return this.http.get<Link>(
+      `/links/${linkId}`,
+      this.authorization(accessToken)
+    );
   }
 
   //link reminder
-  getLinkReminder() {
-    return this.http.get<Link[]>(`/links/reminder`);
+  getLinkReminder({ accessToken }: { accessToken: string }) {
+    return this.http.get<Link[]>(
+      `/links/reminder`,
+      this.authorization(accessToken)
+    );
   }
 
   //post method
   postLink({
+    accessToken,
     autoComplete,
     title,
     summary,
     url,
     categoryId,
   }: {
+    accessToken: string;
     autoComplete: boolean;
     title: string;
     summary: string;
     url: string;
     categoryId: number;
   }) {
-    return this.http.post<Link>(`/links`, {
-      autoComplete,
-      title,
-      summary,
-      url,
-      categoryId,
-    });
+    return this.http.post<Link>(
+      `/links`,
+      {
+        autoComplete,
+        title,
+        summary,
+        url,
+        categoryId,
+      },
+      this.authorization(accessToken)
+    );
   }
 
   //patch method
   updateLink({
+    accessToken,
     title,
     summary,
     url,
     categoryId,
     linkId,
   }: {
+    accessToken: string;
     title: string;
     summary: string;
     url: string;
     categoryId: number;
     linkId: number;
   }) {
-    return this.http.patch<Link>(`/links/${linkId}`, {
-      title,
-      summary,
-      url,
-      categoryId,
-    });
+    return this.http.patch<Link>(
+      `/links/${linkId}`,
+      {
+        title,
+        summary,
+        url,
+        categoryId,
+      },
+      this.authorization(accessToken)
+    );
   }
 
   //change reading state
-  updateLinkStatus({ linkId }: { linkId: number }) {
-    return this.http.patch<Link>(`/links/${linkId}/status`);
+  updateLinkStatus({
+    accessToken,
+    linkId,
+  }: {
+    accessToken: string;
+    linkId: number;
+  }) {
+    return this.http.patch<Link>(
+      `/links/${linkId}/status`,
+      undefined,
+      this.authorization(accessToken)
+    );
   }
 
   //delete method
-  deleteLink({ linkId }: { linkId: number }) {
-    return this.http.delete<Link>(`/links/${linkId}`);
+  deleteLink({ accessToken, linkId }: { accessToken: string; linkId: number }) {
+    return this.http.delete<Link>(
+      `/links/${linkId}`,
+      this.authorization(accessToken)
+    );
   }
 }
 

@@ -41,19 +41,18 @@ class Service {
         method,
         headers: {
           ...this.headers,
-          'Content-Type': 'application/json',
           ...config?.headers,
+          'Content-Type': 'application/json',
         },
         credentials: 'include',
         body: data ? JSON.stringify(data) : undefined,
-        ...config,
       });
 
       if (!response.ok) {
         throw new Error('Network response was not ok');
       }
-      const responseData: T = await response.json();
-      return responseData;
+
+      return await response.json();
     } catch (error) {
       console.error('Error:', error);
       throw error;

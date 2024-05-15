@@ -1,11 +1,6 @@
-import ReminderCard from './_component/reminder-card';
-import {
-  Carousel,
-  CarouselContent,
-  CarouselItem,
-} from '@/components/ui/carousel';
 import MyAditory from './_component/my-aditory';
 import LinkInput from './_component/link-input';
+import LinkReminder from './_component/link-reminder';
 
 export default function Home() {
   return (
@@ -13,29 +8,6 @@ export default function Home() {
       <LinkInput />
       <LinkReminder />
       <MyAditory />
-    </div>
-  );
-}
-
-function LinkReminder() {
-  return (
-    <div>
-      <p className='text-md scroll-m-20 font-semibold tracking-tight'>
-        link reminder
-      </p>
-      <Carousel>
-        <CarouselContent>
-          <CarouselItem>
-            <ReminderCard />
-          </CarouselItem>
-          <CarouselItem>
-            <ReminderCard />
-          </CarouselItem>
-          <CarouselItem>
-            <ReminderCard />
-          </CarouselItem>
-        </CarouselContent>
-      </Carousel>
     </div>
   );
 }

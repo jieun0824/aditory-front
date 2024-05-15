@@ -1,17 +1,22 @@
 import UserService from '@/service/user/userService';
-import { useStorage } from '@/store/useStorage';
 
 const queryKeys = {
   all: ['user'] as const,
   signIn: ({ username, password }: { username: string; password: string }) =>
     ['user', 'signIn'] as const,
-  refresh: ['refresh'] as const,
+  refresh: ({
+    userId,
+    refreshToken,
+  }: {
+    userId: number;
+    refreshToken: string;
+  }) => [userId, refreshToken] as const,
 };
 
 const queryOptions = {
-  all: () => ({
+  all: ({ accessToken }: { accessToken: string }) => ({
     queryKey: queryKeys.all,
-    queryFn: async () => await UserService.getUsers(),
+    queryFn: async () => await UserService.getUsers({ accessToken }),
   }),
   signIn: ({ username, password }: { username: string; password: string }) => ({
     queryKey: queryKeys.signIn({ username, password }),
@@ -26,9 +31,19 @@ const queryOptions = {
       console.error(error);
     },
   }),
-  refresh: ({ refreshToken }: { refreshToken: string }) => ({
-    queryKey: queryKeys.refresh,
-    queryFn: () => UserService.refreshAccess({ refreshToken }),
+  refresh: ({
+    userId,
+    refreshToken,
+  }: {
+    userId: number;
+    refreshToken: string;
+  }) => ({
+    queryKey: queryKeys.refresh({ userId, refreshToken }),
+    queryFn: () => UserService.refreshAccess({ userId, refreshToken }),
+    onError: (error: Error) => {
+      alert('refresh token expired');
+      console.error(error);
+    },
   }),
 };
 
