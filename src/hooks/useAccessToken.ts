@@ -94,8 +94,8 @@ export function useAccessToken() {
 
       if (res.ok) {
         const data = await res.json();
-        const newAccessTokenExpires = Date.now() + 30 * 60 * 1000;
-        const newRefreshTokenExpires = Date.now() + 7 * 24 * 60 * 60 * 1000;
+        const newAccessTokenExpires = Date.now() + 10 * 60 * 1000;
+        const newRefreshTokenExpires = Date.now() + 1 * 24 * 60 * 60 * 1000;
 
         addUserInfo({
           ...data.data,
