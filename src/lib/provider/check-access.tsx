@@ -1,12 +1,13 @@
 'use client';
 
-import { Fragment, cloneElement, useEffect, useState } from 'react';
+import { cloneElement, useEffect } from 'react';
 import { useStorage } from '../useStorage';
-import { usePathname, useRouter } from 'next/navigation';
+import { usePathname } from 'next/navigation';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { AlertCircle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
+import useIsLoggedIn from '@/store/useIsLoggedIn';
 
 export default function CheckAccess({
   children,
@@ -15,30 +16,29 @@ export default function CheckAccess({
 }) {
   const { userInfo } = useStorage();
   const pathName = usePathname();
-  const router = useRouter();
-  const [show, setShow] = useState<boolean>(false);
+  const isNotLoggedIn = useIsLoggedIn((state: any) => state.isLoggedIn);
+  const setIsNotLoggedIn = useIsLoggedIn((state: any) => state.setIsLoggedIn);
   const isEmptyObj = (obj: any) => {
     if (obj.constructor === Object && Object.keys(obj).length === 0) {
       return true;
     }
-
     return false;
   };
   const limitAccess = ['/mypage', '/'];
   useEffect(() => {
     console.log(pathName);
     if (isEmptyObj(userInfo) && limitAccess.includes(pathName)) {
-      console.log('no userInfo');
-      setShow(true);
+      console.log(`isLoggedIn: ${isNotLoggedIn}`);
+      setIsNotLoggedIn(true);
     } else {
-      console.log('has userInfo');
-      setShow(false);
+      console.log(`isLoggedIn: ${isNotLoggedIn}`);
+      setIsNotLoggedIn(false);
     }
   }, [userInfo, pathName]);
   return (
     <>
-      {show && <SessionExpires />}
-      {cloneElement(children, { show })}
+      {isNotLoggedIn && <SessionExpires />}
+      {cloneElement(children, { isLoggedIn: isNotLoggedIn })}
     </>
   );
 }

@@ -3,7 +3,7 @@ import { Label } from '@/components/ui/label';
 import ProfileCard from '../../../../components/profile-card';
 import { MdLibraryBooks } from 'react-icons/md';
 import { FaCirclePlus } from 'react-icons/fa6';
-import { Suspense, useEffect, useState } from 'react';
+import { Suspense, useEffect, useRef, useState } from 'react';
 import Loading from './loading';
 import { useStorage } from '@/lib/useStorage';
 import { Category } from '@/model/category';
@@ -21,7 +21,8 @@ export default function MyPage() {
   const { data, isLoading, refetch } = useMyCategories({
     accessToken: accessToken,
   });
-  const [open, setOpen] = useState(false);
+  const dialogRef = useRef(null);
+
   useEffect(() => {
     if (data) {
       setCategories(data.data.categoryList);
@@ -40,14 +41,14 @@ export default function MyPage() {
             <MdLibraryBooks className='text-md' />
             <Label className='text-md font-semibold'>My Categories</Label>
           </div>
-          <Dialog open={open}>
-            <DialogTrigger asChild onClick={() => setOpen(true)}>
+          <Dialog>
+            <DialogTrigger asChild ref={dialogRef}>
               <div className='flex cursor-pointer items-center gap-2 transition-opacity hover:opacity-60'>
                 <FaCirclePlus className='text-primary' />
                 <span className='text-xs'>add new category</span>
               </div>
             </DialogTrigger>
-            <NewCategoryModal refetch={refetch} setOpen={setOpen} />
+            <NewCategoryModal refetch={refetch} dialogRef={dialogRef} />
           </Dialog>
         </div>
         <div className='grid h-full w-full grid-cols-2 gap-x-4'>

@@ -17,10 +17,10 @@ import { useState } from 'react';
 
 export default function NewCategoryModal({
   refetch,
-  setOpen,
+  dialogRef,
 }: {
   refetch: () => void;
-  setOpen: (open: boolean) => void;
+  dialogRef: any;
 }) {
   const [category, setCategory] = useState('');
   const { accessToken } = useAccessToken();
@@ -34,7 +34,7 @@ export default function NewCategoryModal({
       if (response.success) {
         refetch();
         setCategory('');
-        setOpen(false);
+        dialogRef.current?.click();
       }
     });
   };

@@ -16,7 +16,6 @@ export default function SignUp({ params }: { params: { step: string } }) {
   const userInfo = useUserInfo((state: any) => state.userInfo);
   const setUserInfo = useUserInfo((state: any) => state.setUserInfo);
   const router = useRouter();
-
   const selectedHandler = (category: string) => {
     if (selected.includes(category)) {
       setSelected(selected.filter((item) => item !== category));
