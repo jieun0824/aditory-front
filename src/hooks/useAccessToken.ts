@@ -94,11 +94,16 @@ export function useAccessToken() {
 
       if (res.ok) {
         const data = await res.json();
+        console.log(data);
         const newAccessTokenExpires = Date.now() + 10 * 60 * 1000;
         const newRefreshTokenExpires = Date.now() + 1 * 24 * 60 * 60 * 1000;
 
         addUserInfo({
-          ...data.data,
+          userId: data.data.userId,
+          username: data.data.username,
+          nickname: data.data.nickname,
+          accessToken: data.data.accessToken,
+          refreshToken: data.data.refreshToken,
           accessTokenExpires: newAccessTokenExpires,
           refreshTokenExpires: newRefreshTokenExpires,
         });

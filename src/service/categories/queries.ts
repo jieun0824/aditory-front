@@ -1,5 +1,4 @@
 import CategoryService from '@/service/categories/categoryService';
-
 //create unique key
 const queryKeys = {
   //get method

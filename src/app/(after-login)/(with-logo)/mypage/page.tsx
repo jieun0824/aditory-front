@@ -9,33 +9,41 @@ import { useStorage } from '@/lib/useStorage';
 import { Category } from '@/model/category';
 import Categories from './_component/category-card';
 import { useAccessToken } from '../../../../hooks/useAccessToken';
+import { Dialog, DialogTrigger } from '@/components/ui/dialog';
+import { Button } from '@/components/ui/button';
+import NewCategoryModal from './_component/new-category';
+import { useMyCategories } from '@/service/categories/useCategoryService';
 
 export default function MyPage() {
   const { userInfo } = useStorage();
   const [categories, setCategories] = useState<Category[]>([]);
   const { accessToken, getRefreshToken } = useAccessToken();
-  const fetchData = async () => {
-    const data = await fetch(
-      `${process.env.NEXT_PUBLIC_BASE_URL}/categories/my`,
-      {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${accessToken}`,
-        },
-      }
-    );
-    return await data.json();
-  };
+  const { data, isLoading, refetch } = useMyCategories({
+    accessToken: accessToken,
+  });
+  const [open, setOpen] = useState(false);
+  // const fetchData = async () => {
+  //   const data = await fetch(
+  //     `${process.env.NEXT_PUBLIC_BASE_URL}/categories/my`,
+  //     {
+  //       method: 'GET',
+  //       headers: {
+  //         'Content-Type': 'application/json',
+  //         Authorization: `Bearer ${accessToken}`,
+  //       },
+  //     }
+  //   );
+  //   return await data.json();
+  // };
 
   useEffect(() => {
-    if (accessToken) {
-      fetchData().then((data) => setCategories(data.data.categoryList));
+    if (data) {
+      setCategories(data.data.categoryList);
     } else {
-      console.log('no access token');
+      console.log('no data');
     }
-    console.log(accessToken);
-  }, [accessToken]);
+    console.log(data);
+  }, [data]);
 
   return (
     <>
@@ -46,10 +54,15 @@ export default function MyPage() {
             <MdLibraryBooks className='text-md' />
             <Label className='text-md font-semibold'>My Categories</Label>
           </div>
-          <div className='flex cursor-pointer items-center gap-2 transition-opacity hover:opacity-60'>
-            <FaCirclePlus className='text-primary' />
-            <span className='text-xs'>add new category</span>
-          </div>
+          <Dialog open={open}>
+            <DialogTrigger asChild onClick={() => setOpen(true)}>
+              <div className='flex cursor-pointer items-center gap-2 transition-opacity hover:opacity-60'>
+                <FaCirclePlus className='text-primary' />
+                <span className='text-xs'>add new category</span>
+              </div>
+            </DialogTrigger>
+            <NewCategoryModal refetch={refetch} setOpen={setOpen} />
+          </Dialog>
         </div>
         <div className='grid h-full w-full grid-cols-2 gap-x-4'>
           <Categories categories={categories} />
