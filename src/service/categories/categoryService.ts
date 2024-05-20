@@ -1,5 +1,9 @@
 import Service from '@/service/service';
-import { Category, CategoryResponse } from '@/model/category';
+import {
+  Category,
+  CategoryResponse,
+  specificCategoryResponse,
+} from '@/model/category';
 import { headers } from 'next/headers';
 
 class CategoryService extends Service {
@@ -26,7 +30,7 @@ class CategoryService extends Service {
     accessToken: string;
     categoryId: number;
   }) {
-    return this.http.get<Category>(
+    return this.http.get<specificCategoryResponse>(
       `/categories/${categoryId}`,
       this.authorization(accessToken)
     );

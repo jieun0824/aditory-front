@@ -68,6 +68,7 @@ const queryOptions = {
     queryKey: queryKeys.specific({ categoryId }),
     queryFn: () => CategoryService.getCategory({ accessToken, categoryId }),
     onError: errorHandler,
+    enabled: !!accessToken,
   }),
   //post method
   newCategory: ({

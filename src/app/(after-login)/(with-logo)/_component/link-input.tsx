@@ -22,10 +22,10 @@ export default function LinkInput() {
   // const inputRef = useRef<HTMLInputElement>(null);
   const [previewUrl, setPreviewUrl] = useState<string>('');
   const [isValid, setIsValid] = useState<Boolean>(false);
+  const dialogRef = useRef(null);
 
   // URL 유효성 검사 함수
   const isValidUrl = (url: string) => {
-    // 간단한 URL 유효성 검사를 수행할 수 있습니다. (여기서는 매우 간단한 형태로만 확인합니다.)
     const pattern = /^(ftp|http|https):\/\//;
     setIsValid(pattern.test(url));
   };
@@ -85,7 +85,7 @@ export default function LinkInput() {
             // ref={inputRef}
           />
           <Dialog>
-            <DialogTrigger>
+            <DialogTrigger ref={dialogRef}>
               <Button
                 className='max-w-xs rounded-xl bg-input py-8 hover:bg-input/40'
                 onClick={() => {
@@ -95,7 +95,11 @@ export default function LinkInput() {
                 <FaPlus />
               </Button>
             </DialogTrigger>
-            <AddModal url={previewUrl} />
+            <AddModal
+              url={previewUrl}
+              dialogRef={dialogRef}
+              setPreviewUrl={setPreviewUrl}
+            />
           </Dialog>
         </div>
       </div>

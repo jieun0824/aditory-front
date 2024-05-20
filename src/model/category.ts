@@ -17,3 +17,25 @@ export interface CategoryResponse {
   success: boolean;
   data: { categoryList: Category[] };
 }
+
+export interface Links {
+  linkId: number;
+  title: string;
+  summary: number;
+  linkState: boolean;
+  createdAt: Date;
+  lastModifiedAt: Date;
+}
+
+export interface specificCategoryResponse {
+  httpStatus: string;
+  message: string;
+  success: boolean;
+  data: {
+    categoryId: number;
+    categoryName: string;
+    linkCount: number;
+    categoryState: CategoryState;
+    linkList: Links[];
+  };
+}

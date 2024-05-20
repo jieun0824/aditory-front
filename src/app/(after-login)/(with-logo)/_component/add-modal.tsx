@@ -16,22 +16,28 @@ import {
 
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { useRouter } from 'next/navigation';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { Switch } from '@/components/ui/switch';
 import { useAccessToken } from '@/hooks/useAccessToken';
 import { useMyCategories } from '@/service/categories/useCategoryService';
 import queryOptions from '@/service/links/queries';
-import { usePostLink } from '@/service/links/useLinkService';
 
-export default function AddModal({ url }: { url: string }) {
-  const router = useRouter();
+export default function AddModal({
+  url,
+  dialogRef,
+  setPreviewUrl,
+}: {
+  url: string;
+  dialogRef: any;
+  setPreviewUrl: (url: string) => void;
+}) {
   const [title, setTitle] = useState<string>('');
   const [description, setDescription] = useState<string>('');
   const [autoComplete, setAutoComplete] = useState<boolean>(false);
   const [category, setCategory] = useState(0);
   const { accessToken } = useAccessToken();
   const { data, error, isLoading }: any = useMyCategories({ accessToken });
+
   const { queryFn } = queryOptions.newLink({
     accessToken: accessToken,
     autoComplete: autoComplete,
@@ -49,7 +55,8 @@ export default function AddModal({ url }: { url: string }) {
         setDescription('');
         setAutoComplete(false);
         setCategory(0);
-        router.refresh();
+        setPreviewUrl('');
+        dialogRef.current?.click();
       })
       .catch((error) => {
         console.error(error);
@@ -125,7 +132,7 @@ export default function AddModal({ url }: { url: string }) {
             </Select>
           </div>
         </div>
-        <DialogFooter className='flex justify-center'>
+        <DialogFooter className='mt-3 flex justify-center'>
           <Button className='w-full rounded-xl text-white' type='submit'>
             Save
           </Button>
