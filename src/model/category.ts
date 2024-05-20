@@ -4,10 +4,16 @@ import { Link } from '@/model/link';
 export interface Category {
   categoryId: number;
   categoryName: string;
-  linkCount: number;
   categoryState: CategoryState;
-  linkList?: Link[];
   createdAt: Date;
   lastModifiedAt: Date;
+  linkCount: number;
   asCategoryName?: string;
+}
+
+export interface CategoryResponse {
+  httpStatus: string;
+  message: string;
+  success: boolean;
+  data: { categoryList: Category[] };
 }

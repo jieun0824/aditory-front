@@ -22,20 +22,6 @@ export default function MyPage() {
     accessToken: accessToken,
   });
   const [open, setOpen] = useState(false);
-  // const fetchData = async () => {
-  //   const data = await fetch(
-  //     `${process.env.NEXT_PUBLIC_BASE_URL}/categories/my`,
-  //     {
-  //       method: 'GET',
-  //       headers: {
-  //         'Content-Type': 'application/json',
-  //         Authorization: `Bearer ${accessToken}`,
-  //       },
-  //     }
-  //   );
-  //   return await data.json();
-  // };
-
   useEffect(() => {
     if (data) {
       setCategories(data.data.categoryList);

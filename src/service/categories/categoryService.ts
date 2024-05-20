@@ -1,5 +1,5 @@
 import Service from '@/service/service';
-import { Category } from '@/model/category';
+import { Category, CategoryResponse } from '@/model/category';
 import { headers } from 'next/headers';
 
 class CategoryService extends Service {
@@ -12,7 +12,7 @@ class CategoryService extends Service {
   };
   //get my categories
   getMyCategories({ accessToken }: { accessToken: string }) {
-    return this.http.get<Category[]>(
+    return this.http.get<CategoryResponse>(
       `/categories/my`,
       this.authorization(accessToken)
     );
@@ -40,7 +40,7 @@ class CategoryService extends Service {
     accessToken: string;
     categoryName: string;
   }) {
-    return this.http.post<Category>(
+    return this.http.post<CategoryResponse>(
       `/categories`,
       {
         categoryName,
