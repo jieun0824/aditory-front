@@ -20,8 +20,8 @@ export default function LinkCard({
   return (
     <Suspense fallback={<div>Loading...</div>}>
       {linkList &&
-        linkList.map((link, i) => {
-          return <LinkCardComponent key={i} link={link} />;
+        linkList.map((link) => {
+          return <LinkCardComponent key={link.linkId} link={link} />;
         })}
     </Suspense>
   );

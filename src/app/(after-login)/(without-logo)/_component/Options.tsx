@@ -45,7 +45,7 @@ export function Options({ linkId, show }: { linkId: number; show: boolean }) {
 export function DeleteContinue({ linkId }: { linkId: number }) {
   const { accessToken, getRefreshToken } = useAccessToken();
   const params = useParams<{ categoryId: string }>();
-  const { queryFn } = LinkQueryOptions.deleteLink({
+  const { mutate } = useDeleteLink({
     accessToken: accessToken,
     linkId: linkId,
     categoryId: parseInt(params.categoryId),
@@ -64,15 +64,7 @@ export function DeleteContinue({ linkId }: { linkId: number }) {
       </AlertDialogHeader>
       <AlertDialogFooter>
         <AlertDialogCancel>Cancel</AlertDialogCancel>
-        <AlertDialogAction
-          onClick={() =>
-            queryFn().then((response) => {
-              console.log(response);
-            })
-          }
-        >
-          Continue
-        </AlertDialogAction>
+        <AlertDialogAction onClick={() => mutate()}>Continue</AlertDialogAction>
       </AlertDialogFooter>
     </AlertDialogContent>
   );

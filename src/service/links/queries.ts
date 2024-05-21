@@ -123,7 +123,8 @@ const LinkQueryOptions = {
     categoryId: number;
   }) => ({
     queryKey: queryKeys.deleteLink({ linkId }),
-    queryFn: () => LinkService.deleteLink({ accessToken, linkId, categoryId }),
+    mutationFn: () =>
+      LinkService.deleteLink({ accessToken, linkId, categoryId }),
     onError: errorHandler,
   }),
 };
