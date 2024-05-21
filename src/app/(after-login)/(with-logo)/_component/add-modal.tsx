@@ -18,7 +18,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { useState } from 'react';
 import { Switch } from '@/components/ui/switch';
-import { useAccessToken } from '@/hooks/useAccessToken';
+import { useAccessToken } from '@/lib/useAccessToken';
 import { useMyCategories } from '@/service/categories/useCategoryService';
 import queryOptions from '@/service/links/queries';
 

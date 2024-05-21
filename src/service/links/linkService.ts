@@ -99,7 +99,15 @@ class LinkService extends Service {
   }
 
   //delete method
-  deleteLink({ accessToken, linkId }: { accessToken: string; linkId: number }) {
+  deleteLink({
+    accessToken,
+    linkId,
+    categoryId,
+  }: {
+    accessToken: string;
+    linkId: number;
+    categoryId: number;
+  }) {
     return this.http.delete<Link>(
       `/links/${linkId}`,
       this.authorization(accessToken)

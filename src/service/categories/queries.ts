@@ -41,7 +41,7 @@ const errorHandler = (error: any) => {
   console.error(error);
 };
 
-const queryOptions = {
+const CategoryQueryOptions = {
   //get method
   my: ({ accessToken }: { accessToken: string }) => ({
     queryKey: queryKeys.my({ accessToken }),
@@ -195,4 +195,4 @@ const queryOptions = {
   }),
 };
 
-export default queryOptions;
+export default CategoryQueryOptions;

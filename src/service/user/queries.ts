@@ -13,7 +13,7 @@ const queryKeys = {
   }) => [userId, refreshToken] as const,
 };
 
-const queryOptions = {
+const UserQueryOptions = {
   all: ({ accessToken }: { accessToken: string }) => ({
     queryKey: queryKeys.all,
     queryFn: async () => await UserService.getUsers({ accessToken }),
@@ -47,4 +47,4 @@ const queryOptions = {
   }),
 };
 
-export default queryOptions;
+export default UserQueryOptions;

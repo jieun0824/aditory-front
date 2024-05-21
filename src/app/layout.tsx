@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import { Noto_Sans } from 'next/font/google';
-import { ThemeProvider } from '@/components/theme-provider';
+import { ThemeProvider } from '@/lib/provider/theme-provider';
 import './globals.css';
 import ReactQueryProviders from '@/lib/provider/query-provider';
 import CheckAccess from '@/lib/provider/check-access';

@@ -15,7 +15,7 @@ import { Category } from '@/model/category';
 import { Dialog, DialogTrigger } from '@/components/ui/dialog';
 import { DialogContent } from '@radix-ui/react-dialog';
 import AddModal from './add-modal';
-import { useAccessToken } from '@/hooks/useAccessToken';
+import { useAccessToken } from '@/lib/useAccessToken';
 import { useMyCategories } from '@/service/categories/useCategoryService';
 
 export default function LinkInput() {

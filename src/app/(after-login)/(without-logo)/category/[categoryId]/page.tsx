@@ -1,9 +1,10 @@
 'use client';
-import LinkCard from '@/components/link-card';
+
 import { Label } from '@/components/ui/label';
-import { useAccessToken } from '@/hooks/useAccessToken';
+import { useAccessToken } from '@/lib/useAccessToken';
 import { useSpecific } from '@/service/categories/useCategoryService';
 import { Suspense, useEffect, useState } from 'react';
+import LinkCard from '../../_component/link-card';
 
 export default function CategoryDetailPage({
   params,

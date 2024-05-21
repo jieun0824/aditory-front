@@ -27,7 +27,7 @@ export default function LoginForm() {
     try {
       await queryFn().then((data: Login) => {
         const accessTokenExpires = Date.now() + 10 * 60 * 1000;
-        const refreshTokenExpires = Date.now() + 1 * 24 * 60 * 60 * 1000;
+        const refreshTokenExpires = Date.now() + 6 * 60 * 60 * 1000;
 
         addUserInfo({
           ...data.data,

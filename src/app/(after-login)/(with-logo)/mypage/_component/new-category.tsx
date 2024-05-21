@@ -10,7 +10,7 @@ import {
 } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { useAccessToken } from '@/hooks/useAccessToken';
+import { useAccessToken } from '@/lib/useAccessToken';
 import queryOptions from '@/service/categories/queries';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';

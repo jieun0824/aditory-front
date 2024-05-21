@@ -33,7 +33,7 @@ const errorHandler = (error: any) => {
   console.error(error);
 };
 
-const queryOptions = {
+const LinkQueryOptions = {
   //get method
   link: ({ accessToken, linkId }: { accessToken: string; linkId: number }) => ({
     queryKey: queryKeys.link({ accessToken, linkId }),
@@ -116,14 +116,16 @@ const queryOptions = {
   deleteLink: ({
     accessToken,
     linkId,
+    categoryId,
   }: {
     accessToken: string;
     linkId: number;
+    categoryId: number;
   }) => ({
     queryKey: queryKeys.deleteLink({ linkId }),
-    queryFn: () => LinkService.deleteLink({ accessToken, linkId }),
+    queryFn: () => LinkService.deleteLink({ accessToken, linkId, categoryId }),
     onError: errorHandler,
   }),
 };
 
-export default queryOptions;
+export default LinkQueryOptions;

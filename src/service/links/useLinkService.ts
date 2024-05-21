@@ -1,4 +1,4 @@
-import { useMutation, useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import queryOptions from '@/service/links/queries';
 
 export function useLink({
@@ -82,9 +82,19 @@ export function useUpdateStatus({
 export function useDeleteLink({
   accessToken,
   linkId,
+  categoryId,
 }: {
   accessToken: string;
   linkId: number;
+  categoryId: number;
 }) {
-  return useMutation(queryOptions.deleteLink({ accessToken, linkId }));
+  const queryClient = useQueryClient();
+  return useMutation({
+    ...queryOptions.deleteLink({ accessToken, linkId, categoryId }),
+    onSettled: () => {
+      return queryClient.invalidateQueries({
+        queryKey: ['specificCategory', categoryId],
+      });
+    },
+  });
 }

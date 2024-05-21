@@ -8,7 +8,7 @@ import Loading from './loading';
 import { useStorage } from '@/lib/useStorage';
 import { Category } from '@/model/category';
 import Categories from './_component/category-card';
-import { useAccessToken } from '../../../../hooks/useAccessToken';
+import { useAccessToken } from '../../../../lib/useAccessToken';
 import { Dialog, DialogTrigger } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import NewCategoryModal from './_component/new-category';
