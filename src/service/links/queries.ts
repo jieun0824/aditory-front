@@ -4,11 +4,10 @@ import LinkService from '@/service/links/linkService';
 //create unique key
 const queryKeys = {
   //get method
-  link: ({ accessToken, linkId }: { accessToken: string; linkId: number }) => {
-    return ['link', accessToken, linkId] as const;
+  link: ({ linkId }: { linkId: number }) => {
+    return ['link', linkId] as const;
   },
-  reminder: ({ accessToken }: { accessToken: string }) =>
-    ['reminder', accessToken] as const,
+  reminder: ['reminder'] as const,
 
   //post method
   newLink: ['newLink'] as const,
@@ -36,12 +35,13 @@ const errorHandler = (error: any) => {
 const LinkQueryOptions = {
   //get method
   link: ({ accessToken, linkId }: { accessToken: string; linkId: number }) => ({
-    queryKey: queryKeys.link({ accessToken, linkId }),
+    queryKey: queryKeys.link({ linkId }),
     queryFn: () => LinkService.getLink({ accessToken, linkId }),
     onError: errorHandler,
+    enabled: !!accessToken,
   }),
   linkReminder: ({ accessToken }: { accessToken: string }) => ({
-    queryKey: queryKeys.reminder({ accessToken }),
+    queryKey: queryKeys.reminder,
     queryFn: () => LinkService.getLinkReminder({ accessToken }),
     onError: errorHandler,
     enabled: !!accessToken,

@@ -2,10 +2,15 @@ export interface Link {
   linkId: number;
   title: string;
   summary: number;
-  categoryState: boolean;
+  LinkState: boolean;
   createdAt: Date;
   lastModifiedAt: Date;
-  url?: string;
-  categoryId?: number;
-  autoComplete?: boolean;
+  url: string;
+}
+
+export interface LinkResponse {
+  httpStatus: string;
+  message: string;
+  success: boolean;
+  data: Link;
 }

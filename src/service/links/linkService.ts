@@ -1,5 +1,5 @@
 import Service from '@/service/service';
-import { Link } from '@/model/link';
+import { Link, LinkResponse } from '@/model/link';
 
 class LinkService extends Service {
   //get method
@@ -12,7 +12,7 @@ class LinkService extends Service {
     };
   };
   getLink({ accessToken, linkId }: { accessToken: string; linkId: number }) {
-    return this.http.get<Link>(
+    return this.http.get<LinkResponse>(
       `/links/${linkId}`,
       this.authorization(accessToken)
     );
@@ -20,7 +20,7 @@ class LinkService extends Service {
 
   //link reminder
   getLinkReminder({ accessToken }: { accessToken: string }) {
-    return this.http.get<Link[]>(
+    return this.http.get<LinkResponse>(
       `/links/reminder`,
       this.authorization(accessToken)
     );

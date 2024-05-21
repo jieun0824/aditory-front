@@ -1,7 +1,6 @@
 'use client';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import Link from 'next/link';
 import { FaPlus } from 'react-icons/fa';
 import { CiReceipt } from 'react-icons/ci';
 import { useEffect, useRef, useState } from 'react';
@@ -11,12 +10,8 @@ import {
   HoverCardContent,
   HoverCardTrigger,
 } from '@/components/ui/hover-card';
-import { Category } from '@/model/category';
 import { Dialog, DialogTrigger } from '@/components/ui/dialog';
-import { DialogContent } from '@radix-ui/react-dialog';
 import AddModal from './add-modal';
-import { useAccessToken } from '@/lib/useAccessToken';
-import { useMyCategories } from '@/service/categories/useCategoryService';
 
 export default function LinkInput() {
   // const inputRef = useRef<HTMLInputElement>(null);
