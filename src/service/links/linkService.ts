@@ -1,5 +1,5 @@
 import Service from '@/service/service';
-import { Link, LinkResponse } from '@/model/link';
+import { Link, LinkResponse, PatchedLink } from '@/model/link';
 
 class LinkService extends Service {
   //get method
@@ -71,7 +71,7 @@ class LinkService extends Service {
     categoryId: number;
     linkId: number;
   }) {
-    return this.http.patch<Link>(
+    return this.http.patch<PatchedLink>(
       `/links/${linkId}`,
       {
         title,

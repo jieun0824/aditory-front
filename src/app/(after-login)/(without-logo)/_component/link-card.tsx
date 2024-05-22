@@ -10,7 +10,7 @@ import { specificCategoryResponse } from '@/model/category';
 import { Suspense, useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 import { CiRead, CiUnread } from 'react-icons/ci';
-import { Options } from './options';
+import { Options } from './Options';
 import { usePathname } from 'next/navigation';
 
 export default function LinkCard({
@@ -34,6 +34,7 @@ export function LinkCardComponent({
   link: specificCategoryResponse['data']['linkList'][0];
 }) {
   type position = { start: number; end: number } | null;
+  const pathName = usePathname();
 
   const ref = useRef(null);
   const [position, setPosition] = useState<position>(null);
@@ -63,7 +64,10 @@ export function LinkCardComponent({
 
   return (
     <div className={`relative w-full`}>
-      <Link href={isDrag ? `` : `/link/${link.linkId}`} draggable={false}>
+      <Link
+        href={isDrag ? `` : `${pathName + '/' + link.linkId}`}
+        draggable={false}
+      >
         <Card
           style={{
             transform:

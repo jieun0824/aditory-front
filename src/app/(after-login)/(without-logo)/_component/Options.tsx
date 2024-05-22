@@ -13,9 +13,7 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from '@/components/ui/alert-dialog';
-import { Dialog, DialogTrigger } from '../../../../components/ui/dialog';
 import Link from 'next/link';
-import LinkQueryOptions from '@/service/links/queries';
 import CategoryQueryOptions from '@/service/categories/queries';
 import { useParams } from 'next/navigation';
 

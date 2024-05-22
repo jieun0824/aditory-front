@@ -1,11 +1,19 @@
-export interface Link {
-  linkId: number;
+export interface PatchedLink {
   title: string;
-  summary: number;
+  summary: string;
+  url: string;
+  categoryId: number;
+  linkId: number;
+}
+
+export interface Link {
+  title: string;
+  summary: string;
+  url: string;
+  linkId: number;
   LinkState: boolean;
   createdAt: Date;
   lastModifiedAt: Date;
-  url: string;
 }
 
 export interface LinkResponse {

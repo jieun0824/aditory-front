@@ -90,7 +90,7 @@ const LinkQueryOptions = {
     linkId: number;
   }) => ({
     queryKey: queryKeys.updateLink({ linkId }),
-    queryFn: () =>
+    mutationFn: () =>
       LinkService.updateLink({
         accessToken,
         title,
