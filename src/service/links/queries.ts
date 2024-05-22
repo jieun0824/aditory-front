@@ -1,5 +1,6 @@
 import { Link } from '@/model/link';
 import LinkService from '@/service/links/linkService';
+import { Suspense } from 'react';
 
 //create unique key
 const queryKeys = {
@@ -37,7 +38,6 @@ const LinkQueryOptions = {
   link: ({ accessToken, linkId }: { accessToken: string; linkId: number }) => ({
     queryKey: queryKeys.link({ linkId }),
     queryFn: () => LinkService.getLink({ accessToken, linkId }),
-    onError: errorHandler,
     enabled: !!accessToken,
   }),
   linkReminder: ({ accessToken }: { accessToken: string }) => ({
