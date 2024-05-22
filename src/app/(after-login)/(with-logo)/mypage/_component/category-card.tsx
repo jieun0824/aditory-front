@@ -38,7 +38,7 @@ function CategoryCard({ category }: any) {
 }
 
 export default function Categories({ categories }: any) {
-  console.log(categories);
+  // console.log(categories);
   return (
     <>
       {categories.map((category: any) => (

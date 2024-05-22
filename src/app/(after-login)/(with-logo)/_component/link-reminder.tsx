@@ -5,10 +5,6 @@ import {
   CarouselItem,
 } from '@/components/ui/carousel';
 import ReminderCard from './reminder-card';
-import { useLinkReminder } from '@/service/links/useLinkService';
-import { useStorage } from '@/lib/useStorage';
-import { useAccessToken } from '@/hooks/useAccessToken';
-import { useEffect } from 'react';
 
 export default function LinkReminder() {
   // const { accessToken } = useAccessToken();

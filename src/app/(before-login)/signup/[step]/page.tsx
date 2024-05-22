@@ -70,9 +70,9 @@ export default function SignUp({ params }: { params: { step: string } }) {
     []
   );
 
-  useEffect(() => {
-    console.log(userInfo);
-  }, [userInfo]);
+  // useEffect(() => {
+  //   console.log(userInfo);
+  // }, [userInfo]);
 
   return (
     <div className='item flex h-full min-h-96 w-full flex-col justify-between'>

@@ -29,7 +29,7 @@ export default function MyPage() {
     } else {
       console.log('no data');
     }
-    console.log(data);
+    // console.log(data);
   }, [data]);
 
   return (

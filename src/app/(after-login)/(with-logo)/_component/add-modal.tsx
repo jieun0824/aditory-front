@@ -50,7 +50,7 @@ export default function AddModal({
     e.preventDefault();
     queryFn()
       .then((response) => {
-        console.log(response);
+        // console.log(response);
         setTitle('');
         setDescription('');
         setAutoComplete(false);

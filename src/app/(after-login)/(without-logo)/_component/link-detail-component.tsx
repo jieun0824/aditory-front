@@ -34,10 +34,6 @@ export default function LinkDetailComponent({ linkId }: { linkId: number }) {
     linkId: linkId,
   });
 
-  useEffect(() => {
-    console.log(data?.data.url);
-  }, [data]);
-
   return (
     <Card className='h-full w-full'>
       <CardHeader>

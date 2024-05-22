@@ -14,7 +14,7 @@ export function ModeToggle() {
   }, []);
 
   const switchHandler = (theme: string) => {
-    console.log(theme);
+    // console.log(theme);
     setTheme(theme === 'dark' ? 'light' : 'dark');
   };
 
