@@ -1,5 +1,5 @@
 import Service from '@/service/service';
-import { Login, Refresh, User } from '@/model/user';
+import { Login, Refresh, User } from '@/types/model/user';
 
 class UserService extends Service {
   getUsers({ accessToken }: { accessToken: string }) {

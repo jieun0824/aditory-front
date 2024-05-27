@@ -1,5 +1,10 @@
 import Service from '@/service/service';
-import { Link, LinkReminder, LinkResponse, PatchedLink } from '@/model/link';
+import {
+  Link,
+  LinkReminder,
+  LinkResponse,
+  PatchedLink,
+} from '@/types/model/link';
 
 class LinkService extends Service {
   //get method

@@ -8,7 +8,7 @@ import { Input } from '@/components/ui/input';
 import { CiUser, CiLock } from 'react-icons/ci';
 import queryOptions from '@/service/user/queries';
 import { loginInfo, useStorage } from '@/lib/useStorage';
-import { Login } from '@/model/user';
+import { Login } from '@/types/model/user';
 
 export type stateName = 'username' | 'password' | 'nickname' | 'contact';
 export default function LoginForm() {

@@ -3,7 +3,7 @@ import {
   Category,
   CategoryResponse,
   specificCategoryResponse,
-} from '@/model/category';
+} from '@/types/model/category';
 import { headers } from 'next/headers';
 
 class CategoryService extends Service {

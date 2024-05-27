@@ -1,4 +1,4 @@
-import { Link } from '@/model/link';
+import { Link } from '@/types/model/link';
 import LinkService from '@/service/links/linkService';
 import { Suspense } from 'react';
 

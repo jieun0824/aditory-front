@@ -6,7 +6,7 @@ import { FaCirclePlus } from 'react-icons/fa6';
 import { Suspense, useEffect, useRef, useState } from 'react';
 import Loading from './loading';
 import { useStorage } from '@/lib/useStorage';
-import { Category } from '@/model/category';
+import { Category } from '@/types/model/category';
 import Categories from './_component/category-card';
 import { useAccessToken } from '../../../../lib/useAccessToken';
 import { Dialog, DialogTrigger } from '@/components/ui/dialog';
