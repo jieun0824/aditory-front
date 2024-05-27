@@ -7,17 +7,27 @@ import {
   CardTitle,
 } from '@/components/ui/card';
 
-export default function ReminderCard() {
+export default function ReminderCard({
+  title,
+  description,
+  additional,
+  nothing,
+}: {
+  title?: string;
+  description?: string;
+  additional?: string;
+  nothing: boolean;
+}) {
   return (
     <Card className='bg-primary text-white'>
       <CardHeader>
-        <CardTitle>title</CardTitle>
+        <CardTitle>{!nothing ? title : ''}</CardTitle>
       </CardHeader>
       <CardContent>
-        <p>description</p>
+        <p>{!nothing ? description : ''}</p>
       </CardContent>
       <CardFooter>
-        <p>additional info</p>
+        <p>{!nothing ? additional : ''}</p>
       </CardFooter>
     </Card>
   );

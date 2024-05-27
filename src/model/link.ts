@@ -1,3 +1,9 @@
+export interface Response {
+  httpStatus: string;
+  message: string;
+  success: boolean;
+}
+
 export interface PatchedLink {
   title: string;
   summary: string;
@@ -16,9 +22,10 @@ export interface Link {
   lastModifiedAt: Date;
 }
 
-export interface LinkResponse {
-  httpStatus: string;
-  message: string;
-  success: boolean;
+export interface LinkResponse extends Response {
   data: Link;
+}
+
+export interface LinkReminder extends Response {
+  data: { linkList: Link[] };
 }

@@ -5,31 +5,59 @@ import {
   CarouselItem,
 } from '@/components/ui/carousel';
 import ReminderCard from './reminder-card';
+import { useAccessToken } from '@/lib/useAccessToken';
+import { useLinkReminder } from '@/service/links/useLinkService';
 
 export default function LinkReminder() {
-  // const { accessToken } = useAccessToken();
-  // const { data, isLoading } = useLinkReminder({ accessToken: accessToken });
-  // useEffect(() => {
-  //   console.log(data);
-  // }, [data]);
+  const { accessToken } = useAccessToken();
+  const { data, isLoading, isError } = useLinkReminder({
+    accessToken: accessToken,
+  });
+  console.log(data);
+
   return (
     <div>
       <p className='text-md scroll-m-20 font-semibold tracking-tight'>
         link reminder
       </p>
       <Carousel>
-        <CarouselContent>
-          <CarouselItem>
-            <ReminderCard />
-          </CarouselItem>
-          <CarouselItem>
-            <ReminderCard />
-          </CarouselItem>
-          <CarouselItem>
-            <ReminderCard />
-          </CarouselItem>
-        </CarouselContent>
+        {isError ? (
+          <Nothing />
+        ) : (
+          <CarouselContent>
+            {data?.data.linkList.length != undefined &&
+            data?.data.linkList.length <= 3
+              ? data?.data.linkList.map((link) => {
+                  return (
+                    <CarouselItem>
+                      <ReminderCard
+                        title={link.title}
+                        description={link.summary}
+                        additional={link.url}
+                        nothing={false}
+                      />
+                    </CarouselItem>
+                  );
+                })
+              : data?.data.linkList.slice(0, 3).map((link) => {
+                  return (
+                    <CarouselItem>
+                      <ReminderCard
+                        title={link.title}
+                        description={link.summary}
+                        additional={link.url}
+                        nothing={false}
+                      />
+                    </CarouselItem>
+                  );
+                })}
+          </CarouselContent>
+        )}
       </Carousel>
     </div>
   );
+}
+
+function Nothing() {
+  return <ReminderCard nothing={true} />;
 }
