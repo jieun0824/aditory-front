@@ -6,7 +6,7 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
-import { specificCategoryResponse } from '@/model/category';
+import { Links, specificCategoryResponse } from '@/types/model/category';
 import { Suspense, useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 import { CiRead, CiUnread } from 'react-icons/ci';
@@ -21,7 +21,7 @@ export default function LinkCard({
   return (
     <Suspense fallback={<div>Loading...</div>}>
       {linkList &&
-        linkList.map((link) => {
+        linkList.map((link: Links) => {
           return <LinkCardComponent key={link.linkId} link={link} />;
         })}
     </Suspense>

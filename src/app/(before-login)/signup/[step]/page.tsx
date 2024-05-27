@@ -67,7 +67,7 @@ export default function SignUp({ params }: { params: { step: string } }) {
           console.log('none');
       }
     },
-    []
+    [setUserInfo]
   );
 
   // useEffect(() => {

@@ -1,8 +1,4 @@
-export interface Response {
-  httpStatus: string;
-  message: string;
-  success: boolean;
-}
+import { ResponseType } from './response';
 
 export interface PatchedLink {
   title: string;
@@ -22,10 +18,10 @@ export interface Link {
   lastModifiedAt: Date;
 }
 
-export interface LinkResponse extends Response {
+export interface LinkResponse extends ResponseType {
   data: Link;
 }
 
-export interface LinkReminder extends Response {
+export interface LinkReminder extends ResponseType {
   data: { linkList: Link[] };
 }

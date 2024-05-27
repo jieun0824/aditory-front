@@ -1,5 +1,6 @@
 import { CategoryState } from '@/types/types';
-import { Link } from '@/model/link';
+import { Link } from '@/types/model/link';
+import { ResponseType } from './response';
 
 export interface Category {
   categoryId: number;
@@ -11,10 +12,7 @@ export interface Category {
   asCategoryName?: string;
 }
 
-export interface CategoryResponse {
-  httpStatus: string;
-  message: string;
-  success: boolean;
+export interface CategoryResponse extends ResponseType {
   data: { categoryList: Category[] };
 }
 
@@ -27,10 +25,7 @@ export interface Links {
   lastModifiedAt: Date;
 }
 
-export interface specificCategoryResponse {
-  httpStatus: string;
-  message: string;
-  success: boolean;
+export interface specificCategoryResponse extends ResponseType {
   data: {
     categoryId: number;
     categoryName: string;

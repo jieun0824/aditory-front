@@ -20,7 +20,7 @@ import dayjs from 'dayjs';
 import { Button } from '@/components/ui/button';
 import { CiEdit, CiExport, CiTurnR1 } from 'react-icons/ci';
 import Link from 'next/link';
-import { LinkResponse, PatchedLink } from '@/model/link';
+import { LinkResponse, PatchedLink } from '@/types/model/link';
 import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
 export default function LinkDetailComponent({
