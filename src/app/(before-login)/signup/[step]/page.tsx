@@ -7,7 +7,7 @@ import FirstStep from '../_component/first-step';
 import SecondStep from '../_component/second-step';
 import ThirdStep from '../_component/third-step';
 import Link from 'next/link';
-import useUserInfo from '@/store/useUserInfo';
+import useUserInfo from '@/lib/useUserInfo';
 import { useRouter } from 'next/navigation';
 
 export type stateName = 'username' | 'password' | 'nickname' | 'contact';

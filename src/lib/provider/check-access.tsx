@@ -7,7 +7,7 @@ import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { AlertCircle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
-import useIsLoggedIn from '@/store/useIsLoggedIn';
+import useIsLoggedIn from '@/lib/useIsLoggedIn';
 
 export default function CheckAccess({
   children,

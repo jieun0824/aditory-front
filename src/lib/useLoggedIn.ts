@@ -1,4 +1,4 @@
-import useIsLoggedIn from '@/store/useIsLoggedIn';
+import useIsLoggedIn from '@/lib/useIsLoggedIn';
 
 export default function useLoggedIn(responseMessage: string) {
   const setIsNotLoggedIn = useIsLoggedIn((state: any) => state.setIsLoggedIn);
