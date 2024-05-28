@@ -3,33 +3,28 @@ import { CiEdit, CiTrash } from 'react-icons/ci';
 import { Button } from '../../../../components/ui/button';
 import { useAccessToken } from '@/lib/useAccessToken';
 import { useDeleteLink } from '@/service/links/useLinkService';
-import { AlertDialog, AlertDialogTrigger } from '@/components/ui/alert-dialog';
-import {
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-} from '@/components/ui/alert-dialog';
+
 import Link from 'next/link';
-import CategoryQueryOptions from '@/service/categories/queries';
 import { useParams } from 'next/navigation';
+import DeleteAlert from '@/components/delete-alert';
 
 export function Options({ linkId, show }: { linkId: number; show: boolean }) {
+  const { accessToken } = useAccessToken();
+  const params = useParams<{ categoryId: string }>();
+  const { mutate } = useDeleteLink({
+    accessToken: accessToken,
+    linkId: linkId,
+    categoryId: parseInt(params.categoryId),
+  });
   return (
     <div
       className={`${show ? '' : 'hidden'} absolute right-0 top-0 flex h-full w-[35%] gap-2 transition-opacity`}
     >
-      <AlertDialog>
-        <AlertDialogTrigger className='w-full'>
-          <Button variant={'destructive'} className='h-full w-full shadow'>
-            <CiTrash />
-          </Button>
-        </AlertDialogTrigger>
-        <DeleteContinue linkId={linkId} />
-      </AlertDialog>
+      <DeleteAlert mutate={mutate} option={'link'}>
+        <Button variant={'destructive'} className='h-full w-full shadow'>
+          <CiTrash />
+        </Button>
+      </DeleteAlert>
       {/* edit */}
       <Link
         href={{ pathname: `/link/${linkId}`, query: { editMode: true } }}
@@ -40,33 +35,5 @@ export function Options({ linkId, show }: { linkId: number; show: boolean }) {
         </Button>
       </Link>
     </div>
-  );
-}
-
-export function DeleteContinue({ linkId }: { linkId: number }) {
-  const { accessToken, getRefreshToken } = useAccessToken();
-  const params = useParams<{ categoryId: string }>();
-  const { mutate } = useDeleteLink({
-    accessToken: accessToken,
-    linkId: linkId,
-    categoryId: parseInt(params.categoryId),
-  });
-  const { queryKey } = CategoryQueryOptions.specific({
-    accessToken: accessToken,
-    categoryId: parseInt(params.categoryId),
-  });
-  return (
-    <AlertDialogContent>
-      <AlertDialogHeader>
-        <AlertDialogTitle>Continue to delete?</AlertDialogTitle>
-        <AlertDialogDescription>
-          This will permanently delete your link. Click Continue to continue.
-        </AlertDialogDescription>
-      </AlertDialogHeader>
-      <AlertDialogFooter>
-        <AlertDialogCancel>Cancel</AlertDialogCancel>
-        <AlertDialogAction onClick={() => mutate()}>Continue</AlertDialogAction>
-      </AlertDialogFooter>
-    </AlertDialogContent>
   );
 }

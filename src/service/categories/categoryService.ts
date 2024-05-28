@@ -4,6 +4,7 @@ import {
   CategoryResponse,
   specificCategoryResponse,
 } from '@/types/model/category';
+import { CategoryState } from '@/types/types';
 import { headers } from 'next/headers';
 
 class CategoryService extends Service {
@@ -64,7 +65,7 @@ class CategoryService extends Service {
     accessToken: string;
     categoryId: number;
     categoryName: string;
-    categoryState: boolean;
+    categoryState: CategoryState;
     asCategoryName: string;
   }) {
     return this.http.patch<Category>(

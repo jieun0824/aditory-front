@@ -1,4 +1,6 @@
 import CategoryService from '@/service/categories/categoryService';
+import { CategoryState } from '@/types/types';
+import { useQueryClient } from '@tanstack/react-query';
 //create unique key
 const queryKeys = {
   //get method
@@ -146,11 +148,11 @@ const CategoryQueryOptions = {
     accessToken: string;
     categoryId: number;
     categoryName: string;
-    categoryState: boolean;
+    categoryState: CategoryState;
     asCategoryName: string;
   }) => ({
     queryKey: queryKeys.updateCategory({ categoryId }),
-    queryFn: () =>
+    mutationFn: () =>
       CategoryService.updateCategory({
         accessToken,
         categoryId,
@@ -172,7 +174,8 @@ const CategoryQueryOptions = {
     categoryId: number;
   }) => ({
     queryKey: queryKeys.deleteCategory({ categoryId }),
-    queryFn: () => CategoryService.deleteCategory({ accessToken, categoryId }),
+    mutationFn: () =>
+      CategoryService.deleteCategory({ accessToken, categoryId }),
     onSuccess: async (data: any) => {
       console.log(data);
     },

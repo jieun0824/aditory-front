@@ -21,7 +21,7 @@ export function ModeToggle() {
   return (
     <div className='flex items-center space-x-2'>
       {theme === 'dark' ? <Moon /> : <Sun />}
-      <Switch id='airplane-mode' onCheckedChange={() => switchHandler(theme)} />
+      <Switch id='theme' onCheckedChange={() => switchHandler(theme)} />
     </div>
   );
 }

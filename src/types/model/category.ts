@@ -6,10 +6,11 @@ export interface Category {
   categoryId: number;
   categoryName: string;
   categoryState: CategoryState;
-  createdAt: Date;
-  lastModifiedAt: Date;
+  createdAt?: Date;
+  lastModifiedAt?: Date;
   linkCount: number;
   asCategoryName?: string;
+  linkList?: Link[];
 }
 
 export interface CategoryResponse extends ResponseType {

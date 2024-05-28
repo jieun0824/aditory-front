@@ -1,5 +1,7 @@
-import { useMutation, useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import queryOptions from '@/service/categories/queries';
+import useCategoryStore from '@/lib/useCategoryStore';
+import { CategoryState } from '@/types/types';
 //get
 export function useMyCategories({ accessToken }: { accessToken: string }) {
   return useQuery(queryOptions.my({ accessToken }));
@@ -16,7 +18,16 @@ export function useSpecific({
   accessToken: string;
   categoryId: number;
 }) {
-  return useQuery(queryOptions.specific({ accessToken, categoryId }));
+  const setCategoryInfo = useCategoryStore(
+    (state: any) => state.setCategoryInfo
+  );
+  return useQuery({
+    ...queryOptions.specific({ accessToken, categoryId }),
+    select: (data) => {
+      setCategoryInfo(data.data);
+      return data.data;
+    },
+  });
 }
 
 //post
@@ -83,29 +94,40 @@ export function useUpdateCategory({
   accessToken: string;
   categoryId: number;
   categoryName: string;
-  categoryState: boolean;
+  categoryState: CategoryState;
   asCategoryName: string;
 }) {
-  return useMutation(
-    queryOptions.updateCategory({
+  const queryClient = useQueryClient();
+  return useMutation({
+    ...queryOptions.updateCategory({
       accessToken,
       categoryId,
       categoryName,
       categoryState,
       asCategoryName,
-    })
-  );
+    }),
+    onSettled: () => {
+      return queryClient.invalidateQueries({
+        queryKey: ['specificCategory', categoryId],
+      });
+    },
+  });
 }
 
 //delete method
 export function useDeleteCategory({
   accessToken,
   categoryId,
+  onSettled,
 }: {
   accessToken: string;
   categoryId: number;
+  onSettled?: () => void;
 }) {
-  return useMutation(queryOptions.deleteCategory({ accessToken, categoryId }));
+  return useMutation({
+    ...queryOptions.deleteCategory({ accessToken, categoryId }),
+    onSettled: onSettled,
+  });
 }
 
 export function useUnLink({
