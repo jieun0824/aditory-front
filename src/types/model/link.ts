@@ -16,12 +16,14 @@ export interface Link {
   LinkState: boolean;
   createdAt: Date;
   lastModifiedAt: Date;
+  categoryId: number;
+  categoryName: string;
 }
 
 export interface LinkResponse extends ResponseType {
   data: Link;
 }
 
-export interface LinkReminder extends ResponseType {
+export interface LinkListResponse extends ResponseType {
   data: { linkList: Link[] };
 }

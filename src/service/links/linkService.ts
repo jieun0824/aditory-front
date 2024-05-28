@@ -1,7 +1,7 @@
 import Service from '@/service/service';
 import {
   Link,
-  LinkReminder,
+  LinkListResponse,
   LinkResponse,
   PatchedLink,
 } from '@/types/model/link';
@@ -25,7 +25,7 @@ class LinkService extends Service {
 
   //link reminder
   getLinkReminder({ accessToken }: { accessToken: string }) {
-    return this.http.get<LinkReminder>(
+    return this.http.get<LinkListResponse>(
       `/links/reminder`,
       this.authorization(accessToken)
     );

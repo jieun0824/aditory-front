@@ -9,11 +9,16 @@ import queryOptions from '@/service/links/queries';
 export function useLink({
   accessToken,
   linkId,
+  selectFn,
 }: {
   accessToken: string;
   linkId: number;
+  selectFn: (data: any) => any;
 }) {
-  return useQuery(queryOptions.link({ accessToken, linkId }));
+  return useQuery({
+    ...queryOptions.link({ accessToken, linkId }),
+    select: (data) => selectFn(data),
+  });
 }
 
 export function useLinkReminder({ accessToken }: { accessToken: string }) {
