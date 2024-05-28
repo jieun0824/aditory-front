@@ -31,7 +31,10 @@ export function Options({ linkId, show }: { linkId: number; show: boolean }) {
         <DeleteContinue linkId={linkId} />
       </AlertDialog>
       {/* edit */}
-      <Link href={`/category/${linkId}/edit`} className='w-full'>
+      <Link
+        href={{ pathname: `/link/${linkId}`, query: { editMode: true } }}
+        className='w-full'
+      >
         <Button className='h-full w-full shadow' variant={'outline'}>
           <CiEdit />
         </Button>

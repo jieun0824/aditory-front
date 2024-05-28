@@ -17,9 +17,19 @@ import { useMyCategories } from '@/service/categories/useCategoryService';
 import LinkButton from './link-btn';
 import EditButton from './edit-btn';
 import SelectButton from './select-btn';
+import {
+  useParams,
+  usePathname,
+  useRouter,
+  useSearchParams,
+} from 'next/navigation';
+
 const readMode = 'focus-visible:ring-0 focus-visible:ring-offset-0';
 export default function LinkDetailComponent({ linkId }: { linkId: number }) {
   const { accessToken, getRefreshToken } = useAccessToken();
+  const search = useSearchParams();
+  const editMode = Boolean(search.get('editMode'));
+  console.log(editMode);
   const { data, isLoading, refetch } = useLink({
     accessToken: accessToken,
     linkId: linkId,
@@ -35,7 +45,7 @@ export default function LinkDetailComponent({ linkId }: { linkId: number }) {
   const { data: categoryList } = useMyCategories({ accessToken: accessToken });
 
   const createdDate = dayjs(data?.data.createdAt).format('YYYY-MM-DD');
-  const [editMode, setEditMode] = useState<boolean>(false); //false->view, true->edit
+  // const [editMode, setEditMode] = useState<boolean>(false); //false->view, true->edit
   const [title, setTitle] = useState<string>(data?.data.title);
   const [summary, setSummary] = useState<string>(data?.data.summary);
   const [url, setUrl] = useState<string>(data?.data.url);
@@ -110,7 +120,6 @@ export default function LinkDetailComponent({ linkId }: { linkId: number }) {
           <LinkButton url={url} />
           <EditButton
             editMode={editMode}
-            setEditMode={setEditMode}
             newObject={{
               title: title,
               summary: summary,

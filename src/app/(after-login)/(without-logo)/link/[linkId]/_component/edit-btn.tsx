@@ -2,18 +2,20 @@ import { Button } from '@/components/ui/button';
 import { useAccessToken } from '@/lib/useAccessToken';
 import { useUpdateLink } from '@/service/links/useLinkService';
 import { PatchedLink } from '@/types/model/link';
+import { useParams, usePathname } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 import { CiEdit } from 'react-icons/ci';
 
 export default function EditButton({
   editMode,
-  setEditMode,
   newObject,
 }: {
   editMode: boolean;
-  setEditMode: (value: boolean) => void;
   newObject: PatchedLink;
 }) {
   const { accessToken } = useAccessToken();
+  const pathName = useParams();
+  const router = useRouter();
   const { mutate, isSuccess } = useUpdateLink({
     ...newObject,
     accessToken: accessToken,
@@ -24,8 +26,10 @@ export default function EditButton({
       onClick={() => {
         if (editMode) {
           mutate();
+          router.push(`/link/${pathName.linkId}`);
+        } else {
+          router.push(`/link/${pathName.linkId}?editMode=true`);
         }
-        setEditMode(!editMode);
       }}
     >
       {editMode ? 'save' : 'Edit'} <CiEdit className='ml-2' />
