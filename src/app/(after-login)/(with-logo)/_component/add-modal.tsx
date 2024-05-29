@@ -1,26 +1,20 @@
 'use client';
 import { Button } from '@/components/ui/button';
 import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/ui/select';
-import {
   DialogContent,
   DialogFooter,
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog';
-
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useState } from 'react';
 import { Switch } from '@/components/ui/switch';
 import { useAccessToken } from '@/lib/useAccessToken';
 import { useMyCategories } from '@/service/categories/useCategoryService';
 import queryOptions from '@/service/links/queries';
+import SelectComponent from '@/components/select-component';
+import { SelectItem } from '@/components/ui/select';
 
 export default function AddModal({
   url,
@@ -116,31 +110,21 @@ export default function AddModal({
           </div>
           <div className='flex items-center gap-2'>
             <Label htmlFor='category'>Category</Label>
-            <Select
-              name='categoryId'
+            <SelectComponent
               disabled={payloadData.autoComplete}
-              onValueChange={(value) => {
-                console.log(value);
-                dataHandler(
-                  data.data.categoryList.find(
-                    (item: any) => item.categoryName === value
-                  ).categoryId,
-                  'categoryId'
-                );
-              }}
+              onValueChange={(value: string) =>
+                dataHandler(parseInt(value), 'categoryId')
+              }
+              name='categoryId'
+              variant='mainPage'
             >
-              <SelectTrigger className='w-[180px] bg-card'>
-                <SelectValue placeholder='select category' />
-              </SelectTrigger>
-              <SelectContent>
-                {data &&
-                  data.data.categoryList.map((item: any, i: number) => (
-                    <SelectItem value={item.categoryName} key={i}>
-                      {item.categoryName}
-                    </SelectItem>
-                  ))}
-              </SelectContent>
-            </Select>
+              {data &&
+                data.data.categoryList.map((item: any, i: number) => (
+                  <SelectItem value={item.categoryName} key={i}>
+                    {item.categoryName}
+                  </SelectItem>
+                ))}
+            </SelectComponent>
           </div>
         </div>
         <DialogFooter className='mt-3 flex justify-center'>

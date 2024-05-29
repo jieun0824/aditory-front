@@ -3,9 +3,10 @@
 import { Label } from '@/components/ui/label';
 import { useAccessToken } from '@/lib/useAccessToken';
 import { useSpecific } from '@/service/categories/useCategoryService';
-import { Suspense, useEffect, useState } from 'react';
+import { Suspense, useCallback, useEffect, useState } from 'react';
 import LinkCard from '../../link/[linkId]/_component/link-card';
 import useCategoryStore from '@/lib/useCategoryStore';
+import { Button } from '@/components/ui/button';
 
 export default function CategoryDetailPage({
   params,
@@ -17,6 +18,17 @@ export default function CategoryDetailPage({
     accessToken: accessToken,
     categoryId: parseInt(params.categoryId),
   });
+  const [moveCategory, setMoveCategory] = useState<number[]>([]);
+  const selectMoveCategory = useCallback(
+    (categoryId: number) => {
+      if (moveCategory.includes(categoryId)) {
+        setMoveCategory(moveCategory.filter((id) => id !== categoryId));
+      } else {
+        setMoveCategory([...moveCategory, categoryId]);
+      }
+    },
+    [moveCategory]
+  );
 
   return (
     <Suspense fallback={<div>Loading...</div>}>
@@ -29,5 +41,13 @@ export default function CategoryDetailPage({
         </div>
       )}
     </Suspense>
+  );
+}
+
+function SaveMoveBtn() {
+  return (
+    <>
+      <Button>Save</Button>
+    </>
   );
 }

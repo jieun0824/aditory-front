@@ -24,22 +24,22 @@ import { useQueryClient } from '@tanstack/react-query';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Switch } from '@/components/ui/switch';
-import { CategoryState } from '@/types/types';
 import useCategoryStore from '@/lib/useCategoryStore';
 import { Badge } from '@/components/ui/badge';
-import { CategoryPost } from '@/types/model/category';
 
 export default function DrawerDemo() {
   const params = useParams<{ categoryId: string }>();
+  console.log(params);
+  const router = useRouter();
+  const { accessToken } = useAccessToken();
+  const queryClient = useQueryClient();
+  const closeRef = React.useRef<HTMLButtonElement>(null);
   const CategoryInfo = useCategoryStore((state: any) => state.CategoryInfo);
   const [categoryData, setCategoryData] = useState({
     categoryName: CategoryInfo.categoryName,
     categoryState: CategoryInfo.categoryState,
     asCategoryName: CategoryInfo.asCategoryName,
   });
-  const router = useRouter();
-  const { accessToken } = useAccessToken();
-  const queryClient = useQueryClient();
   const [editMode, setEditMode] = useState<boolean>(false);
 
   const dataHandler = useCallback(
@@ -80,6 +80,10 @@ export default function DrawerDemo() {
     //edit 저장 o ->
   };
 
+  const onMoveHandler = () => {
+    router.push(`/category/${params.categoryId}?moveMode=true`);
+    closeRef.current?.click();
+  };
   return (
     <Drawer>
       <DrawerTrigger asChild className='cursor-pointer' onClick={onOpenHandler}>
@@ -89,55 +93,18 @@ export default function DrawerDemo() {
         <div className='mx-auto w-full max-w-sm'>
           <DrawerHeader className='flex flex-col items-start gap-4'>
             {editMode ? (
-              <>
-                <DrawerDescription>Edit Category</DrawerDescription>
-                <Label htmlFor='categoryName'>Category Name</Label>
-                <Input
-                  name='categoryName'
-                  value={categoryData.categoryName}
-                  onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                    dataHandler(e)
-                  }
-                />
-                <Label htmlFor='categoryState'>Category Status</Label>
-                <div className='flex items-center'>
-                  <Switch
-                    id='categoryState'
-                    checked={
-                      categoryData.categoryState == 'PRIVATE' ? false : true
-                    }
-                    onCheckedChange={(checked: boolean) =>
-                      dataHandler(
-                        checked ? 'PUBLIC' : 'PRIVATE',
-                        'categoryState'
-                      )
-                    }
-                  />
-                  <Badge variant={'outline'}>
-                    {categoryData.categoryState}
-                  </Badge>
-                </div>
-                {categoryData.categoryState === 'PUBLIC' && (
-                  <>
-                    <Label htmlFor='categoryState'>Deploy as</Label>
-                    <Input
-                      name='asCategoryName'
-                      value={categoryData.asCategoryName}
-                      onChange={dataHandler}
-                    />
-                  </>
-                )}
-              </>
+              <EditForm categoryData={categoryData} dataHandler={dataHandler} />
             ) : (
               <>
                 <DrawerDescription>Category options</DrawerDescription>
                 <CategoryEditBtn onClick={() => setEditMode(true)} />
+                <CategoryMoveBtn onClick={onMoveHandler} />
                 <CategoryDeleteBtn onClick={() => deleteMutate()} />
               </>
             )}
           </DrawerHeader>
           <DrawerFooter>
-            <DrawerClose asChild>
+            <DrawerClose asChild ref={closeRef}>
               <Button variant='secondary'>Cancel</Button>
             </DrawerClose>
             {editMode && <Button onClick={() => updateMutate()}>Save</Button>}
@@ -145,6 +112,54 @@ export default function DrawerDemo() {
         </div>
       </DrawerContent>
     </Drawer>
+  );
+}
+
+function EditForm({
+  categoryData,
+  dataHandler,
+}: {
+  categoryData: {
+    categoryName: string;
+    categoryState: string;
+    asCategoryName: string;
+  };
+  dataHandler: (
+    e: React.ChangeEvent<HTMLInputElement> | string,
+    key?: string
+  ) => void;
+}) {
+  return (
+    <>
+      <DrawerDescription>Edit Category</DrawerDescription>
+      <Label htmlFor='categoryName'>Category Name</Label>
+      <Input
+        name='categoryName'
+        value={categoryData.categoryName}
+        onChange={(e: React.ChangeEvent<HTMLInputElement>) => dataHandler(e)}
+      />
+      <Label htmlFor='categoryState'>Category Status</Label>
+      <div className='flex items-center'>
+        <Switch
+          id='categoryState'
+          checked={categoryData.categoryState == 'PRIVATE' ? false : true}
+          onCheckedChange={(checked: boolean) =>
+            dataHandler(checked ? 'PUBLIC' : 'PRIVATE', 'categoryState')
+          }
+        />
+        <Badge variant={'outline'}>{categoryData.categoryState}</Badge>
+      </div>
+      {categoryData.categoryState === 'PUBLIC' && (
+        <>
+          <Label htmlFor='categoryState'>Deploy as</Label>
+          <Input
+            name='asCategoryName'
+            value={categoryData.asCategoryName}
+            onChange={dataHandler}
+          />
+        </>
+      )}
+    </>
   );
 }
 
@@ -161,5 +176,13 @@ function CategoryDeleteBtn({ onClick }: { onClick: () => void }) {
     <DeleteAlert mutate={onClick} option={'category'}>
       <DrawerTitle className='cursor-pointer'>Delete</DrawerTitle>
     </DeleteAlert>
+  );
+}
+
+function CategoryMoveBtn({ onClick }: { onClick: () => void }) {
+  return (
+    <DrawerTitle className='cursor-pointer' onClick={onClick}>
+      Move
+    </DrawerTitle>
   );
 }

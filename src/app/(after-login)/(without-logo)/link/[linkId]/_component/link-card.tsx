@@ -48,17 +48,12 @@ export function LinkCardComponent({
       setShow(true);
       setIsDrag(true);
     }
-
     //if you want to go back
     if (show && position && position.end - position.start > 40) {
       setGoBack(true);
       setShow(false);
       setIsDrag(true);
     }
-
-    // console.log(
-    //   `show: ${show}, goBack: ${goBack}, positionx: ${position?.start}, positiony: ${position?.end}`
-    // );
   }, [position]);
 
   return (
