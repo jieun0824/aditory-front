@@ -16,7 +16,7 @@ import {
 
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Switch } from '@/components/ui/switch';
 import { useAccessToken } from '@/lib/useAccessToken';
 import { useMyCategories } from '@/service/categories/useCategoryService';
@@ -31,12 +31,18 @@ export default function AddModal({
   dialogRef: any;
   setPreviewUrl: (url: string) => void;
 }) {
+  const { accessToken } = useAccessToken();
   const [title, setTitle] = useState<string>('');
   const [description, setDescription] = useState<string>('');
   const [autoComplete, setAutoComplete] = useState<boolean>(false);
-  const [category, setCategory] = useState(0);
-  const { accessToken } = useAccessToken();
-  const { data, error, isLoading }: any = useMyCategories({ accessToken });
+  const [category, setCategory] = useState<number | null>(null);
+  const categoryRef = useRef(null);
+  const { data, error, isLoading }: any = useMyCategories({
+    accessToken: accessToken,
+    selectedFn: (data: any) => {
+      categoryRef.current = data.data.categoryList[0].id;
+    },
+  });
 
   const { queryFn } = queryOptions.newLink({
     accessToken: accessToken,
@@ -44,7 +50,7 @@ export default function AddModal({
     title: title,
     summary: description,
     url: url,
-    categoryId: category,
+    categoryId: category!, //if null -> 이에 대한 에러 처리 필요
   });
   const submitHandler = async (e: any) => {
     e.preventDefault();
@@ -115,7 +121,7 @@ export default function AddModal({
               }}
             >
               <SelectTrigger className='w-[180px] bg-card'>
-                <SelectValue placeholder='auto' />
+                <SelectValue />
               </SelectTrigger>
               <SelectContent>
                 {data &&

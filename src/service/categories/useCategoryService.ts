@@ -3,8 +3,20 @@ import queryOptions from '@/service/categories/queries';
 import useCategoryStore from '@/lib/useCategoryStore';
 import { CategoryState } from '@/types/types';
 //get
-export function useMyCategories({ accessToken }: { accessToken: string }) {
-  return useQuery(queryOptions.my({ accessToken }));
+export function useMyCategories({
+  accessToken,
+  selectedFn,
+}: {
+  accessToken: string;
+  selectedFn?: (data: any) => any;
+}) {
+  return useQuery({
+    ...queryOptions.my({ accessToken }),
+    select: (data) => {
+      selectedFn && selectedFn(data);
+      return data;
+    },
+  });
 }
 
 export function usePublic({ accessToken }: { accessToken: string }) {

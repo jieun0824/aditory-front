@@ -21,7 +21,7 @@ export default function DeleteAlert({
 }) {
   return (
     <AlertDialog>
-      <AlertDialogTrigger className='w-full'>{children}</AlertDialogTrigger>
+      <AlertDialogTrigger className='text-left'>{children}</AlertDialogTrigger>
       <AlertDialogContent>
         <AlertDialogHeader>
           <AlertDialogTitle>Continue to delete?</AlertDialogTitle>
