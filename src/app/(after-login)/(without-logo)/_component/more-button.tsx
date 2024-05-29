@@ -12,7 +12,7 @@ import {
   DrawerTitle,
   DrawerTrigger,
 } from '@/components/ui/drawer';
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import { useAccessToken } from '@/lib/useAccessToken';
 import {
@@ -27,26 +27,35 @@ import { Switch } from '@/components/ui/switch';
 import { CategoryState } from '@/types/types';
 import useCategoryStore from '@/lib/useCategoryStore';
 import { Badge } from '@/components/ui/badge';
+import { CategoryPost } from '@/types/model/category';
 
 export default function DrawerDemo() {
   const params = useParams<{ categoryId: string }>();
   const CategoryInfo = useCategoryStore((state: any) => state.CategoryInfo);
-  const [editMode, setEditMode] = useState<boolean>(false);
-  const [categoryName, setCategoryName] = useState<string>(
-    CategoryInfo.categoryName
-  );
-  const [categoryState, setCategoryState] = useState<CategoryState>(
-    CategoryInfo.categoryState
-  );
-  const [asCategoryName, setAsCategoryName] = useState<string>(
-    CategoryInfo.categoryName
-  );
-  const switchHandler = () => {
-    setCategoryState(categoryState == 'PRIVATE' ? 'PUBLIC' : 'PRIVATE');
-  };
+  const [categoryData, setCategoryData] = useState({
+    categoryName: CategoryInfo.categoryName,
+    categoryState: CategoryInfo.categoryState,
+    asCategoryName: CategoryInfo.asCategoryName,
+  });
   const router = useRouter();
   const { accessToken } = useAccessToken();
   const queryClient = useQueryClient();
+  const [editMode, setEditMode] = useState<boolean>(false);
+
+  const dataHandler = useCallback(
+    (
+      e: React.ChangeEvent<HTMLInputElement> | string,
+      key?: string // only when typeof == 'string'
+    ) => {
+      key && typeof e === 'string'
+        ? setCategoryData({ ...categoryData, [key]: e })
+        : typeof e === 'object' &&
+          setCategoryData({ ...categoryData, [e.target.name]: e.target.value });
+    },
+    [categoryData, setCategoryData]
+  );
+
+  //delete mutation
   const { mutate: deleteMutate } = useDeleteCategory({
     accessToken: accessToken,
     categoryId: parseInt(params.categoryId),
@@ -57,19 +66,17 @@ export default function DrawerDemo() {
       });
     },
   });
+
+  //update mutation
   const { mutate: updateMutate } = useUpdateCategory({
+    ...categoryData,
     accessToken: accessToken,
     categoryId: parseInt(params.categoryId),
-    categoryName: categoryName,
-    categoryState: categoryState,
-    asCategoryName: asCategoryName,
   });
   const onOpenHandler = () => {
     //edit 저장 x -> editmode 비롯한 모든 값 초기화
     setEditMode(false);
-    setCategoryState(CategoryInfo.categoryState);
-    setCategoryName(CategoryInfo.categoryName);
-    setAsCategoryName(CategoryInfo.categoryName);
+    setCategoryData(CategoryInfo);
     //edit 저장 o ->
   };
 
@@ -86,20 +93,37 @@ export default function DrawerDemo() {
                 <DrawerDescription>Edit Category</DrawerDescription>
                 <Label htmlFor='categoryName'>Category Name</Label>
                 <Input
-                  value={categoryName}
-                  onChange={(e) => setCategoryName(e.target.value)}
+                  name='categoryName'
+                  value={categoryData.categoryName}
+                  onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                    dataHandler(e)
+                  }
                 />
                 <Label htmlFor='categoryState'>Category Status</Label>
                 <div className='flex items-center'>
-                  <Switch id='categoryState' onCheckedChange={switchHandler} />
-                  <Badge variant={'outline'}>{categoryState}</Badge>
+                  <Switch
+                    id='categoryState'
+                    checked={
+                      categoryData.categoryState == 'PRIVATE' ? false : true
+                    }
+                    onCheckedChange={(checked: boolean) =>
+                      dataHandler(
+                        checked ? 'PUBLIC' : 'PRIVATE',
+                        'categoryState'
+                      )
+                    }
+                  />
+                  <Badge variant={'outline'}>
+                    {categoryData.categoryState}
+                  </Badge>
                 </div>
-                {categoryState === 'PUBLIC' && (
+                {categoryData.categoryState === 'PUBLIC' && (
                   <>
                     <Label htmlFor='categoryState'>Deploy as</Label>
                     <Input
-                      value={asCategoryName}
-                      onChange={(e) => setAsCategoryName(e.target.value)}
+                      name='asCategoryName'
+                      value={categoryData.asCategoryName}
+                      onChange={dataHandler}
                     />
                   </>
                 )}

@@ -13,7 +13,6 @@ export default function CategoryDetailPage({
   params: { categoryId: string };
 }) {
   const { accessToken, getRefreshToken } = useAccessToken();
-
   const { data, isLoading, refetch } = useSpecific({
     accessToken: accessToken,
     categoryId: parseInt(params.categoryId),

@@ -17,11 +17,17 @@ export default function DeleteAlert({
 }: {
   children: React.ReactNode;
   mutate: () => void;
-  option: string;
+  option: 'category' | 'link';
 }) {
+  const variants = {
+    category: 'text-left',
+    link: 'w-full',
+  };
   return (
     <AlertDialog>
-      <AlertDialogTrigger className='text-left'>{children}</AlertDialogTrigger>
+      <AlertDialogTrigger className={option ? variants[option] : ''}>
+        {children}
+      </AlertDialogTrigger>
       <AlertDialogContent>
         <AlertDialogHeader>
           <AlertDialogTitle>Continue to delete?</AlertDialogTitle>

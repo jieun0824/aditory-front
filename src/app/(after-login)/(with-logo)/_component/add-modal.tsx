@@ -76,10 +76,6 @@ export default function AddModal({
       });
   };
 
-  useEffect(() => {
-    console.log(payloadData);
-  }, [payloadData]);
-
   return (
     <DialogContent className='w-full max-w-md'>
       <DialogHeader className='flex flex-row items-center justify-between'>

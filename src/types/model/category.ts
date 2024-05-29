@@ -2,15 +2,17 @@ import { CategoryState } from '@/types/types';
 import { Link } from '@/types/model/link';
 import { ResponseType } from './response';
 
-export interface Category {
-  categoryId: number;
+export interface CategoryPost {
   categoryName: string;
   categoryState: CategoryState;
-  createdAt?: Date;
-  lastModifiedAt?: Date;
+  categoryId: number;
+  asCategoryName: string;
+}
+export interface Category extends CategoryPost {
+  createdAt: Date;
+  lastModifiedAt: Date;
   linkCount: number;
-  asCategoryName?: string;
-  linkList?: Link[];
+  linkList: Link[];
 }
 
 export interface CategoryResponse extends ResponseType {
