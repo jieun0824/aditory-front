@@ -8,13 +8,13 @@ import ReminderCard from './reminder-card';
 import { useAccessToken } from '@/lib/useAccessToken';
 import { useLinkReminder } from '@/service/links/useLinkService';
 import { Link } from '@/types/model/link';
+import { useCallback } from 'react';
 
 export default function LinkReminder() {
   const { accessToken } = useAccessToken();
   const { data, isLoading, isError } = useLinkReminder({
     accessToken: accessToken,
   });
-  console.log(data);
 
   return (
     <div>

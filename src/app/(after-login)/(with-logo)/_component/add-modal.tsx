@@ -16,7 +16,7 @@ import {
 
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { Switch } from '@/components/ui/switch';
 import { useAccessToken } from '@/lib/useAccessToken';
 import { useMyCategories } from '@/service/categories/useCategoryService';
@@ -31,36 +31,43 @@ export default function AddModal({
   dialogRef: any;
   setPreviewUrl: (url: string) => void;
 }) {
+  const defaultValue = {
+    title: '',
+    summary: '',
+    categoryId: 0, //need to change default value
+    autoComplete: false,
+  };
   const { accessToken } = useAccessToken();
-  const [title, setTitle] = useState<string>('');
-  const [description, setDescription] = useState<string>('');
-  const [autoComplete, setAutoComplete] = useState<boolean>(false);
-  const [category, setCategory] = useState<number | null>(null);
-  const categoryRef = useRef(null);
-  const { data, error, isLoading }: any = useMyCategories({
-    accessToken: accessToken,
-    selectedFn: (data: any) => {
-      categoryRef.current = data.data.categoryList[0].id;
-    },
-  });
+  const [payloadData, setPayloadData] = useState(defaultValue);
 
   const { queryFn } = queryOptions.newLink({
-    accessToken: accessToken,
-    autoComplete: autoComplete,
-    title: title,
-    summary: description,
+    ...payloadData,
     url: url,
-    categoryId: category!, //if null -> 이에 대한 에러 처리 필요
+    accessToken: accessToken,
   });
+  const { data, error, isLoading }: any = useMyCategories({
+    accessToken: accessToken,
+  });
+
+  const dataHandler = useCallback(
+    (
+      e: React.ChangeEvent<HTMLInputElement> | boolean | number,
+      key?: string
+    ) => {
+      {
+        typeof e === 'object'
+          ? setPayloadData({ ...payloadData, [e.target.name]: e.target.value })
+          : key && setPayloadData({ ...payloadData, [key]: e });
+      }
+    },
+    [payloadData]
+  );
+
   const submitHandler = async (e: any) => {
     e.preventDefault();
     queryFn()
       .then((response) => {
-        // console.log(response);
-        setTitle('');
-        setDescription('');
-        setAutoComplete(false);
-        setCategory(0);
+        setPayloadData(defaultValue);
         setPreviewUrl('');
         dialogRef.current?.click();
       })
@@ -68,6 +75,10 @@ export default function AddModal({
         console.error(error);
       });
   };
+
+  useEffect(() => {
+    console.log(payloadData);
+  }, [payloadData]);
 
   return (
     <DialogContent className='w-full max-w-md'>
@@ -79,58 +90,56 @@ export default function AddModal({
           <div className='flex items-center gap-2'>
             <Label htmlFor='auto'>auto save</Label>
             <Switch
-              checked={autoComplete}
-              onCheckedChange={(checked: boolean) => setAutoComplete(checked)}
+              checked={payloadData.autoComplete}
+              name='autoComplete'
+              onCheckedChange={(data) => dataHandler(data, 'autoComplete')}
             />
           </div>
           <div className='flex items-center gap-2'>
             <Label htmlFor='title'>Title</Label>
             <Input
-              disabled={autoComplete}
-              id='title'
+              disabled={payloadData.autoComplete}
+              name='title'
               placeholder='add title of the link'
               className='border-none bg-card'
               autoFocus
-              value={title}
-              onChange={(e) => setTitle(e.target.value)}
+              value={payloadData.title}
+              onChange={dataHandler}
             />
           </div>
           <div className='flex items-center gap-2'>
             <Label htmlFor='description'>Description / summary</Label>
             <Input
-              disabled={autoComplete}
-              id='description'
+              disabled={payloadData.autoComplete}
+              name='summary'
               placeholder='add title of the link'
               className='border-none bg-card'
-              value={description}
-              onChange={(e) => setDescription(e.target.value)}
+              value={payloadData.summary}
+              onChange={dataHandler}
             />
           </div>
           <div className='flex items-center gap-2'>
             <Label htmlFor='category'>Category</Label>
             <Select
-              disabled={autoComplete}
+              name='categoryId'
+              disabled={payloadData.autoComplete}
               onValueChange={(value) => {
-                if (data) {
-                  setCategory(
-                    data.data.categoryList.filter(
-                      (item: any) => item.categoryName === value
-                    )[0].categoryId
-                  );
-                }
+                console.log(value);
+                dataHandler(
+                  data.data.categoryList.find(
+                    (item: any) => item.categoryName === value
+                  ).categoryId,
+                  'categoryId'
+                );
               }}
             >
               <SelectTrigger className='w-[180px] bg-card'>
-                <SelectValue />
+                <SelectValue placeholder='select category' />
               </SelectTrigger>
               <SelectContent>
                 {data &&
                   data.data.categoryList.map((item: any, i: number) => (
-                    <SelectItem
-                      value={item.categoryName}
-                      onClick={() => setCategory(item.categoryId)}
-                      key={i}
-                    >
+                    <SelectItem value={item.categoryName} key={i}>
                       {item.categoryName}
                     </SelectItem>
                   ))}

@@ -3,7 +3,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { FaPlus } from 'react-icons/fa';
 import { CiReceipt } from 'react-icons/ci';
-import { useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 
 import {
   HoverCard,
@@ -26,9 +26,12 @@ export default function LinkInput() {
   };
 
   // 입력된 링크가 변경될 때 실행되는 함수
-  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setPreviewUrl(event.target.value);
-  };
+  const handleInputChange = useCallback(
+    (event: React.ChangeEvent<HTMLInputElement>) => {
+      setPreviewUrl(event.target.value);
+    },
+    [setPreviewUrl]
+  );
 
   // 클립보드에서 붙여넣기하는 함수
   const pasteFromClipboard = () => {
@@ -72,12 +75,12 @@ export default function LinkInput() {
         </HoverCard>
         <div className='flex items-center gap-2'>
           <Input
+            name='url'
             placeholder='Link'
             className='rounded-xl bg-input py-8'
             autoFocus
             value={previewUrl}
             onChange={handleInputChange}
-            // ref={inputRef}
           />
           <Dialog>
             <DialogTrigger ref={dialogRef}>
