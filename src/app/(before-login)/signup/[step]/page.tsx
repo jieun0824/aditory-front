@@ -1,11 +1,11 @@
 'use client';
 
 import { Button } from '@/components/ui/button';
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useState } from 'react';
 import { FaArrowRightLong } from 'react-icons/fa6';
-import FirstStep from '../_component/first-step';
-import SecondStep from '../_component/second-step';
-import ThirdStep from '../_component/third-step';
+import FirstStep from '@/app/(before-login)/signup/_component/first-step';
+import SecondStep from '@/app/(before-login)/signup/_component/second-step';
+import ThirdStep from '@/app/(before-login)/signup/_component/third-step';
 import Link from 'next/link';
 import useUserInfo from '@/lib/useUserInfo';
 import { useRouter } from 'next/navigation';
@@ -69,10 +69,6 @@ export default function SignUp({ params }: { params: { step: string } }) {
     },
     [setUserInfo]
   );
-
-  // useEffect(() => {
-  //   console.log(userInfo);
-  // }, [userInfo]);
 
   return (
     <div className='item flex h-full min-h-96 w-full flex-col justify-between'>

@@ -1,6 +1,6 @@
-import MyAditory from './_component/my-aditory';
-import LinkInput from './_component/link-input';
-import LinkReminder from './_component/link-reminder';
+import MyAditory from '@/app/(after-login)/(with-logo)/_component/my-aditory';
+import LinkInput from '@/app/(after-login)/(with-logo)/_component/link-input';
+import LinkReminder from '@/app/(after-login)/(with-logo)/_component/link-reminder';
 
 export default function Home() {
   return (

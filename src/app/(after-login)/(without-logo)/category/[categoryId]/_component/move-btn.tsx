@@ -3,14 +3,8 @@ import SelectComponent from '@/components/select-component';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { SelectItem } from '@/components/ui/select';
-import { useAccessToken } from '@/lib/useAccessToken';
-import {
-  useMoveCategory,
-  useMyCategories,
-} from '@/service/categories/useCategoryService';
-import { Category, CategoryResponse } from '@/types/model/category';
-import { useRouter, useSearchParams } from 'next/navigation';
-import { useState } from 'react';
+import { Category } from '@/types/model/category';
+import { useRouter } from 'next/navigation';
 import { IoClose } from 'react-icons/io5';
 
 export default function MoveBtn({

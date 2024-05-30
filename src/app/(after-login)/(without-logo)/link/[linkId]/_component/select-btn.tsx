@@ -1,13 +1,6 @@
 import SelectComponent from '@/components/select-component';
-import { Badge } from '@/components/ui/badge';
-import {
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/ui/select';
+import { SelectItem } from '@/components/ui/select';
 import { Category } from '@/types/model/category';
-import { Select } from '@radix-ui/react-select';
 
 export default function SelectButton({
   categoryName,

@@ -7,12 +7,10 @@ import {
   useMyCategories,
   useSpecific,
 } from '@/service/categories/useCategoryService';
-import { Suspense, useCallback, useEffect, useState } from 'react';
-import LinkCard from '../../link/[linkId]/_component/link-card';
-import useCategoryStore from '@/lib/useCategoryStore';
-import { Button } from '@/components/ui/button';
-import { useRouter, useSearchParams } from 'next/navigation';
-import MoveBtn from './_component/move-btn';
+import { Suspense, useCallback, useState } from 'react';
+import LinkCard from '@/app/(after-login)/(without-logo)/link/[linkId]/_component/link-card';
+import { useSearchParams } from 'next/navigation';
+import MoveBtn from '@/app/(after-login)/(without-logo)/category/[categoryId]/_component/move-btn';
 
 export default function CategoryDetailPage({
   params,
@@ -21,8 +19,8 @@ export default function CategoryDetailPage({
 }) {
   const search = useSearchParams();
   const moveMode = Boolean(search.get('moveMode'));
-  const { accessToken, getRefreshToken } = useAccessToken();
-  const { data, isLoading, refetch } = useSpecific({
+  const { accessToken } = useAccessToken();
+  const { data } = useSpecific({
     accessToken: accessToken,
     categoryId: parseInt(params.categoryId),
   });

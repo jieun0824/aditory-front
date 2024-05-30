@@ -6,8 +6,7 @@ import {
   CardDescription,
   CardHeader,
 } from '@/components/ui/card';
-import { Button } from './ui/button';
-import { User } from '@/types/model/user';
+import { Button } from '@/components/ui/button';
 import { useStorage } from '@/lib/useStorage';
 
 export default function ProfileCard({ data }: any) {

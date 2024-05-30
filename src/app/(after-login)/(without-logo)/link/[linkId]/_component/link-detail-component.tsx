@@ -14,9 +14,9 @@ import React, { useEffect, useState } from 'react';
 import dayjs from 'dayjs';
 import { Input } from '@/components/ui/input';
 import { useMyCategories } from '@/service/categories/useCategoryService';
-import LinkButton from './link-btn';
-import EditButton from './edit-btn';
-import SelectButton from './select-btn';
+import LinkButton from '@/app/(after-login)/(without-logo)/link/[linkId]/_component/link-btn';
+import EditButton from '@/app/(after-login)/(without-logo)/link/[linkId]/_component/edit-btn';
+import SelectButton from '@/app/(after-login)/(without-logo)/link/[linkId]/_component/select-btn';
 import {
   useParams,
   usePathname,

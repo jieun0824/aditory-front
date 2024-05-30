@@ -1,7 +1,7 @@
 'use client';
 import { Input } from '@/components/ui/input';
 import { CiAt, CiPhone } from 'react-icons/ci';
-import { stateName } from '../[step]/page';
+import { stateName } from '@/app/(before-login)/signup/[step]/page';
 
 export default function SecondStep({
   setHandler,

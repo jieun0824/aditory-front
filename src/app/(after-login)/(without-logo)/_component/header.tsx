@@ -2,7 +2,7 @@
 import { ModeToggle } from '@/components/mode-toggle';
 import { useParams, usePathname, useRouter } from 'next/navigation';
 import { IoIosArrowBack } from 'react-icons/io';
-import MoreButton from './more-button';
+import MoreButton from '@/app/(after-login)/(without-logo)/_component/more-button';
 
 export default function Header() {
   const router = useRouter();

@@ -1,6 +1,6 @@
 'use client';
 import { CiEdit, CiTrash } from 'react-icons/ci';
-import { Button } from '../../../../components/ui/button';
+import { Button } from '@/components/ui/button';
 import { useAccessToken } from '@/lib/useAccessToken';
 import { useDeleteLink } from '@/service/links/useLinkService';
 

@@ -1,5 +1,5 @@
-import Header from './_component/header';
-import NavBar from './_component/navbar';
+import Header from '@/app/(after-login)/(with-logo)/_component/header';
+import NavBar from '@/app/(after-login)/(with-logo)/_component/navbar';
 import { ReactNode } from 'react';
 
 export default function Layout({ children }: { children: ReactNode }) {

@@ -1,7 +1,6 @@
 'use client';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { IoMdSearch } from 'react-icons/io';
 import { IoHomeSharp } from 'react-icons/io5';
 import { IoPersonCircle } from 'react-icons/io5';
 import { IoIosGlobe } from 'react-icons/io';

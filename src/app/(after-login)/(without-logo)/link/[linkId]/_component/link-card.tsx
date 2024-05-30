@@ -10,7 +10,7 @@ import { Links, specificCategoryResponse } from '@/types/model/category';
 import { Suspense, useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 import { CiRead, CiUnread } from 'react-icons/ci';
-import { Options } from '../../../_component/Options';
+import { Options } from '@/app/(after-login)/(without-logo)/_component/Options';
 import { Checkbox } from '@/components/ui/checkbox';
 
 export default function LinkCard({
@@ -29,7 +29,7 @@ export default function LinkCard({
       {linkList &&
         linkList.map((link: Links) => {
           return (
-            <div className='flex w-full items-center gap-3'>
+            <div className='flex w-full items-center gap-3' key={link.linkId}>
               {moveMode && (
                 <Checkbox
                   className='transition'

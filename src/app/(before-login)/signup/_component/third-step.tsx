@@ -1,5 +1,4 @@
-import { Button } from '@/components/ui/button';
-import CategoryCard from './category-card';
+import CategoryCard from '@/app/(before-login)/signup/_component/category-card';
 
 type Props = {
   selected: string[];

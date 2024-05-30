@@ -1,4 +1,4 @@
-import InfoCard from './_component/info-card';
+import InfoCard from '@/app/(before-login)/signin/_component/info-card';
 
 export default function SigninPage() {
   return (
