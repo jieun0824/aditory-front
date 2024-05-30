@@ -12,7 +12,8 @@ export interface Category extends CategoryPost {
   createdAt: Date;
   lastModifiedAt: Date;
   linkCount: number;
-  linkList: Link[];
+  linkeCount?: number;
+  linkList?: Link[];
 }
 
 export interface CategoryResponse extends ResponseType {
@@ -35,5 +36,11 @@ export interface specificCategoryResponse extends ResponseType {
     linkCount: number;
     categoryState: CategoryState;
     linkList: Links[];
+  };
+}
+
+export interface publicCategoryResponse extends ResponseType {
+  data: {
+    publicCategoryList: Category[];
   };
 }

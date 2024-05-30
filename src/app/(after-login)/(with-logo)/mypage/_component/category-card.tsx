@@ -2,6 +2,7 @@
 import { Card, CardHeader } from '@/components/ui/card';
 import { Label } from '@/components/ui/label';
 import Link from 'next/link';
+import LinkPreview from './link-preview';
 
 function CategoryCard({ category }: any) {
   return (
@@ -10,10 +11,7 @@ function CategoryCard({ category }: any) {
       className='h-full min-h-52 w-full'
     >
       <Card className='h-3/4 border-none'>
-        <CardHeader>
-          {/* <CardTitle>Card Title</CardTitle>
-          <CardDescription>Card Description</CardDescription> */}
-        </CardHeader>
+        <CardHeader>{category.linkCount !== 0 && <LinkPreview />}</CardHeader>
       </Card>
       <div className='flex h-1/4 flex-col gap-1 p-2'>
         <Label htmlFor='category' className='font-medium'>
@@ -28,7 +26,6 @@ function CategoryCard({ category }: any) {
 }
 
 export default function Categories({ categories }: any) {
-  // console.log(categories);
   return (
     <>
       {categories.map((category: any) => (

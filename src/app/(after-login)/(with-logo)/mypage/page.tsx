@@ -14,15 +14,11 @@ import { useMyCategories } from '@/service/categories/useCategoryService';
 
 export default function MyPage() {
   const { userInfo } = useStorage();
-  // const [categories, setCategories] = useState<Category[]>([]);
-  const { accessToken, getRefreshToken } = useAccessToken();
-  const { data, isLoading, refetch } = useMyCategories({
+  const { accessToken } = useAccessToken();
+  const { data, refetch } = useMyCategories({
     accessToken: accessToken,
   });
   const dialogRef = useRef(null);
-  useEffect(() => {
-    console.log(data?.data.categoryList);
-  }, [data?.data.categoryList]);
 
   return (
     <>
