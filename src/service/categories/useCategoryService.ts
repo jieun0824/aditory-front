@@ -86,14 +86,20 @@ export function useMoveCategory({
   linkIdList: number[];
   targetCategoryId: number;
 }) {
-  return useMutation(
-    queryOptions.moveCategory({
+  const queryClient = useQueryClient();
+  return useMutation({
+    ...queryOptions.moveCategory({
       accessToken,
       categoryId,
       linkIdList,
       targetCategoryId,
-    })
-  );
+    }),
+    onSettled: () => {
+      return queryClient.invalidateQueries({
+        queryKey: ['specificCategory', categoryId],
+      });
+    },
+  });
 }
 
 //patch method

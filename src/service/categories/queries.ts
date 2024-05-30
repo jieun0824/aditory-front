@@ -128,7 +128,7 @@ const CategoryQueryOptions = {
       linkIdList,
       targetCategoryId,
     }),
-    queryFn: () =>
+    mutationFn: () =>
       CategoryService.moveCategory({
         accessToken,
         categoryId,

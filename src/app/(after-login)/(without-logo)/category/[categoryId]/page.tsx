@@ -69,24 +69,16 @@ export default function CategoryDetailPage({
             selectMoveCategory={selectMoveCategory}
             moveMode={moveMode}
           />
-          {
+          {moveMode && (
             <MoveBtn
               categoryId={params.categoryId}
               selectTargetCategoryId={selectTargetCategoryId}
               myCategories={myCategories ? myCategories.data.categoryList : []}
               onClick={mutate}
             />
-          }
+          )}
         </div>
       )}
     </Suspense>
-  );
-}
-
-function SaveMoveBtn() {
-  return (
-    <>
-      <Button>Save</Button>
-    </>
   );
 }
