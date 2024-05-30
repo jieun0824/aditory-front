@@ -1,8 +1,14 @@
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import {
+  useMutation,
+  useQuery,
+  useQueryClient,
+  useSuspenseQuery,
+} from '@tanstack/react-query';
 import queryOptions from '@/service/categories/queries';
 import useCategoryStore from '@/lib/useCategoryStore';
 import { CategoryState } from '@/types/types';
 //get
+//get my categories
 export function useMyCategories({
   accessToken,
   selectedFn,
@@ -12,10 +18,6 @@ export function useMyCategories({
 }) {
   return useQuery({
     ...queryOptions.my({ accessToken }),
-    select: (data) => {
-      selectedFn && selectedFn(data);
-      return data;
-    },
   });
 }
 

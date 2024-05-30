@@ -16,21 +16,24 @@ import { useMyCategories } from '@/service/categories/useCategoryService';
 
 export default function MyPage() {
   const { userInfo } = useStorage();
-  const [categories, setCategories] = useState<Category[]>([]);
+  // const [categories, setCategories] = useState<Category[]>([]);
   const { accessToken, getRefreshToken } = useAccessToken();
   const { data, isLoading, refetch } = useMyCategories({
     accessToken: accessToken,
   });
   const dialogRef = useRef(null);
 
+  // useEffect(() => {
+  //   if (data) {
+  //     setCategories(data.data.categoryList);
+  //   } else {
+  //     console.log('no data');
+  //   }
+  //   // console.log(data);
+  // }, [data]);
   useEffect(() => {
-    if (data) {
-      setCategories(data.data.categoryList);
-    } else {
-      console.log('no data');
-    }
-    // console.log(data);
-  }, [data]);
+    console.log(data?.data.categoryList);
+  }, [data?.data.categoryList]);
 
   return (
     <>
@@ -52,7 +55,7 @@ export default function MyPage() {
           </Dialog>
         </div>
         <div className='grid h-full w-full grid-cols-2 gap-x-4'>
-          <Categories categories={categories} />
+          <Categories categories={data ? data.data.categoryList : []} />
         </div>
       </Suspense>
     </>

@@ -11,18 +11,37 @@ import { Suspense, useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 import { CiRead, CiUnread } from 'react-icons/ci';
 import { Options } from '../../../_component/Options';
-import { usePathname } from 'next/navigation';
+import { Checkbox } from '@/components/ui/checkbox';
 
 export default function LinkCard({
   linkList,
+  moveCategory,
+  selectMoveCategory,
+  moveMode,
 }: {
   linkList: specificCategoryResponse['data']['linkList'];
+  moveCategory: number[];
+  selectMoveCategory: (checked: boolean, categoryId: number) => void;
+  moveMode: boolean;
 }) {
   return (
     <Suspense fallback={<div>Loading...</div>}>
       {linkList &&
         linkList.map((link: Links) => {
-          return <LinkCardComponent key={link.linkId} link={link} />;
+          return (
+            <div className='flex w-full items-center gap-3'>
+              {moveMode && (
+                <Checkbox
+                  className='transition'
+                  checked={moveCategory.includes(link.linkId)}
+                  onCheckedChange={(checked: boolean) => {
+                    selectMoveCategory(checked, link.linkId);
+                  }}
+                />
+              )}
+              <LinkCardComponent key={link.linkId} link={link} />
+            </div>
+          );
         })}
     </Suspense>
   );

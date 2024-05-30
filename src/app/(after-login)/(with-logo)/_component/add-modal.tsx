@@ -53,6 +53,7 @@ export default function AddModal({
           ? setPayloadData({ ...payloadData, [e.target.name]: e.target.value })
           : key && setPayloadData({ ...payloadData, [key]: e });
       }
+      console.log(payloadData);
     },
     [payloadData]
   );
@@ -112,8 +113,13 @@ export default function AddModal({
             <Label htmlFor='category'>Category</Label>
             <SelectComponent
               disabled={payloadData.autoComplete}
-              onValueChange={(value: string) =>
-                dataHandler(parseInt(value), 'categoryId')
+              onValueChangeHandler={(value: string) =>
+                dataHandler(
+                  data.data.categoryList.find(
+                    (item: any) => item.categoryName == value
+                  )['categoryId'],
+                  'categoryId'
+                )
               }
               name='categoryId'
               variant='mainPage'

@@ -25,7 +25,7 @@ export default function SelectButton({
 }) {
   return (
     <SelectComponent
-      onValueChange={(value) => {
+      onValueChangeHandler={(value) => {
         EditHandler(parseInt(value), 'category');
         EditHandler(
           categoryList?.filter((item) => item.categoryId === parseInt(value))[0]

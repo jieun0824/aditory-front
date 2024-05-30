@@ -46,7 +46,10 @@ const CategoryQueryOptions = {
   //get method
   my: ({ accessToken }: { accessToken: string }) => ({
     queryKey: queryKeys.my,
-    queryFn: async () => await CategoryService.getMyCategories({ accessToken }),
+    queryFn: async () =>
+      accessToken
+        ? await CategoryService.getMyCategories({ accessToken })
+        : null,
     onSuccess: async (data: any) => {
       return data;
     },

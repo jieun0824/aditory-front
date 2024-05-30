@@ -9,7 +9,7 @@ import { Badge } from './ui/badge';
 
 export default function SelectComponent({
   disabled,
-  onValueChange,
+  onValueChangeHandler,
   children,
   variant,
   name,
@@ -17,9 +17,9 @@ export default function SelectComponent({
   defaultValue,
 }: {
   disabled?: boolean;
-  onValueChange: (value: string) => void;
+  onValueChangeHandler: (value: string) => void;
   children: React.ReactNode;
-  variant: 'mainPage' | 'editCategory';
+  variant: 'mainPage' | 'editCategory' | 'moveCategory';
   name: string;
   editMode?: boolean;
   defaultValue?: string;
@@ -34,12 +34,16 @@ export default function SelectComponent({
       trigger: `ml-2 inline-flex h-fit w-fit items-center rounded-full border bg-inherit px-2.5 py-0.5 text-xs font-semibold text-foreground transition-colors ${!editMode && readMode}`,
       value: { defaultValue },
     },
+    moveCategory: {
+      trigger: 'bg-card',
+      value: 'select category',
+    },
   };
   return (
     <Select
       name={name}
       disabled={disabled ? disabled : false}
-      onValueChange={onValueChange}
+      onValueChange={onValueChangeHandler}
     >
       {variant == 'editCategory' ? (
         editMode ? (
