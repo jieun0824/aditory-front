@@ -11,6 +11,7 @@ const queryKeys = {
     userId: number;
     refreshToken: string;
   }) => [userId, refreshToken] as const,
+  updateUser: ['updateUser'] as const,
   getProfileImage: ['getProfileImage'] as const,
   postProfileImage: ['postProfileImage'] as const,
 };
@@ -22,7 +23,8 @@ const UserQueryOptions = {
   }),
   signIn: ({ username, password }: { username: string; password: string }) => ({
     queryKey: queryKeys.signIn({ username, password }),
-    queryFn: async () => await UserService.postSignIn({ username, password }),
+    mutationFn: async () =>
+      await UserService.postSignIn({ username, password }),
     // onSuccess: async (data: any) => {
     //   //use persist middleware in zustand
     //   //cookieStore.set('accessToken', JSON.stringify(data.data.accessToken));
@@ -61,6 +63,19 @@ const UserQueryOptions = {
     queryKey: queryKeys.postProfileImage,
     mutationFn: async () =>
       await UserService.postProfileImage({ accessToken, profileImage }),
+  }),
+  updateUser: ({
+    accessToken,
+    nickname,
+    contact,
+  }: {
+    accessToken: string;
+    nickname: string;
+    contact: string;
+  }) => ({
+    queryKey: queryKeys.updateUser,
+    mutationFn: async () =>
+      await UserService.updateUser({ accessToken, nickname, contact }),
   }),
 };
 

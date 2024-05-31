@@ -35,8 +35,8 @@ class Service {
         method,
         headers: {
           ...this.headers,
-          ...config?.headers,
           'Content-Type': 'application/json',
+          ...config?.headers,
         },
         credentials: 'include',
         body: data ? JSON.stringify(data) : undefined,
@@ -75,14 +75,6 @@ class Service {
     config?: RequestInit
   ): Promise<T> {
     return this.request<T>('POST', url, data, config);
-  }
-
-  private put<T>(
-    url: string,
-    data?: unknown,
-    config?: RequestInit
-  ): Promise<T> {
-    return this.request<T>('PUT', url, data, config);
   }
 
   private patch<T>(

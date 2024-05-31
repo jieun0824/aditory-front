@@ -11,6 +11,7 @@ import { useAccessToken } from '@/lib/useAccessToken';
 import { Dialog, DialogTrigger } from '@/components/ui/dialog';
 import NewCategoryModal from '@/app/(after-login)/(with-logo)/mypage/_component/new-category';
 import { useMyCategories } from '@/service/categories/useCategoryService';
+import { useGetProfileImage } from '@/service/user/useUserService';
 
 export default function MyPage() {
   const { userInfo } = useStorage();
@@ -18,12 +19,15 @@ export default function MyPage() {
   const { data, refetch } = useMyCategories({
     accessToken: accessToken,
   });
+  const { data: profileImage } = useGetProfileImage({
+    accessToken: accessToken,
+  });
   const dialogRef = useRef(null);
 
   return (
     <>
       <Suspense fallback={<Loading />}>
-        <ProfileCard data={userInfo} />
+        <ProfileCard data={userInfo} profileImage={profileImage} />
         <div className='flex w-full justify-between'>
           <div className='flex items-center gap-2 text-left'>
             <MdLibraryBooks className='text-md' />

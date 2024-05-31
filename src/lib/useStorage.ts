@@ -9,6 +9,7 @@ export interface loginInfo {
   refreshToken?: string;
   accessTokenExpires?: number;
   refreshTokenExpires?: number;
+  profileImageUrl?: string;
 }
 
 interface State {

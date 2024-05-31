@@ -26,6 +26,27 @@ class UserService extends Service {
     });
   }
 
+  updateUser({
+    accessToken,
+    nickname,
+    contact,
+  }: {
+    accessToken: string;
+    nickname: string;
+    contact: string;
+  }) {
+    return this.http.patch<User>(
+      `/users`,
+      {
+        nickname,
+        contact,
+      },
+      {
+        headers: { Authorization: `Bearer ${accessToken}` },
+      }
+    );
+  }
+
   //profile-image
   getProfileImage({ accessToken }: { accessToken: string }) {
     return this.http.get<profileImageResponse>(`/users/profile-image`, {
@@ -46,7 +67,10 @@ class UserService extends Service {
         profileImage,
       },
       {
-        headers: { Authorization: `Bearer ${accessToken}` },
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+          'Content-Type': 'multipart/form-data',
+        },
       }
     );
   }

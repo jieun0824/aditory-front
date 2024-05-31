@@ -9,41 +9,25 @@ import { CiUser, CiLock } from 'react-icons/ci';
 import queryOptions from '@/service/user/queries';
 import { loginInfo, useStorage } from '@/lib/useStorage';
 import { Login } from '@/types/model/user';
+import { useGetProfileImage, useSignIn } from '@/service/user/useUserService';
 
 export type stateName = 'username' | 'password' | 'nickname' | 'contact';
 export default function LoginForm() {
   const [username, setUsername] = useState<string>('');
   const [password, setPassword] = useState<string>('');
-  const router = useRouter();
-  const { userInfo, addUserInfo, removeUserInfo } = useStorage();
-  const { queryKey, queryFn, onError } = queryOptions.signIn({
+  const { mutate } = useSignIn({
     username,
     password,
   });
 
-  const handleLogin = async (e: any) => {
-    e.preventDefault();
-
-    try {
-      await queryFn().then((data: Login) => {
-        const accessTokenExpires = Date.now() + 10 * 60 * 1000;
-        const refreshTokenExpires = Date.now() + 6 * 60 * 60 * 1000;
-
-        addUserInfo({
-          ...data.data,
-          accessTokenExpires: accessTokenExpires,
-          refreshTokenExpires: refreshTokenExpires,
-        });
-        router.push('/');
-      });
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
   return (
     <div className='item flex h-full min-h-96 w-full flex-col justify-between'>
-      <form onSubmit={(e) => handleLogin(e)}>
+      <form
+        onSubmit={(e) => {
+          e.preventDefault();
+          mutate();
+        }}
+      >
         <div className='w-full'>
           <span className='text-md flex items-center gap-1'>
             <CiUser />

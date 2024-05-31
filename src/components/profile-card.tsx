@@ -12,24 +12,39 @@ import { useStorage } from '@/lib/useStorage';
 import { useRouter } from 'next/navigation';
 import { Badge } from './ui/badge';
 import { SelectSeparator } from './ui/select';
+import Link from 'next/link';
+import EditDrawer from './edit-drawer';
+import { profileImageResponse } from '@/types/model/user';
 
-export default function ProfileCard({ data }: any) {
+export default function ProfileCard({
+  data,
+  profileImage,
+}: {
+  data: any;
+  profileImage: profileImageResponse | undefined;
+}) {
   const router = useRouter();
   const { removeUserInfo } = useStorage();
   const LogoutHandler = () => {
     removeUserInfo();
     window.location.reload();
   };
+  const defaultProfile =
+    'https://static.vecteezy.com/system/resources/thumbnails/009/292/244/small/default-avatar-icon-of-social-media-user-vector.jpg';
 
   return (
     <Card className='flex flex-col items-center justify-center bg-inherit'>
       <CardHeader>
-        <Avatar className='h-auto w-20'>
+        <Avatar className='h-20 w-20'>
           <AvatarImage
-            src='https://github.com/shadcn.png'
+            src={
+              profileImage
+                ? profileImage.data.s3DownloadResult.url
+                : defaultProfile
+            }
             alt='profile-image'
           />
-          <AvatarFallback>CN</AvatarFallback>
+          <AvatarFallback>{data.nickname}</AvatarFallback>
         </Avatar>
       </CardHeader>
       <CardContent className='flex gap-2 p-6'>
@@ -46,15 +61,9 @@ export default function ProfileCard({ data }: any) {
         >
           Logout
         </Button>
-        <Button
-          onClick={() => {
-            router.push('/mypage/edit?editMode=true');
-          }}
-          className='w-1/2'
-          variant={'outline'}
-        >
-          Edit Profile
-        </Button>
+        <EditDrawer variant='editProfile'>
+          <Button variant={'outline'}>Edit Profile</Button>
+        </EditDrawer>
       </CardFooter>
     </Card>
   );
