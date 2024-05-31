@@ -24,3 +24,19 @@ export function useRefresh({
 }) {
   return useMutation(queryOptions.refresh({ userId, refreshToken }));
 }
+
+export function useGetProfileIamge({ accessToken }: { accessToken: string }) {
+  return useQuery(queryOptions.getProfileImage({ accessToken }));
+}
+
+export function usePostProfileImage({
+  accessToken,
+  profileImage,
+}: {
+  accessToken: string;
+  profileImage: string;
+}) {
+  return useMutation(
+    queryOptions.postProfileImage({ accessToken, profileImage })
+  );
+}

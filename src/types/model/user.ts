@@ -1,3 +1,5 @@
+import { ResponseType } from './response';
+
 export interface User {
   userId?: number;
   username?: string;
@@ -16,4 +18,19 @@ export interface Login {
 
 export interface Refresh {
   refreshToken: string;
+}
+
+export interface profileImage {
+  userId: number;
+  username: string;
+  nickname: string;
+  s3DownloadResult: {
+    profileImageId: number;
+    originalName: string;
+    url: string;
+  };
+}
+
+export interface profileImageResponse extends ResponseType {
+  data: profileImage;
 }

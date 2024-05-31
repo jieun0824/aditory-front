@@ -1,5 +1,5 @@
 import Service from '@/service/service';
-import { Login, Refresh, User } from '@/types/model/user';
+import { Login, Refresh, User, profileImageResponse } from '@/types/model/user';
 
 class UserService extends Service {
   getUsers({ accessToken }: { accessToken: string }) {
@@ -24,6 +24,31 @@ class UserService extends Service {
       userId,
       refreshToken,
     });
+  }
+
+  //profile-image
+  getProfileImage({ accessToken }: { accessToken: string }) {
+    return this.http.get<profileImageResponse>(`/users/profile-image`, {
+      headers: { Authorization: `Bearer ${accessToken}` },
+    });
+  }
+
+  postProfileImage({
+    accessToken,
+    profileImage,
+  }: {
+    accessToken: string;
+    profileImage: string;
+  }) {
+    return this.http.post<profileImageResponse>(
+      `/users/profile-image`,
+      {
+        profileImage,
+      },
+      {
+        headers: { Authorization: `Bearer ${accessToken}` },
+      }
+    );
   }
 }
 

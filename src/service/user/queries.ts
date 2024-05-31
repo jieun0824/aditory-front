@@ -11,6 +11,8 @@ const queryKeys = {
     userId: number;
     refreshToken: string;
   }) => [userId, refreshToken] as const,
+  getProfileImage: ['getProfileImage'] as const,
+  postProfileImage: ['postProfileImage'] as const,
 };
 
 const UserQueryOptions = {
@@ -44,6 +46,21 @@ const UserQueryOptions = {
       alert('refresh token expired');
       console.error(error);
     },
+  }),
+  getProfileImage: ({ accessToken }: { accessToken: string }) => ({
+    queryKey: queryKeys.getProfileImage,
+    queryFn: async () => await UserService.getProfileImage({ accessToken }),
+  }),
+  postProfileImage: ({
+    accessToken,
+    profileImage,
+  }: {
+    accessToken: string;
+    profileImage: string;
+  }) => ({
+    queryKey: queryKeys.postProfileImage,
+    mutationFn: async () =>
+      await UserService.postProfileImage({ accessToken, profileImage }),
   }),
 };
 
