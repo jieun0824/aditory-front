@@ -110,12 +110,14 @@ export function useUpdateCategory({
   categoryName,
   categoryState,
   asCategoryName,
+  onSettledFn,
 }: {
   accessToken: string;
   categoryId: number;
   categoryName: string;
   categoryState: CategoryState;
   asCategoryName: string;
+  onSettledFn?: () => void;
 }) {
   const queryClient = useQueryClient();
   return useMutation({
@@ -127,6 +129,7 @@ export function useUpdateCategory({
       asCategoryName,
     }),
     onSettled: () => {
+      onSettledFn && onSettledFn();
       return queryClient.invalidateQueries({
         queryKey: ['specificCategory', categoryId],
       });

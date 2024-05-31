@@ -34,6 +34,7 @@ export default function DrawerDemo() {
   const { accessToken } = useAccessToken();
   const queryClient = useQueryClient();
   const closeRef = React.useRef<HTMLButtonElement>(null);
+  const stateRef = React.useRef<HTMLButtonElement>(null);
   const CategoryInfo = useCategoryStore((state: any) => state.CategoryInfo);
   const [categoryData, setCategoryData] = useState({
     categoryName: CategoryInfo.categoryName,
@@ -68,10 +69,17 @@ export default function DrawerDemo() {
   });
 
   //update mutation
-  const { mutate: updateMutate } = useUpdateCategory({
+  const { mutate: updateMutate, isSuccess } = useUpdateCategory({
     ...categoryData,
     accessToken: accessToken,
     categoryId: parseInt(params.categoryId),
+    onSettledFn: () => {
+      if (stateRef.current) {
+        stateRef.current.innerText = 'Saved';
+        stateRef.current.style.color = 'red';
+        closeRef.current?.click();
+      }
+    },
   });
   const onOpenHandler = () => {
     //edit 저장 x -> editmode 비롯한 모든 값 초기화
@@ -107,7 +115,13 @@ export default function DrawerDemo() {
             <DrawerClose asChild ref={closeRef}>
               <Button variant='secondary'>Cancel</Button>
             </DrawerClose>
-            {editMode && <Button onClick={() => updateMutate()}>Save</Button>}
+            {editMode ? (
+              <Button onClick={() => updateMutate()} ref={stateRef}>
+                Save
+              </Button>
+            ) : (
+              editMode && isSuccess && <Button>Saved</Button>
+            )}
           </DrawerFooter>
         </div>
       </DrawerContent>
