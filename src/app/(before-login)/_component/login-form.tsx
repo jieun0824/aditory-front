@@ -58,6 +58,7 @@ export default function LoginForm() {
             password
           </span>
           <Input
+            type='password'
             onChange={(e) => setPassword(e.target.value)}
             className='border-b-1 border-x-0 border-t-0'
           />
