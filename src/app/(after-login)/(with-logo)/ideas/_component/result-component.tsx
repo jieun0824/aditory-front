@@ -6,6 +6,7 @@ import {
   useCopyCategory,
   useLike,
   usePublic,
+  useUnLike,
 } from '@/service/categories/useCategoryService';
 import Loading from '../loading';
 import Link from 'next/link';
@@ -15,19 +16,25 @@ import { Category } from '@/types/model/category';
 import { FcLike } from 'react-icons/fc';
 import { useToast } from '@/components/ui/use-toast';
 import { Button } from '@/components/ui/button';
+import { useMyLikes } from '@/service/user/useUserService';
+import { useEffect, useState } from 'react';
+import { CiHeart } from 'react-icons/ci';
+import { FaHeart, FaRegHeart } from 'react-icons/fa';
+import { useQueryClient } from '@tanstack/react-query';
 
 export default function ResultComponent() {
   const { accessToken } = useAccessToken();
   const { data } = usePublic({ accessToken: accessToken });
-
+  const { data: myLikes } = useMyLikes({ accessToken: accessToken });
   return (
     <>
-      {data ? (
+      {data && myLikes ? (
         data.data.publicCategoryList.map((category: any) => (
           <PublicCategoryCard
             category={category}
             accessToken={accessToken}
             key={category.categoryId}
+            isMyLike={myLikes.includes(category.categoryId)}
           />
         ))
       ) : (
@@ -40,9 +47,11 @@ export default function ResultComponent() {
 function PublicCategoryCard({
   category,
   accessToken,
+  isMyLike,
 }: {
   category: Category;
   accessToken: string;
+  isMyLike: boolean;
 }) {
   return (
     <div className='flex w-full flex-col'>
@@ -64,6 +73,7 @@ function PublicCategoryCard({
           accessToken={accessToken}
           likeCount={category.likeCount!}
           categoryId={category.categoryId}
+          isMyLike={isMyLike}
         />
       </div>
     </div>
@@ -74,12 +84,15 @@ function OptionButton({
   likeCount,
   accessToken,
   categoryId,
+  isMyLike,
 }: {
   likeCount: number;
   accessToken: string;
   categoryId: number;
+  isMyLike: boolean;
 }) {
-  const { toast } = useToast();
+  const queryClient = useQueryClient();
+  const [isLike, setIsLike] = useState(isMyLike);
   const { mutate: copyMutate } = useCopyCategory({
     accessToken: accessToken,
     categoryId: categoryId,
@@ -87,15 +100,35 @@ function OptionButton({
   const { mutate: likeMutate } = useLike({
     accessToken: accessToken,
     categoryId: categoryId,
+    selectedFn: (data) => {
+      setIsLike(true);
+    },
   });
+  const { mutate: deleteMutate } = useUnLike({
+    accessToken: accessToken,
+    categoryId: categoryId,
+    selectedFn: (data) => {
+      setIsLike(false);
+    },
+  });
+
+  useEffect(() => {
+    queryClient.invalidateQueries({
+      queryKey: ['publicCategory'],
+    });
+  }, [isLike]);
 
   return (
     <div className='flex w-full justify-end'>
       <button
         className='flex flex-col items-center'
-        onClick={() => likeMutate()}
+        onClick={() => {
+          console.log(categoryId, isMyLike);
+          isLike ? deleteMutate() : likeMutate();
+        }}
       >
-        <FcLike size={20} />
+        {isLike ? <FaHeart /> : <FaRegHeart />}
+
         <Badge variant={'outline'}>{likeCount}</Badge>
       </button>
       <Button

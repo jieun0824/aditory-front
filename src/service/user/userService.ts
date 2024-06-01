@@ -1,5 +1,11 @@
 import Service from '@/service/service';
-import { Login, Refresh, User, profileImageResponse } from '@/types/model/user';
+import {
+  Login,
+  MyLikes,
+  Refresh,
+  User,
+  profileImageResponse,
+} from '@/types/model/user';
 
 class UserService extends Service {
   getUsers({ accessToken }: { accessToken: string }) {
@@ -73,6 +79,13 @@ class UserService extends Service {
         },
       }
     );
+  }
+
+  //like data
+  getLike({ accessToken }: { accessToken: string }) {
+    return this.http.get<MyLikes>(`/categories/like`, {
+      headers: { Authorization: `Bearer ${accessToken}` },
+    });
   }
 }
 

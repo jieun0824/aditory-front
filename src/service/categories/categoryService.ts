@@ -112,6 +112,7 @@ class CategoryService extends Service {
   }) {
     return this.http.post<Category>(
       `/categories/${categoryId}/like`,
+      undefined,
       this.authorization(accessToken)
     );
   }

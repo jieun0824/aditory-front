@@ -59,11 +59,18 @@ export function useCreateCategory({
 export function useLike({
   accessToken,
   categoryId,
+  selectedFn,
 }: {
   accessToken: string;
   categoryId: number;
+  selectedFn?: (data: any) => any;
 }) {
-  return useMutation(queryOptions.addLike({ accessToken, categoryId }));
+  return useMutation({
+    ...queryOptions.addLike({ accessToken, categoryId }),
+    onSuccess: (data) => {
+      if (selectedFn) selectedFn(data);
+    },
+  });
 }
 
 export function useCopyCategory({
@@ -176,12 +183,19 @@ export function useDeleteCategory({
   });
 }
 
-export function useUnLink({
+export function useUnLike({
   accessToken,
   categoryId,
+  selectedFn,
 }: {
   accessToken: string;
   categoryId: number;
+  selectedFn?: (data: any) => any;
 }) {
-  return useMutation(queryOptions.deleteLike({ accessToken, categoryId }));
+  return useMutation({
+    ...queryOptions.deleteLike({ accessToken, categoryId }),
+    onSuccess: (data) => {
+      if (selectedFn) selectedFn(data);
+    },
+  });
 }

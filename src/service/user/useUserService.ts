@@ -116,3 +116,7 @@ export function usePatchUserInfo({
     // },
   });
 }
+
+export function useMyLikes({ accessToken }: { accessToken: string }) {
+  return useQuery(queryOptions.getLike({ accessToken }));
+}

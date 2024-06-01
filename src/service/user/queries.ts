@@ -1,4 +1,5 @@
 import UserService from '@/service/user/userService';
+import { MyLikes } from '@/types/model/user';
 
 const queryKeys = {
   all: ['user'] as const,
@@ -14,6 +15,7 @@ const queryKeys = {
   updateUser: ['updateUser'] as const,
   getProfileImage: ['getProfileImage'] as const,
   postProfileImage: ['postProfileImage'] as const,
+  getLike: ['getLike'] as const,
 };
 
 const UserQueryOptions = {
@@ -76,6 +78,14 @@ const UserQueryOptions = {
     queryKey: queryKeys.updateUser,
     mutationFn: async () =>
       await UserService.updateUser({ accessToken, nickname, contact }),
+  }),
+  getLike: ({ accessToken }: { accessToken: string }) => ({
+    queryKey: queryKeys.getLike,
+    queryFn: async () => await UserService.getLike({ accessToken }),
+    enabled: !!accessToken,
+    select: (data: any) => {
+      return data.data.likeCategoryList as number[];
+    },
   }),
 };
 

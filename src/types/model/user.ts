@@ -34,3 +34,7 @@ export interface profileImage {
 export interface profileImageResponse extends ResponseType {
   data: profileImage;
 }
+
+export interface MyLikes extends ResponseType {
+  data: { likeCategoryList: number[] };
+}
