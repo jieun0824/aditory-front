@@ -12,6 +12,7 @@ import Link from 'next/link';
 import { CiRead, CiUnread } from 'react-icons/ci';
 import { Options } from '@/app/(after-login)/(without-logo)/_component/Options';
 import { Checkbox } from '@/components/ui/checkbox';
+import { useOwner } from '@/lib/provider/owner-provider';
 
 export default function LinkCard({
   linkList,
@@ -59,19 +60,22 @@ export function LinkCardComponent({
   const [show, setShow] = useState(false);
   const [goBack, setGoBack] = useState(false);
   const [isDrag, setIsDrag] = useState(true);
+  const { owner } = useOwner();
 
   useEffect(() => {
-    //if you want to show options
-    if (position && position.start - position.end > 40) {
-      setGoBack(false);
-      setShow(true);
-      setIsDrag(true);
-    }
-    //if you want to go back
-    if (show && position && position.end - position.start > 40) {
-      setGoBack(true);
-      setShow(false);
-      setIsDrag(true);
+    if (owner) {
+      //if you want to show options
+      if (position && position.start - position.end > 40) {
+        setGoBack(false);
+        setShow(true);
+        setIsDrag(true);
+      }
+      //if you want to go back
+      if (show && position && position.end - position.start > 40) {
+        setGoBack(true);
+        setShow(false);
+        setIsDrag(true);
+      }
     }
   }, [position]);
 

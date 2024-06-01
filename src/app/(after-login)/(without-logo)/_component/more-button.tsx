@@ -29,7 +29,6 @@ import { Badge } from '@/components/ui/badge';
 
 export default function DrawerDemo() {
   const params = useParams<{ categoryId: string }>();
-  console.log(params);
   const router = useRouter();
   const { accessToken } = useAccessToken();
   const queryClient = useQueryClient();

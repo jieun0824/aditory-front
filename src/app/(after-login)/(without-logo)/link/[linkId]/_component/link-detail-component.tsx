@@ -18,12 +18,14 @@ import LinkButton from '@/app/(after-login)/(without-logo)/link/[linkId]/_compon
 import EditButton from '@/app/(after-login)/(without-logo)/link/[linkId]/_component/edit-btn';
 import SelectButton from '@/app/(after-login)/(without-logo)/link/[linkId]/_component/select-btn';
 import { useSearchParams } from 'next/navigation';
+import { useOwner } from '@/lib/provider/owner-provider';
 
 const readMode = 'focus-visible:ring-0 focus-visible:ring-offset-0';
 export default function LinkDetailComponent({ linkId }: { linkId: number }) {
   const { accessToken, getRefreshToken } = useAccessToken();
+  const { owner } = useOwner();
   const search = useSearchParams();
-  const editMode = Boolean(search.get('editMode'));
+  const editMode = owner ? Boolean(search.get('editMode')) : false;
   console.log(editMode);
   const { data, isLoading, refetch } = useLink({
     accessToken: accessToken,
@@ -113,16 +115,18 @@ export default function LinkDetailComponent({ linkId }: { linkId: number }) {
       <CardFooter className='flex w-full flex-col justify-between gap-3'>
         <div className='mt-3 flex gap-3'>
           <LinkButton url={url} />
-          <EditButton
-            editMode={editMode}
-            newObject={{
-              title: title,
-              summary: summary,
-              url: url,
-              categoryId: categoryId!,
-              linkId: linkId,
-            }}
-          />
+          {owner && (
+            <EditButton
+              editMode={editMode}
+              newObject={{
+                title: title,
+                summary: summary,
+                url: url,
+                categoryId: categoryId!,
+                linkId: linkId,
+              }}
+            />
+          )}
         </div>
       </CardFooter>
     </Card>

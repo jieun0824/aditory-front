@@ -10,6 +10,7 @@ export interface loginInfo {
   accessTokenExpires?: number;
   refreshTokenExpires?: number;
   profileImageUrl?: string;
+  userCategories?: { categoryId: number; categoryName: string }[];
 }
 
 interface State {
