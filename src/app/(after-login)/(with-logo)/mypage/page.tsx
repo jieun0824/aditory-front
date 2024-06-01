@@ -14,7 +14,7 @@ import { useMyCategories } from '@/service/categories/useCategoryService';
 import { useGetProfileImage } from '@/service/user/useUserService';
 
 export default function MyPage() {
-  const { userInfo } = useStorage();
+  const { userInfo, addUserInfo } = useStorage();
   const { accessToken } = useAccessToken();
   const { data, refetch } = useMyCategories({
     accessToken: accessToken,
@@ -23,6 +23,14 @@ export default function MyPage() {
     accessToken: accessToken,
   });
   const dialogRef = useRef(null);
+  useEffect(() => {
+    if (profileImage?.data) {
+      addUserInfo({
+        ...userInfo,
+        profileImageUrl: profileImage.data.s3DownloadResult.url,
+      });
+    }
+  }, [profileImage]);
 
   return (
     <>

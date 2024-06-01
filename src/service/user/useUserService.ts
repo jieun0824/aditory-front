@@ -15,19 +15,27 @@ export function useSignIn({
   password: string;
 }) {
   const { addUserInfo } = useStorage();
+
   const router = useRouter();
   return useMutation({
     ...queryOptions.signIn({ username, password }),
     onSuccess: async (userInfo: any) => {
       const accessTokenExpires = Date.now() + 10 * 60 * 1000;
       const refreshTokenExpires = Date.now() + 6 * 60 * 60 * 1000;
-
-      addUserInfo({
-        ...userInfo.data,
-        accessTokenExpires: accessTokenExpires,
-        refreshTokenExpires: refreshTokenExpires,
+      const { queryFn } = queryOptions.getProfileImage({
+        accessToken: userInfo.data.accessToken,
       });
+      await queryFn().then((data) => {
+        addUserInfo({
+          ...userInfo.data,
+          accessTokenExpires: accessTokenExpires,
+          refreshTokenExpires: refreshTokenExpires,
+          profileImageUrl: data.data.s3DownloadResult.url,
+        });
+      });
+
       router.push('/');
+      return userInfo;
     },
   });
 }
@@ -42,17 +50,24 @@ export function useRefresh({
   return useMutation(queryOptions.refresh({ userId, refreshToken }));
 }
 
-export function useGetProfileImage({ accessToken }: { accessToken: string }) {
+export function useGetProfileImage({
+  accessToken,
+  selectFn,
+}: {
+  accessToken: string;
+  selectFn?: (data: any) => any;
+}) {
   const { userInfo, addUserInfo } = useStorage();
   return useQuery({
     ...queryOptions.getProfileImage({ accessToken }),
-    // select: (data) => {
-    //   addUserInfo({
-    //     ...userInfo,
-    //     profileImageUrl: data.data.s3DownloadResult.url,
-    //   });
-    //   return data;
-    // },
+    select: (data) => {
+      // addUserInfo({
+      //   ...userInfo,
+      //   profileImageUrl: data.data.s3DownloadResult.url,
+      // });
+      selectFn && selectFn(data);
+      return data;
+    },
   });
 }
 
@@ -63,9 +78,17 @@ export function usePostProfileImage({
   accessToken: string;
   profileImage: string;
 }) {
-  return useMutation(
-    queryOptions.postProfileImage({ accessToken, profileImage })
-  );
+  const { userInfo, addUserInfo } = useStorage();
+  return useMutation({
+    ...queryOptions.postProfileImage({ accessToken, profileImage }),
+    onSuccess: async (data: any) => {
+      addUserInfo({
+        ...userInfo,
+        profileImageUrl: data.data.s3DownloadResult.url,
+      });
+      return data;
+    },
+  });
 }
 
 export function usePatchUserInfo({

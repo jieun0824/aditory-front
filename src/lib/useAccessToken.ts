@@ -99,6 +99,7 @@ export function useAccessToken() {
         const newRefreshTokenExpires = Date.now() + 6 * 60 * 60 * 1000;
 
         addUserInfo({
+          ...data.data,
           userId: data.data.userId,
           username: data.data.username,
           nickname: data.data.nickname,

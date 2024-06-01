@@ -200,6 +200,7 @@ import { useStorage } from '@/lib/useStorage';
 import { useRef, useState } from 'react';
 import { usePatchUserInfo } from '@/service/user/useUserService';
 import { useAccessToken } from '@/lib/useAccessToken';
+import { useQueryClient } from '@tanstack/react-query';
 
 export default function EditDrawer({
   onOpenHandler,
@@ -233,6 +234,7 @@ export default function EditDrawer({
 function EditProfileForm() {
   const { userInfo } = useStorage();
   const { accessToken } = useAccessToken();
+  const queryClient = useQueryClient();
   const inputRef = useRef<HTMLInputElement>(null);
   const [patchData, setPatchData] = useState({
     nickname: (userInfo.nickname as string) || '',
@@ -291,18 +293,16 @@ function EditProfileForm() {
             body: formData,
           }
         );
-        if (!response.ok) {
-          throw new Error('Failed to upload image');
-        }
-
         const result = await response.json();
         setPatchData({ ...patchData, profileImage: result.imageUrl });
         mutate(); // Update user info with new profile image URL
+        queryClient.invalidateQueries(['getProfileImage']);
+        console.log(result);
       } catch (error) {
-        console.error('Error uploading image:', error);
+        alert(`Error uploading image:, ${error}`);
       }
     } else {
-      console.error('No file selected');
+      alert('No file selected');
     }
   };
 
