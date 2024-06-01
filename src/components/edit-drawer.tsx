@@ -296,7 +296,7 @@ function EditProfileForm() {
         const result = await response.json();
         setPatchData({ ...patchData, profileImage: result.imageUrl });
         mutate(); // Update user info with new profile image URL
-        queryClient.invalidateQueries(['getProfileImage']);
+        queryClient.invalidateQueries({ queryKey: ['getProfileImage'] });
         console.log(result);
       } catch (error) {
         alert(`Error uploading image:, ${error}`);

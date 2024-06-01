@@ -79,8 +79,10 @@ export function useUpdateLink({
     }),
     onSuccess: () =>
       Promise.all([
-        queryClient.invalidateQueries(['specificCategory', categoryId]),
-        queryClient.invalidateQueries(['link', linkId]),
+        queryClient.invalidateQueries({
+          queryKey: ['specificCategory', categoryId],
+        }),
+        queryClient.invalidateQueries({ queryKey: ['link', linkId] }),
       ]),
   });
 }
