@@ -1,11 +1,17 @@
-import { Badge } from '@/components/ui/badge';
-import { CiBookmark } from 'react-icons/ci';
-
+import { Button } from '@/components/ui/button';
+import { useToast } from '@/components/ui/use-toast';
 export default function CopyButton() {
+  const { toast } = useToast();
   return (
-    <button className='flex flex-col items-center'>
-      <CiBookmark size={20} />
-      <Badge variant={'outline'}>Copy</Badge>
-    </button>
+    <Button
+      variant='outline'
+      onClick={() => {
+        toast({
+          title: 'Copied successfully to your categories',
+        });
+      }}
+    >
+      Copy
+    </Button>
   );
 }

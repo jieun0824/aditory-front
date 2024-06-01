@@ -2,15 +2,19 @@
 
 import { Card, CardHeader } from '@/components/ui/card';
 import { useAccessToken } from '@/lib/useAccessToken';
-import { usePublic } from '@/service/categories/useCategoryService';
+import {
+  useCopyCategory,
+  useLike,
+  usePublic,
+} from '@/service/categories/useCategoryService';
 import Loading from '../loading';
 import Link from 'next/link';
-import LinkPreview from '../../mypage/_component/link-preview';
 import { Label } from '@/components/ui/label';
-import LikeButton from './like-button';
-import CopyButton from './copy-button';
-import { Separator } from '@/components/ui/separator';
 import { Badge } from '@/components/ui/badge';
+import { Category } from '@/types/model/category';
+import { FcLike } from 'react-icons/fc';
+import { useToast } from '@/components/ui/use-toast';
+import { Button } from '@/components/ui/button';
 
 export default function ResultComponent() {
   const { accessToken } = useAccessToken();
@@ -20,7 +24,7 @@ export default function ResultComponent() {
     <>
       {data ? (
         data.data.publicCategoryList.map((category: any) => (
-          <PublicCategoryCard category={category} />
+          <PublicCategoryCard category={category} accessToken={accessToken} />
         ))
       ) : (
         <Loading />
@@ -29,7 +33,13 @@ export default function ResultComponent() {
   );
 }
 
-function PublicCategoryCard({ category }: any) {
+function PublicCategoryCard({
+  category,
+  accessToken,
+}: {
+  category: Category;
+  accessToken: string;
+}) {
   return (
     <div className='flex w-full flex-col'>
       <Link href={`/category/${category.categoryId}`} className='w-full'>
@@ -46,17 +56,52 @@ function PublicCategoryCard({ category }: any) {
             {category.linkCount} links
           </Badge>
         </Link>
-        <OptionButton likeCount={category.likeCount} />
+        <OptionButton
+          accessToken={accessToken}
+          likeCount={category.likeCount!}
+          categoryId={category.categoryId}
+        />
       </div>
     </div>
   );
 }
 
-function OptionButton({ likeCount }: { likeCount: number }) {
+function OptionButton({
+  likeCount,
+  accessToken,
+  categoryId,
+}: {
+  likeCount: number;
+  accessToken: string;
+  categoryId: number;
+}) {
+  const { toast } = useToast();
+  const { mutate: copyMutate } = useCopyCategory({
+    accessToken: accessToken,
+    categoryId: categoryId,
+  });
+  const { mutate: likeMutate } = useLike({
+    accessToken: accessToken,
+    categoryId: categoryId,
+  });
+
   return (
     <div className='flex w-full justify-end'>
-      <LikeButton likeCount={likeCount} />
-      <CopyButton />
+      <button
+        className='flex flex-col items-center'
+        onClick={() => likeMutate()}
+      >
+        <FcLike size={20} />
+        <Badge variant={'outline'}>{likeCount}</Badge>
+      </button>
+      <Button
+        variant='outline'
+        onClick={() => {
+          copyMutate();
+        }}
+      >
+        Copy
+      </Button>
     </div>
   );
 }

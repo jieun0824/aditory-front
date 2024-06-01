@@ -61,14 +61,6 @@ class Service {
     return this.request<T>('DELETE', url, undefined, config);
   }
 
-  private head<T>(url: string, config?: RequestInit): Promise<T> {
-    return this.request<T>('HEAD', url, undefined, config);
-  }
-
-  private options<T>(url: string, config?: RequestInit): Promise<T> {
-    return this.request<T>('OPTIONS', url, undefined, config);
-  }
-
   private post<T>(
     url: string,
     data?: unknown,

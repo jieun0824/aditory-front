@@ -11,8 +11,6 @@ import { Button } from '@/components/ui/button';
 import { useStorage } from '@/lib/useStorage';
 import { useRouter } from 'next/navigation';
 import { Badge } from './ui/badge';
-import { SelectSeparator } from './ui/select';
-import Link from 'next/link';
 import EditDrawer from './edit-drawer';
 import { profileImageResponse } from '@/types/model/user';
 

@@ -4,6 +4,7 @@ import { ThemeProvider } from '@/lib/provider/theme-provider';
 import './globals.css';
 import ReactQueryProviders from '@/lib/provider/query-provider';
 import CheckAccess from '@/lib/provider/check-access';
+import { Toaster } from '@/components/ui/toaster';
 
 const notoSans = Noto_Sans({
   subsets: ['latin'],
@@ -35,6 +36,7 @@ export default function RootLayout({
             <CheckAccess>{children}</CheckAccess>
           </ReactQueryProviders>
         </ThemeProvider>
+        <Toaster />
       </body>
     </html>
   );

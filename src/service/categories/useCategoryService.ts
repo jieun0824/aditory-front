@@ -7,6 +7,7 @@ import {
 import queryOptions from '@/service/categories/queries';
 import useCategoryStore from '@/lib/useCategoryStore';
 import { CategoryState } from '@/types/types';
+import { useToast } from '@/components/ui/use-toast';
 //get
 //get my categories
 export function useMyCategories({
@@ -72,7 +73,29 @@ export function useCopyCategory({
   accessToken: string;
   categoryId: number;
 }) {
-  return useMutation(queryOptions.copyCategory({ accessToken, categoryId }));
+  const { toast } = useToast();
+  const queryClient = useQueryClient();
+  return useMutation({
+    ...queryOptions.copyCategory({ accessToken, categoryId }),
+    onSuccess(data) {},
+    onSettled: (data, error) => {
+      if (data) {
+        toast({
+          title: 'Copied successfully to your categories',
+        });
+        queryClient.invalidateQueries({
+          queryKey: ['myCategory'],
+        });
+        return data;
+      } else {
+        toast({
+          title: 'You already have this category',
+          variant: 'destructive',
+        });
+      }
+      return data;
+    },
+  });
 }
 
 export function useMoveCategory({

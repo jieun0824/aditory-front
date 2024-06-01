@@ -12,7 +12,7 @@ export interface Category extends CategoryPost {
   createdAt: Date;
   lastModifiedAt: Date;
   linkCount: number;
-  linkeCount?: number;
+  likeCount?: number;
   linkList?: Link[];
 }
 

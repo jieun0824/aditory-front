@@ -140,6 +140,7 @@ class CategoryService extends Service {
   }) {
     return this.http.post<Category>(
       `/categories/${categoryId}/copy`,
+      undefined,
       this.authorization(accessToken)
     );
   }

@@ -99,11 +99,7 @@ const CategoryQueryOptions = {
     categoryId: number;
   }) => ({
     queryKey: queryKeys.copyCategory({ categoryId }),
-    queryFn: () => CategoryService.copyCategory({ accessToken, categoryId }),
-    onSuccess: async (data: any) => {
-      console.log(data);
-    },
-    onError: errorHandler,
+    mutationFn: () => CategoryService.copyCategory({ accessToken, categoryId }),
   }),
   moveCategory: ({
     accessToken,
