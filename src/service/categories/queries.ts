@@ -11,9 +11,6 @@ const queryKeys = {
   },
   //post method
   newCategory: ['newCategory'] as const,
-  addLike: ({ categoryId }: { categoryId: number }) => {
-    return ['addLike', categoryId] as const;
-  },
   copyCategory: ({ categoryId }: { categoryId: number }) => {
     return ['copyCategory', categoryId] as const;
   },
@@ -27,6 +24,9 @@ const queryKeys = {
   //delete method
   deleteCategory: ({ categoryId }: { categoryId: number }) => {
     return ['deleteCategory', categoryId] as const;
+  },
+  addLike: ({ categoryId }: { categoryId: number }) => {
+    return ['addLike', categoryId] as const;
   },
   deleteLike: ({ categoryId }: { categoryId: number }) => {
     return ['deleteLike', categoryId] as const;
@@ -60,6 +60,7 @@ const CategoryQueryOptions = {
     queryKey: queryKeys.public,
     queryFn: () => CategoryService.getPublicCategories({ accessToken }),
     onError: errorHandler,
+    enabled: !!accessToken,
   }),
 
   specific: ({
@@ -89,20 +90,7 @@ const CategoryQueryOptions = {
     },
     onError: errorHandler,
   }),
-  addLike: ({
-    accessToken,
-    categoryId,
-  }: {
-    accessToken: string;
-    categoryId: number;
-  }) => ({
-    queryKey: queryKeys.addLike({ categoryId }),
-    queryFn: () => CategoryService.postLike({ accessToken, categoryId }),
-    onSuccess: async (data: any) => {
-      console.log(data);
-    },
-    onError: errorHandler,
-  }),
+
   copyCategory: ({
     accessToken,
     categoryId,
@@ -184,6 +172,20 @@ const CategoryQueryOptions = {
     },
     onError: errorHandler,
   }),
+  addLike: ({
+    accessToken,
+    categoryId,
+  }: {
+    accessToken: string;
+    categoryId: number;
+  }) => ({
+    queryKey: queryKeys.addLike({ categoryId }),
+    mutationFn: () => CategoryService.postLike({ accessToken, categoryId }),
+    onSuccess: async (data: any) => {
+      console.log(data);
+    },
+    onError: errorHandler,
+  }),
   deleteLike: ({
     accessToken,
     categoryId,
@@ -192,7 +194,7 @@ const CategoryQueryOptions = {
     categoryId: number;
   }) => ({
     queryKey: queryKeys.deleteLike({ categoryId }),
-    queryFn: () => CategoryService.deleteLike({ accessToken, categoryId }),
+    mutationFn: () => CategoryService.deleteLike({ accessToken, categoryId }),
     onSuccess: async (data: any) => {
       console.log(data);
     },
