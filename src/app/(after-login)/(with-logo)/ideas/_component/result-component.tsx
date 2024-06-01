@@ -24,7 +24,11 @@ export default function ResultComponent() {
     <>
       {data ? (
         data.data.publicCategoryList.map((category: any) => (
-          <PublicCategoryCard category={category} accessToken={accessToken} />
+          <PublicCategoryCard
+            category={category}
+            accessToken={accessToken}
+            key={category.categoryId}
+          />
         ))
       ) : (
         <Loading />
