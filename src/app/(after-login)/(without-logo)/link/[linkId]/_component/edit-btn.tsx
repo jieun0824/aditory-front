@@ -26,9 +26,9 @@ export default function EditButton({
       onClick={() => {
         if (editMode) {
           mutate();
-          router.push(`/link/${pathName.linkId}`);
+          router.replace(`/link/${pathName.linkId}`);
         } else {
-          router.push(`/link/${pathName.linkId}?editMode=true`);
+          router.replace(`/link/${pathName.linkId}?editMode=true`);
         }
       }}
     >

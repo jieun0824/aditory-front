@@ -67,16 +67,22 @@ export function useUpdateLink({
   categoryId: number;
   linkId: number;
 }) {
-  return useMutation(
-    queryOptions.updateLink({
+  const queryClient = useQueryClient();
+  return useMutation({
+    ...queryOptions.updateLink({
       accessToken,
       title,
       summary,
       url,
       categoryId,
       linkId,
-    })
-  );
+    }),
+    onSuccess: () =>
+      Promise.all([
+        queryClient.invalidateQueries(['specificCategory', categoryId]),
+        queryClient.invalidateQueries(['link', linkId]),
+      ]),
+  });
 }
 
 export function useUpdateStatus({

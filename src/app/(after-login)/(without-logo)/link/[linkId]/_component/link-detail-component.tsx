@@ -17,12 +17,7 @@ import { useMyCategories } from '@/service/categories/useCategoryService';
 import LinkButton from '@/app/(after-login)/(without-logo)/link/[linkId]/_component/link-btn';
 import EditButton from '@/app/(after-login)/(without-logo)/link/[linkId]/_component/edit-btn';
 import SelectButton from '@/app/(after-login)/(without-logo)/link/[linkId]/_component/select-btn';
-import {
-  useParams,
-  usePathname,
-  useRouter,
-  useSearchParams,
-} from 'next/navigation';
+import { useSearchParams } from 'next/navigation';
 
 const readMode = 'focus-visible:ring-0 focus-visible:ring-offset-0';
 export default function LinkDetailComponent({ linkId }: { linkId: number }) {
