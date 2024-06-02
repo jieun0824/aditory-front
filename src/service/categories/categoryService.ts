@@ -2,7 +2,6 @@ import Service from '@/service/service';
 import {
   Category,
   CategoryResponse,
-  publicCategoryResponse,
   specificCategoryResponse,
 } from '@/types/model/category';
 import { CategoryState } from '@/types/types';
@@ -96,7 +95,7 @@ class CategoryService extends Service {
 
   //get public category lists
   getPublicCategories({ accessToken }: { accessToken: string }) {
-    return this.http.get<publicCategoryResponse>(
+    return this.http.get<CategoryResponse>(
       `/categories/public`,
       this.authorization(accessToken)
     );

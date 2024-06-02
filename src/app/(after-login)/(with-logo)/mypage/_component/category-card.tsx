@@ -3,15 +3,20 @@ import { Card, CardHeader } from '@/components/ui/card';
 import { Label } from '@/components/ui/label';
 import Link from 'next/link';
 import LinkPreview from './link-preview';
+import { Category } from '@/types/model/category';
 
-function CategoryCard({ category }: any) {
+function CategoryCard({ category }: { category: Category }) {
   return (
     <Link
       href={`/category/${category.categoryId}`}
       className='h-full min-h-52 w-full'
     >
       <Card className='h-3/4 border-none'>
-        <CardHeader>{category.linkCount !== 0 && <LinkPreview />}</CardHeader>
+        <CardHeader>
+          {category.linkCount !== 0 && (
+            <LinkPreview prevLinks={category.prevLinks ?? []} />
+          )}
+        </CardHeader>
       </Card>
       <div className='flex h-1/4 flex-col gap-1 p-2'>
         <Label htmlFor='category' className='font-medium'>

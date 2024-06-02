@@ -38,6 +38,7 @@ export default function NewCategoryModal({
       }
     });
   };
+
   return (
     <DialogContent className='sm:max-w-[425px]'>
       <DialogHeader>

@@ -29,7 +29,7 @@ export default function ResultComponent() {
   return (
     <>
       {data && myLikes ? (
-        data.data.publicCategoryList.map((category: any) => (
+        data.data.categoryList.map((category: any) => (
           <PublicCategoryCard
             category={category}
             accessToken={accessToken}

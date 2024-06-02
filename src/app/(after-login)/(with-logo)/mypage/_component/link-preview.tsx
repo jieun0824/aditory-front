@@ -1,13 +1,64 @@
+'use client';
 import { Skeleton } from '@/components/ui/skeleton';
+import Image from 'next/image';
+import { useState, useEffect } from 'react';
 
-export default function LinkPreview() {
-  return (
-    <div className='flex h-1/2 w-1/2 flex-col space-y-3'>
-      <Skeleton className='w-full rounded-xl' />
-      <div className='h-full w-full space-y-2'>
-        <Skeleton className='h-full w-full' />
-        <Skeleton className='h-full w-full' />
+type LinkMetadata = {
+  ogImage: string;
+  ogTitle: string;
+  ogUrl: string;
+};
+
+export default function LinkPreview({ prevLinks }: { prevLinks: string[] }) {
+  const [ogData, setOgData] = useState<LinkMetadata[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  const getOgData = async (externalUrl: string) => {
+    const response = await fetch(
+      `/api/preview?url=${encodeURIComponent(externalUrl)}`
+    );
+    const data = await response.json();
+    return data;
+  };
+
+  useEffect(() => {
+    const fetchAllData = async () => {
+      try {
+        const promises = prevLinks.map((link) => getOgData(link));
+        Promise.all(promises).then(setOgData);
+      } catch (error) {
+        console.error('Failed to fetch metadata:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchAllData();
+  }, [prevLinks]);
+
+  if (loading) {
+    return (
+      <div className='flex h-1/2 w-1/2 flex-col space-y-3'>
+        <Skeleton className='w-full rounded-xl' />
+        <div className='h-full w-full space-y-2'>
+          <Skeleton className='h-full w-full' />
+          <Skeleton className='h-full w-full' />
+        </div>
       </div>
+    );
+  }
+
+  return (
+    <div className='flex flex-col space-y-3'>
+      {ogData.map((meta, index) => (
+        <div className='flex h-1/2 w-1/2 flex-col space-y-2' key={index}>
+          <img
+            alt={meta.ogTitle}
+            src={meta.ogImage}
+            className='h-full w-full rounded-xl shadow'
+          />
+        </div>
+      ))}
     </div>
   );
 }
