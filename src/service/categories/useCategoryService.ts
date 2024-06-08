@@ -8,6 +8,8 @@ import queryOptions from '@/service/categories/queries';
 import useCategoryStore from '@/lib/useCategoryStore';
 import { CategoryState } from '@/types/types';
 import { useToast } from '@/components/ui/use-toast';
+import { useStorage } from '@/lib/useStorage';
+import { specificCategoryResponse } from '@/types/model/category';
 //get
 //get my categories
 export function useMyCategories({
@@ -49,11 +51,23 @@ export function useSpecific({
 export function useCreateCategory({
   accessToken,
   categoryName,
+  successedFn,
 }: {
   accessToken: string;
   categoryName: string;
+  successedFn?: (data: any) => any;
 }) {
-  return useMutation(queryOptions.newCategory({ accessToken, categoryName }));
+  const { addCategories } = useStorage();
+  return useMutation({
+    ...queryOptions.newCategory({ accessToken, categoryName }),
+    onSettled: (data) => {
+      addCategories({
+        categoryId: data?.data.categoryId,
+        categoryName: data?.data.categoryName,
+      });
+      successedFn && successedFn(data);
+    },
+  });
 }
 
 export function useLike({
@@ -175,11 +189,15 @@ export function useDeleteCategory({
 }: {
   accessToken: string;
   categoryId: number;
-  onSettled?: () => void;
+  onSettled?: (data?: any) => void;
 }) {
+  const { deleteCategories } = useStorage();
   return useMutation({
     ...queryOptions.deleteCategory({ accessToken, categoryId }),
-    onSettled: onSettled,
+    onSettled: (data) => {
+      deleteCategories(categoryId);
+      onSettled && onSettled(data);
+    },
   });
 }
 

@@ -12,6 +12,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { useAccessToken } from '@/lib/useAccessToken';
 import queryOptions from '@/service/categories/queries';
+import { useCreateCategory } from '@/service/categories/useCategoryService';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 
@@ -25,19 +26,15 @@ export default function NewCategoryModal({
   const [category, setCategory] = useState('');
   const { accessToken } = useAccessToken();
   const router = useRouter();
-  const { queryFn, onSuccess } = queryOptions.newCategory({
+  const { mutate } = useCreateCategory({
     accessToken: accessToken,
     categoryName: category,
+    successedFn: () => {
+      refetch();
+      setCategory('');
+      dialogRef.current?.click();
+    },
   });
-  const postNewCategory = () => {
-    queryFn().then((response) => {
-      if (response.success) {
-        refetch();
-        setCategory('');
-        dialogRef.current?.click();
-      }
-    });
-  };
 
   return (
     <DialogContent className='sm:max-w-[425px]'>
@@ -59,7 +56,7 @@ export default function NewCategoryModal({
         </div>
       </div>
       <DialogFooter>
-        <Button onClick={postNewCategory} type='submit'>
+        <Button onClick={() => mutate()} type='submit'>
           save
         </Button>
       </DialogFooter>

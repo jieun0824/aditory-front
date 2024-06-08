@@ -84,7 +84,8 @@ const CategoryQueryOptions = {
     categoryName: string;
   }) => ({
     queryKey: queryKeys.newCategory,
-    queryFn: () => CategoryService.postCategory({ accessToken, categoryName }),
+    mutationFn: () =>
+      CategoryService.postCategory({ accessToken, categoryName }),
     onSuccess: async (data: any) => {
       console.log(data);
     },
