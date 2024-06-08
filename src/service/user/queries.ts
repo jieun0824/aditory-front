@@ -2,7 +2,7 @@ import UserService from '@/service/user/userService';
 import { MyLikes } from '@/types/model/user';
 
 const queryKeys = {
-  all: ['user'] as const,
+  getUser: ['user'] as const,
   signIn: ({ username, password }: { username: string; password: string }) =>
     ['user', 'signIn'] as const,
   refresh: ({
@@ -19,9 +19,10 @@ const queryKeys = {
 };
 
 const UserQueryOptions = {
-  all: ({ accessToken }: { accessToken: string }) => ({
-    queryKey: queryKeys.all,
+  getUser: ({ accessToken }: { accessToken: string }) => ({
+    queryKey: queryKeys.getUser,
     queryFn: async () => await UserService.getUsers({ accessToken }),
+    enabled: !!accessToken,
   }),
   signIn: ({ username, password }: { username: string; password: string }) => ({
     queryKey: queryKeys.signIn({ username, password }),

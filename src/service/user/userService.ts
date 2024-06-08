@@ -4,12 +4,13 @@ import {
   MyLikes,
   Refresh,
   User,
+  UserResponse,
   profileImageResponse,
 } from '@/types/model/user';
 
 class UserService extends Service {
   getUsers({ accessToken }: { accessToken: string }) {
-    return this.http.get<User>(`/users`, {
+    return this.http.get<UserResponse>(`/users`, {
       headers: { Authorization: `Bearer ${accessToken}` },
     });
   }

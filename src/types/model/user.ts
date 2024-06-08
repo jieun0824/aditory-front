@@ -7,6 +7,7 @@ export interface User {
   password?: string;
   accessToken?: string;
   refreshToken?: string;
+  aditoryPower?: number;
 }
 
 export interface Login {
@@ -37,4 +38,8 @@ export interface profileImageResponse extends ResponseType {
 
 export interface MyLikes extends ResponseType {
   data: { likeCategoryList: number[] };
+}
+
+export interface UserResponse extends ResponseType {
+  data: User;
 }

@@ -2,9 +2,25 @@ import { useMutation, useQuery } from '@tanstack/react-query';
 import queryOptions from '@/service/user/queries';
 import { useStorage } from '@/lib/useStorage';
 import { useRouter } from 'next/navigation';
+import { UserResponse } from '@/types/model/user';
 
-export function useUsers({ accessToken }: { accessToken: string }) {
-  return useQuery(queryOptions.all({ accessToken }));
+export function useUsers({
+  accessToken,
+  selectFn,
+}: {
+  accessToken: string;
+  selectFn?: (data: any) => any;
+}) {
+  return useQuery({
+    ...queryOptions.getUser({ accessToken }),
+    select: (data: UserResponse) => {
+      if (selectFn) {
+        return selectFn(data);
+      } else {
+        return data;
+      }
+    },
+  });
 }
 
 export function useSignIn({
