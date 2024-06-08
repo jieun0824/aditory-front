@@ -40,16 +40,24 @@ export function usePostLink({
   url: string;
   categoryId: number;
 }) {
-  return useMutation(
-    queryOptions.newLink({
+  const queryClient = useQueryClient();
+  return useMutation({
+    ...queryOptions.newLink({
       accessToken,
       autoComplete,
       title,
       summary,
       url,
       categoryId,
-    })
-  );
+    }),
+    onSuccess: () =>
+      Promise.all([
+        queryClient.invalidateQueries({ queryKey: ['myCategory'] }),
+        queryClient.invalidateQueries({
+          queryKey: ['reminder'],
+        }),
+      ]),
+  });
 }
 
 export function useUpdateLink({

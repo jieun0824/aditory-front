@@ -13,12 +13,9 @@ import Link from 'next/link';
 import { Label } from '@/components/ui/label';
 import { Badge } from '@/components/ui/badge';
 import { Category } from '@/types/model/category';
-import { FcLike } from 'react-icons/fc';
-import { useToast } from '@/components/ui/use-toast';
 import { Button } from '@/components/ui/button';
 import { useMyLikes } from '@/service/user/useUserService';
 import { useEffect, useState } from 'react';
-import { CiHeart } from 'react-icons/ci';
 import { FaHeart, FaRegHeart } from 'react-icons/fa';
 import { useQueryClient } from '@tanstack/react-query';
 
