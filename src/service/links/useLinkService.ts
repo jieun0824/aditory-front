@@ -5,6 +5,7 @@ import {
   useSuspenseQuery,
 } from '@tanstack/react-query';
 import queryOptions from '@/service/links/queries';
+import { Link, LinkResponse } from '@/types/model/link';
 
 export function useLink({
   accessToken,
@@ -32,6 +33,7 @@ export function usePostLink({
   summary,
   url,
   categoryId,
+  additionalFn,
 }: {
   accessToken: string;
   autoComplete: boolean;
@@ -39,8 +41,10 @@ export function usePostLink({
   summary: string;
   url: string;
   categoryId: number;
+  additionalFn?: () => void;
 }) {
   const queryClient = useQueryClient();
+
   return useMutation({
     ...queryOptions.newLink({
       accessToken,
@@ -50,13 +54,14 @@ export function usePostLink({
       url,
       categoryId,
     }),
-    onSuccess: () =>
+    onSettled: () =>
       Promise.all([
         queryClient.invalidateQueries({ queryKey: ['myCategory'] }),
         queryClient.invalidateQueries({
           queryKey: ['reminder'],
         }),
       ]),
+    onSuccess: () => additionalFn && additionalFn(),
   });
 }
 

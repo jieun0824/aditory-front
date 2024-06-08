@@ -11,7 +11,7 @@ import {
   HoverCardTrigger,
 } from '@/components/ui/hover-card';
 import { Dialog, DialogTrigger } from '@/components/ui/dialog';
-import AddModal from './add-modal';
+import AddModal from '@/app/(after-login)/(with-logo)/_component/add-modal';
 
 export default function LinkInput() {
   // const inputRef = useRef<HTMLInputElement>(null);
@@ -25,7 +25,6 @@ export default function LinkInput() {
     setIsValid(pattern.test(url));
   };
 
-  // 입력된 링크가 변경될 때 실행되는 함수
   const handleInputChange = useCallback(
     (event: React.ChangeEvent<HTMLInputElement>) => {
       setPreviewUrl(event.target.value);
@@ -33,7 +32,6 @@ export default function LinkInput() {
     [setPreviewUrl]
   );
 
-  // 클립보드에서 붙여넣기하는 함수
   const pasteFromClipboard = () => {
     navigator.clipboard
       .readText()
@@ -86,9 +84,9 @@ export default function LinkInput() {
             <DialogTrigger ref={dialogRef}>
               <Button
                 className='max-w-xs rounded-xl bg-input py-8 hover:bg-input/40'
-                onClick={() => {
-                  localStorage.setItem('url', previewUrl);
-                }}
+                // onClick={() => {
+                //   localStorage.setItem('url', previewUrl);
+                // }}
               >
                 <FaPlus />
               </Button>

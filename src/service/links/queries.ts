@@ -63,7 +63,7 @@ const LinkQueryOptions = {
     categoryId: number;
   }) => ({
     queryKey: queryKeys.newLink,
-    queryFn: () =>
+    mutationFn: () =>
       LinkService.postLink({
         accessToken,
         autoComplete,

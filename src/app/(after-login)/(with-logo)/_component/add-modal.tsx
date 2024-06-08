@@ -12,9 +12,10 @@ import { useCallback, useState } from 'react';
 import { Switch } from '@/components/ui/switch';
 import { useAccessToken } from '@/lib/useAccessToken';
 import { useMyCategories } from '@/service/categories/useCategoryService';
-import queryOptions from '@/service/links/queries';
 import SelectComponent from '@/components/select-component';
 import { SelectItem } from '@/components/ui/select';
+import { usePostLink } from '@/service/links/useLinkService';
+import ClipLoader from 'react-spinners/ClipLoader';
 
 export default function AddModal({
   url,
@@ -34,11 +35,17 @@ export default function AddModal({
   const { accessToken } = useAccessToken();
   const [payloadData, setPayloadData] = useState(defaultValue);
 
-  const { queryFn } = queryOptions.newLink({
+  const { mutate, isPending } = usePostLink({
     ...payloadData,
     url: url,
     accessToken: accessToken,
+    additionalFn: () => {
+      setPayloadData(defaultValue);
+      setPreviewUrl('');
+      dialogRef.current?.click();
+    },
   });
+
   const { data, error, isLoading }: any = useMyCategories({
     accessToken: accessToken,
   });
@@ -60,15 +67,7 @@ export default function AddModal({
 
   const submitHandler = async (e: any) => {
     e.preventDefault();
-    queryFn()
-      .then((response) => {
-        setPayloadData(defaultValue);
-        setPreviewUrl('');
-        dialogRef.current?.click();
-      })
-      .catch((error) => {
-        console.error(error);
-      });
+    mutate();
   };
 
   return (
@@ -133,10 +132,25 @@ export default function AddModal({
             </SelectComponent>
           </div>
         </div>
-        <DialogFooter className='mt-3 flex justify-center'>
-          <Button className='w-full rounded-xl text-white' type='submit'>
-            Save
-          </Button>
+        <DialogFooter className='mt-3 flex items-center justify-center'>
+          {isPending ? (
+            <div className='flex flex-col items-center gap-2'>
+              <ClipLoader
+                className='animate-pulse'
+                loading={isPending}
+                size={20}
+                aria-label='Loading Spinner'
+                data-testid='loader'
+              />
+              <span className='animate-pulse text-xs'>
+                Automatically Classifying Acorn Types...
+              </span>
+            </div>
+          ) : (
+            <Button className='w-full rounded-xl text-white' type='submit'>
+              Save
+            </Button>
+          )}
         </DialogFooter>
       </form>
     </DialogContent>
