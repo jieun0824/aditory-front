@@ -26,7 +26,7 @@ export default function ReminderCard({
           <CardTitle>'Nothing to remind'</CardTitle>
         </CardHeader>
         <CardContent>
-          <p>'you have read all of your links'</p>
+          <p>you have read all of your links</p>
         </CardContent>
       </Card>
     );

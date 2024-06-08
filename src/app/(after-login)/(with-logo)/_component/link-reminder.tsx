@@ -22,7 +22,7 @@ export default function LinkReminder() {
       </p>
       <Carousel>
         {isError ? (
-          <Nothing />
+          <ReminderCard nothing={true} />
         ) : (
           <CarouselContent>
             {data?.data.linkList.length != undefined &&
@@ -56,8 +56,4 @@ export default function LinkReminder() {
       </Carousel>
     </div>
   );
-}
-
-function Nothing() {
-  return <ReminderCard nothing={true} />;
 }
