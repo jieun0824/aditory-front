@@ -78,6 +78,9 @@ export default function DrawerDemo() {
         stateRef.current.style.color = 'red';
         closeRef.current?.click();
       }
+      return queryClient.invalidateQueries({
+        queryKey: ['myCategory'],
+      });
     },
   });
   const onOpenHandler = () => {

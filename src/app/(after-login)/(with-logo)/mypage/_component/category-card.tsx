@@ -13,9 +13,7 @@ function CategoryCard({ category }: { category: Category }) {
     >
       <Card className='h-3/4 border-none'>
         <CardHeader>
-          {category.linkCount !== 0 && (
-            <LinkPreview prevLinks={category.prevLinks ?? []} />
-          )}
+          <LinkPreview prevLinks={category.prevLinks ?? []} />
         </CardHeader>
       </Card>
       <div className='flex h-1/4 flex-col gap-1 p-2'>

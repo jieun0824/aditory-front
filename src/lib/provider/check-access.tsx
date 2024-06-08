@@ -14,7 +14,7 @@ export default function CheckAccess({
 }: {
   children: React.ReactElement;
 }) {
-  const { userInfo } = useStorage();
+  const { userInfo, removeUserInfo } = useStorage();
   const pathName = usePathname();
   const isNotLoggedIn = useIsLoggedIn((state: any) => state.isLoggedIn);
   const setIsNotLoggedIn = useIsLoggedIn((state: any) => state.setIsLoggedIn);
@@ -27,7 +27,11 @@ export default function CheckAccess({
   const limitAccess = ['/mypage', '/'];
   useEffect(() => {
     console.log(pathName);
-    if (isEmptyObj(userInfo) && limitAccess.includes(pathName)) {
+    if (
+      (isEmptyObj(userInfo) ||
+        (userInfo && userInfo.refreshTokenExpires! <= Date.now())) &&
+      limitAccess.includes(pathName)
+    ) {
       console.log(`isLoggedIn: ${isNotLoggedIn}`);
       setIsNotLoggedIn(true);
     } else {

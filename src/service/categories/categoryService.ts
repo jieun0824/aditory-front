@@ -5,7 +5,6 @@ import {
   specificCategoryResponse,
 } from '@/types/model/category';
 import { CategoryState } from '@/types/types';
-import { headers } from 'next/headers';
 
 class CategoryService extends Service {
   authorization = (accessToken: string) => {
@@ -96,7 +95,7 @@ class CategoryService extends Service {
   //get public category lists
   getPublicCategories({ accessToken }: { accessToken: string }) {
     return this.http.get<CategoryResponse>(
-      `/categories/public`,
+      `/categories/public/all?page=0&size=30`,
       this.authorization(accessToken)
     );
   }

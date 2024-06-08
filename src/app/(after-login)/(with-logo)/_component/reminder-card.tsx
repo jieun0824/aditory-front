@@ -6,6 +6,7 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
+import Link from 'next/link';
 
 export default function ReminderCard({
   title,
@@ -18,17 +19,32 @@ export default function ReminderCard({
   additional?: string;
   nothing: boolean;
 }) {
+  if (nothing) {
+    return (
+      <Card className='bg-primary text-white'>
+        <CardHeader>
+          <CardTitle>'Nothing to remind'</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <p>'you have read all of your links'</p>
+        </CardContent>
+      </Card>
+    );
+  }
   return (
-    <Card className='bg-primary text-white'>
-      <CardHeader>
-        <CardTitle>{!nothing ? title : 'Nothing to remind'}</CardTitle>
-      </CardHeader>
-      <CardContent>
-        <p>{!nothing ? description : 'you have read all of your links'}</p>
-      </CardContent>
-      <CardFooter>
-        <p>{!nothing ? additional : ''}</p>
-      </CardFooter>
-    </Card>
+    <Link href={additional!} target='_blank'>
+      <Card className='h-[200px] bg-primary text-white'>
+        <CardHeader>
+          <CardTitle>{title}</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <p>
+            {description?.length! >= 100
+              ? description?.slice(0, 100) + '...'
+              : description}
+          </p>
+        </CardContent>
+      </Card>
+    </Link>
   );
 }

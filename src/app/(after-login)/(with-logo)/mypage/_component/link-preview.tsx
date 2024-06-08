@@ -1,6 +1,5 @@
 'use client';
 import { Skeleton } from '@/components/ui/skeleton';
-import Image from 'next/image';
 import { useState, useEffect } from 'react';
 
 type LinkMetadata = {
@@ -38,9 +37,10 @@ export default function LinkPreview({ prevLinks }: { prevLinks: string[] }) {
 
   if (loading) {
     return (
-      <div className='flex h-1/2 w-1/2 flex-col space-y-3'>
-        <Skeleton className='w-full rounded-xl' />
-        <div className='h-full w-full space-y-2'>
+      <div className='grid grid-cols-2 grid-rows-2'>
+        <div className='m-1'>
+          <Skeleton className='h-full w-full border border-bgColor' />
+          <Skeleton className='h-full w-full' />
           <Skeleton className='h-full w-full' />
           <Skeleton className='h-full w-full' />
         </div>
@@ -48,14 +48,24 @@ export default function LinkPreview({ prevLinks }: { prevLinks: string[] }) {
     );
   }
 
+  if (prevLinks.length === 0) {
+    return (
+      <div className='grid grid-cols-2 grid-rows-2'>
+        <div className='m-1'>
+          <Skeleton className='h-full w-full border-r' />
+        </div>
+      </div>
+    );
+  }
+
   return (
-    <div className='flex flex-col space-y-3'>
+    <div className='grid grid-cols-2 grid-rows-2'>
       {ogData.map((meta, index) => (
-        <div className='flex h-1/2 w-1/2 flex-col space-y-2' key={index}>
+        <div className='m-1' key={index + meta.ogImage}>
           <img
             alt={meta.ogTitle}
             src={meta.ogImage}
-            className='h-full w-full rounded-xl shadow'
+            className='h-full rounded-xl object-cover shadow'
           />
         </div>
       ))}

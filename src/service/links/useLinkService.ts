@@ -109,10 +109,12 @@ export function useDeleteLink({
   const queryClient = useQueryClient();
   return useMutation({
     ...queryOptions.deleteLink({ accessToken, linkId, categoryId }),
-    onSettled: () => {
-      return queryClient.invalidateQueries({
-        queryKey: ['specificCategory', categoryId],
-      });
-    },
+    onSettled: () =>
+      Promise.all([
+        queryClient.invalidateQueries({ queryKey: ['myCategory'] }),
+        queryClient.invalidateQueries({
+          queryKey: ['specificCategory', categoryId],
+        }),
+      ]),
   });
 }
