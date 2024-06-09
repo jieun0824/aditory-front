@@ -56,7 +56,7 @@ export default function DefaultComponent({
   return (
     <>
       {/* random component */}
-      <h1 className='my-6 text-2xl font-extrabold'>TODAY's LINKS</h1>
+      <h1 className='my-6 text-2xl font-extrabold'>TODAY&apos;s LINKS</h1>
       <ScrollArea className='h-full w-[410px] whitespace-nowrap rounded-md border'>
         <div className='grid w-full auto-cols-[200px] grid-flow-col gap-4 overflow-scroll'>
           {randomPublic && myLikes ? (
