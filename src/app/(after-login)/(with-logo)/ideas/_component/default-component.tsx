@@ -1,5 +1,4 @@
 'use client';
-import Loading from '../loading';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { useEffect, useState } from 'react';
@@ -17,6 +16,7 @@ import {
 } from '@/service/categories/useCategoryService';
 import { Separator } from '@/components/ui/separator';
 import { useInView } from 'react-intersection-observer';
+import Loading from '@/app/loading';
 
 export default function DefaultComponent({
   myLikes,
@@ -58,7 +58,7 @@ export default function DefaultComponent({
       {/* random component */}
       <h1 className='my-6 text-2xl font-extrabold'>TODAY's LINKS</h1>
       <ScrollArea className='h-full w-[410px] whitespace-nowrap rounded-md border'>
-        <div className='grid w-full auto-cols-[200px] grid-flow-col gap-2 overflow-scroll'>
+        <div className='grid w-full auto-cols-[200px] grid-flow-col gap-4 overflow-scroll'>
           {randomPublic && myLikes ? (
             randomPublic.data.categoryList.map((category: any) => (
               <CategoryCard category={category} key={category.categoryId}>

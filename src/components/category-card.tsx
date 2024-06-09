@@ -26,7 +26,7 @@ export default function CategoryCard({
         className='h-3/4 cursor-pointer border-none'
         onClick={() => router.push(`/category/${category.categoryId}`)}
       >
-        <CardHeader>
+        <CardHeader className='h-full w-full'>
           <LinkPreview prevLinks={category.prevLinks ?? []} />
         </CardHeader>
       </Card>

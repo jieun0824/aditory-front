@@ -4,7 +4,6 @@ import ProfileCard from '@/components/profile-card';
 import { MdLibraryBooks } from 'react-icons/md';
 import { FaCirclePlus } from 'react-icons/fa6';
 import { Suspense, useEffect, useRef, useState } from 'react';
-import Loading from './loading';
 import { useStorage } from '@/lib/useStorage';
 import Categories from './_component/category-card';
 import { useAccessToken } from '@/lib/useAccessToken';
@@ -34,25 +33,23 @@ export default function MyPage() {
 
   return (
     <>
-      <Suspense fallback={<Loading />}>
-        <ProfileCard data={userInfo} profileImage={profileImage} />
-        <div className='flex w-full justify-between'>
-          <div className='flex items-center gap-2 text-left'>
-            <MdLibraryBooks className='text-md' />
-            <Label className='text-md font-semibold'>My Categories</Label>
-          </div>
-          <Dialog>
-            <DialogTrigger asChild ref={dialogRef}>
-              <div className='flex cursor-pointer items-center gap-2 transition-opacity hover:opacity-60'>
-                <FaCirclePlus className='text-primary' />
-                <span className='text-xs'>add new category</span>
-              </div>
-            </DialogTrigger>
-            <NewCategoryModal refetch={refetch} dialogRef={dialogRef} />
-          </Dialog>
+      <ProfileCard data={userInfo} profileImage={profileImage} />
+      <div className='flex w-full justify-between'>
+        <div className='flex items-center gap-2 text-left'>
+          <MdLibraryBooks className='text-md' />
+          <Label className='text-md font-semibold'>My Categories</Label>
         </div>
-        <Categories categories={data ? data.data.categoryList : []} />
-      </Suspense>
+        <Dialog>
+          <DialogTrigger asChild ref={dialogRef}>
+            <div className='flex cursor-pointer items-center gap-2 transition-opacity hover:opacity-60'>
+              <FaCirclePlus className='text-primary' />
+              <span className='text-xs'>add new category</span>
+            </div>
+          </DialogTrigger>
+          <NewCategoryModal refetch={refetch} dialogRef={dialogRef} />
+        </Dialog>
+      </div>
+      <Categories categories={data ? data.data.categoryList : []} />
     </>
   );
 }
