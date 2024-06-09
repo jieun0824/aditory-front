@@ -60,7 +60,7 @@ export function useCreateCategory({
   const { addCategories } = useStorage();
   return useMutation({
     ...queryOptions.newCategory({ accessToken, categoryName }),
-    onSettled: (data) => {
+    onSettled: (data: any) => {
       addCategories({
         categoryId: data?.data.categoryId,
         categoryName: data?.data.categoryName,

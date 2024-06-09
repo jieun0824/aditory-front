@@ -51,9 +51,7 @@ export default function MyPage() {
             <NewCategoryModal refetch={refetch} dialogRef={dialogRef} />
           </Dialog>
         </div>
-        <div className='grid h-full w-full grid-cols-2 gap-x-4'>
-          <Categories categories={data ? data.data.categoryList : []} />
-        </div>
+        <Categories categories={data ? data.data.categoryList : []} />
       </Suspense>
     </>
   );

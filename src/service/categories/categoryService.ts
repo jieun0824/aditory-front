@@ -95,7 +95,7 @@ class CategoryService extends Service {
   //get public category lists
   getPublicCategories({ accessToken }: { accessToken: string }) {
     return this.http.get<CategoryResponse>(
-      `/categories/public/all?page=0&size=30`,
+      `/categories/public/all?page=0&size=3`,
       this.authorization(accessToken)
     );
   }
