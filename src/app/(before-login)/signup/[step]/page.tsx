@@ -9,6 +9,7 @@ import ThirdStep from '@/app/(before-login)/signup/_component/third-step';
 import Link from 'next/link';
 import useUserInfo from '@/lib/useUserInfo';
 import { useRouter } from 'next/navigation';
+import { useCreateCategory } from '@/service/categories/useCategoryService';
 
 export type stateName = 'username' | 'password' | 'nickname' | 'contact';
 export default function SignUp({ params }: { params: { step: string } }) {

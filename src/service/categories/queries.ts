@@ -10,7 +10,8 @@ const queryKeys = {
     return ['specificCategory', categoryId] as const;
   },
   //post method
-  newCategory: ['newCategory'] as const,
+  newCategory: ({ categoryName }: { categoryName: string }) =>
+    ['newCategory', categoryName] as const,
   copyCategory: ({ categoryId }: { categoryId: number }) => {
     return ['copyCategory', categoryId] as const;
   },
@@ -83,7 +84,9 @@ const CategoryQueryOptions = {
     accessToken: string;
     categoryName: string;
   }) => ({
-    queryKey: queryKeys.newCategory,
+    queryKey: queryKeys.newCategory({
+      categoryName,
+    }),
     mutationFn: () =>
       CategoryService.postCategory({ accessToken, categoryName }),
     onSuccess: async (data: any) => {

@@ -10,9 +10,9 @@ export default function RedirectKakao() {
   const { addUserInfo } = useStorage();
   const router = useRouter();
   console.log(code);
-  const postCode = async () => {
+  const postCode = async (): Promise<any> => {
     try {
-      const res = await fetch(
+      const response = await fetch(
         `${process.env.NEXT_PUBLIC_BASE_URL}/oauth/login`,
         {
           method: 'POST',
@@ -27,28 +27,36 @@ export default function RedirectKakao() {
           },
         }
       );
-      return await res.json();
+
+      // if (!response.ok) {
+      //   throw new Error('Network response was not ok');
+      // }
+
+      return await response.json();
     } catch (error) {
-      console.log(error);
+      console.error('Error:', error);
+      throw error;
     }
   };
 
   useEffect(() => {
     if (code) {
-      postCode();
-      // .then((res) => {
-      //   console.log(res.data);
-      //   const accessTokenExpires = Date.now() + 10 * 60 * 1000;
-      //   const refreshTokenExpires = Date.now() + 6 * 60 * 60 * 1000;
+      postCode().then((res) => {
+        console.log(res.data);
+        const accessTokenExpires = Date.now() + 10 * 60 * 1000;
+        const refreshTokenExpires = Date.now() + 6 * 60 * 60 * 1000;
 
-      //   addUserInfo({
-      //     ...res.data,
-      //     accessTokenExpires: accessTokenExpires,
-      //     refreshTokenExpires: refreshTokenExpires,
-      //   });
-
-      //   router.push('/');
-      // });
+        addUserInfo({
+          ...res.data,
+          accessTokenExpires: accessTokenExpires,
+          refreshTokenExpires: refreshTokenExpires,
+        });
+        if (res.data.userCategories.length === 0) {
+          router.push('/oauth/kakao/signup');
+        } else {
+          router.push('/');
+        }
+      });
     }
   }, [code]);
 
