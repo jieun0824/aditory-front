@@ -23,7 +23,7 @@ export default function CategoryCard({
   return (
     <div className='h-full min-h-64 w-full'>
       <Card
-        className='h-3/4 border-none'
+        className='h-3/4 cursor-pointer border-none'
         onClick={() => router.push(`/category/${category.categoryId}`)}
       >
         <CardHeader>
@@ -33,7 +33,7 @@ export default function CategoryCard({
       <ChildProvider OptionNode={children} linkCount={category.linkCount}>
         <Label
           htmlFor='category'
-          className='font-medium'
+          className='cursor-pointer font-medium'
           onClick={() => router.push(`/category/${category.categoryId}`)}
         >
           {category.categoryName}

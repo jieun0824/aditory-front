@@ -100,6 +100,13 @@ class CategoryService extends Service {
     );
   }
 
+  getRandomPublicCategories({ accessToken }: { accessToken: string }) {
+    return this.http.get<CategoryResponse>(
+      `/categories/public/random`,
+      this.authorization(accessToken)
+    );
+  }
+
   //add like to public category
   postLike({
     accessToken,

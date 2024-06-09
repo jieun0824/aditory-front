@@ -28,6 +28,10 @@ export function usePublic({ accessToken }: { accessToken: string }) {
   return useQuery(queryOptions.public({ accessToken }));
 }
 
+export function useRandom({ accessToken }: { accessToken: string }) {
+  return useQuery(queryOptions.random({ accessToken }));
+}
+
 export function useSpecific({
   accessToken,
   categoryId,

@@ -6,6 +6,7 @@ const queryKeys = {
   //get method
   my: ['myCategory'] as const,
   public: ['publicCategory'] as const,
+  randomPublic: ['randomPublicCategory'] as const,
   specific: ({ categoryId }: { categoryId: number }) => {
     return ['specificCategory', categoryId] as const;
   },
@@ -59,6 +60,13 @@ const CategoryQueryOptions = {
   public: ({ accessToken }: { accessToken: string }) => ({
     queryKey: queryKeys.public,
     queryFn: () => CategoryService.getPublicCategories({ accessToken }),
+    onError: errorHandler,
+    enabled: !!accessToken,
+  }),
+
+  random: ({ accessToken }: { accessToken: string }) => ({
+    queryKey: queryKeys.randomPublic,
+    queryFn: () => CategoryService.getRandomPublicCategories({ accessToken }),
     onError: errorHandler,
     enabled: !!accessToken,
   }),
