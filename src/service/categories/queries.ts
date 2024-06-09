@@ -5,7 +5,7 @@ import { useQueryClient } from '@tanstack/react-query';
 const queryKeys = {
   //get method
   my: ['myCategory'] as const,
-  public: ['publicCategory'] as const,
+  public: ({ page }: { page: number }) => ['page', page] as const,
   randomPublic: ['randomPublicCategory'] as const,
   specific: ({ categoryId }: { categoryId: number }) => {
     return ['specificCategory', categoryId] as const;
@@ -57,10 +57,20 @@ const CategoryQueryOptions = {
     onError: errorHandler,
     enabled: !!accessToken,
   }),
+
   public: ({ accessToken }: { accessToken: string }) => ({
-    queryKey: queryKeys.public,
-    queryFn: () => CategoryService.getPublicCategories({ accessToken }),
-    onError: errorHandler,
+    queryKey: queryKeys.public({ page: 0 }),
+    queryFn: ({ pageParam }: { pageParam: number }) =>
+      CategoryService.getPublicCategories({
+        accessToken: accessToken,
+        page: pageParam,
+      }),
+    getNextPageParam: (lastPage, allPages) => {
+      return lastPage.data.currentPage != allPages[0].data.currentPage
+        ? lastPage.data.currentPage
+        : undefined;
+    },
+    initialPageParam: 0,
     enabled: !!accessToken,
   }),
 
@@ -69,6 +79,7 @@ const CategoryQueryOptions = {
     queryFn: () => CategoryService.getRandomPublicCategories({ accessToken }),
     onError: errorHandler,
     enabled: !!accessToken,
+    staleTime: Infinity,
   }),
 
   specific: ({

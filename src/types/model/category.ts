@@ -18,7 +18,12 @@ export interface Category extends CategoryPost {
 }
 
 export interface CategoryResponse extends ResponseType {
-  data: { categoryList: Category[] };
+  data: {
+    categoryList: Category[];
+    currentPage: number;
+    totalItems: number;
+    totalPages: number;
+  };
 }
 
 export interface Links {
@@ -38,4 +43,9 @@ export interface specificCategoryResponse extends ResponseType {
     categoryState: CategoryState;
     linkList: Links[];
   };
+}
+
+export interface InfiniteResponse {
+  pages: CategoryResponse[];
+  pagesParams: number[];
 }

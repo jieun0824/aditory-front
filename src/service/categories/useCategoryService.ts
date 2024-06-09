@@ -1,4 +1,5 @@
 import {
+  useInfiniteQuery,
   useMutation,
   useQuery,
   useQueryClient,
@@ -25,7 +26,10 @@ export function useMyCategories({
 }
 
 export function usePublic({ accessToken }: { accessToken: string }) {
-  return useQuery(queryOptions.public({ accessToken }));
+  // "currentPage": 0,
+  // 			"totalPages": 1,
+  // 			"totalItems": 2
+  return useInfiniteQuery(queryOptions.public({ accessToken }));
 }
 
 export function useRandom({ accessToken }: { accessToken: string }) {
