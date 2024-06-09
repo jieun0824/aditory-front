@@ -1,11 +1,13 @@
 import CategoryService from '@/service/categories/categoryService';
+import { CategoryResponse, InfiniteResponse } from '@/types/model/category';
 import { CategoryState } from '@/types/types';
 import { useQueryClient } from '@tanstack/react-query';
 //create unique key
 const queryKeys = {
   //get method
   my: ['myCategory'] as const,
-  public: ['publicCategory'] as const,
+  public: ({ page }: { page: number }) => ['page', page] as const,
+  randomPublic: ['randomPublicCategory'] as const,
   specific: ({ categoryId }: { categoryId: number }) => {
     return ['specificCategory', categoryId] as const;
   },
@@ -56,11 +58,29 @@ const CategoryQueryOptions = {
     onError: errorHandler,
     enabled: !!accessToken,
   }),
+
   public: ({ accessToken }: { accessToken: string }) => ({
-    queryKey: queryKeys.public,
-    queryFn: () => CategoryService.getPublicCategories({ accessToken }),
+    queryKey: queryKeys.public({ page: 0 }),
+    queryFn: ({ pageParam }: { pageParam: number }) =>
+      CategoryService.getPublicCategories({
+        accessToken: accessToken,
+        page: pageParam,
+      }),
+    getNextPageParam: (lastPage: CategoryResponse, allPages: unknown) => {
+      return lastPage.data.currentPage != lastPage.data.totalPages //if not last page
+        ? lastPage.data.currentPage + 1
+        : undefined;
+    },
+    initialPageParam: 0,
+    enabled: !!accessToken,
+  }),
+
+  random: ({ accessToken }: { accessToken: string }) => ({
+    queryKey: queryKeys.randomPublic,
+    queryFn: () => CategoryService.getRandomPublicCategories({ accessToken }),
     onError: errorHandler,
     enabled: !!accessToken,
+    staleTime: Infinity,
   }),
 
   specific: ({

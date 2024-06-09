@@ -2,6 +2,7 @@ import Service from '@/service/service';
 import {
   Category,
   CategoryResponse,
+  InfiniteResponse,
   specificCategoryResponse,
 } from '@/types/model/category';
 import { CategoryState } from '@/types/types';
@@ -93,9 +94,22 @@ class CategoryService extends Service {
   }
 
   //get public category lists
-  getPublicCategories({ accessToken }: { accessToken: string }) {
+  getPublicCategories({
+    accessToken,
+    page,
+  }: {
+    accessToken: string;
+    page: number;
+  }) {
     return this.http.get<CategoryResponse>(
-      `/categories/public/all?page=0&size=30`,
+      `/categories/public/all?page=${page}&size=8`,
+      this.authorization(accessToken)
+    );
+  }
+
+  getRandomPublicCategories({ accessToken }: { accessToken: string }) {
+    return this.http.get<InfiniteResponse>(
+      `/categories/public/today`,
       this.authorization(accessToken)
     );
   }

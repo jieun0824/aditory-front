@@ -1,4 +1,5 @@
 'use client';
+import { Badge } from '@/components/ui/badge';
 import { Skeleton } from '@/components/ui/skeleton';
 import { useState, useEffect } from 'react';
 
@@ -37,37 +38,37 @@ export default function LinkPreview({ prevLinks }: { prevLinks: string[] }) {
 
   if (loading) {
     return (
-      <div className='grid grid-cols-2 grid-rows-2'>
-        <div className='m-1'>
-          <Skeleton className='h-full w-full border border-bgColor' />
-          <Skeleton className='h-full w-full' />
-          <Skeleton className='h-full w-full' />
-          <Skeleton className='h-full w-full' />
-        </div>
+      <div className='grid h-full w-full grid-cols-2 grid-rows-2 gap-2'>
+        <Skeleton className='h-full w-full border border-bgColor' />
+        <Skeleton className='h-full w-full' />
+        <Skeleton className='h-full w-full' />
+        <Skeleton className='h-full w-full' />
       </div>
     );
   }
 
-  if (prevLinks.length === 0) {
+  if (!loading && prevLinks.length === 0) {
     return (
-      <div className='grid grid-cols-2 grid-rows-2'>
-        <div className='m-1'>
-          <Skeleton className='h-full w-full border-r' />
-        </div>
+      <div className='flex h-full w-full justify-center'>
+        <Badge
+          className='border-none text-center text-foreground/20'
+          variant={'outline'}
+        >
+          No links found
+        </Badge>
       </div>
     );
   }
 
   return (
-    <div className='grid grid-cols-2 grid-rows-2'>
+    <div className='grid h-full w-full grid-cols-2 grid-rows-2 gap-2'>
       {ogData.map((meta, index) => (
-        <div className='m-1' key={index + meta.ogImage}>
-          <img
-            alt={meta.ogTitle}
-            src={meta.ogImage}
-            className='h-full rounded-xl object-cover shadow'
-          />
-        </div>
+        <img
+          key={index + meta.ogImage}
+          alt={meta.ogTitle}
+          src={meta.ogImage}
+          className='h-full rounded-xl object-cover shadow'
+        />
       ))}
     </div>
   );

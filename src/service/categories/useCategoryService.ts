@@ -1,4 +1,5 @@
 import {
+  useInfiniteQuery,
   useMutation,
   useQuery,
   useQueryClient,
@@ -25,7 +26,11 @@ export function useMyCategories({
 }
 
 export function usePublic({ accessToken }: { accessToken: string }) {
-  return useQuery(queryOptions.public({ accessToken }));
+  return useInfiniteQuery(queryOptions.public({ accessToken }));
+}
+
+export function useRandom({ accessToken }: { accessToken: string }) {
+  return useQuery(queryOptions.random({ accessToken }));
 }
 
 export function useSpecific({
@@ -60,7 +65,7 @@ export function useCreateCategory({
   const { addCategories } = useStorage();
   return useMutation({
     ...queryOptions.newCategory({ accessToken, categoryName }),
-    onSettled: (data) => {
+    onSettled: (data: any) => {
       addCategories({
         categoryId: data?.data.categoryId,
         categoryName: data?.data.categoryName,

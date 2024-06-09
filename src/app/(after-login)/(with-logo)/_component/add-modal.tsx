@@ -134,7 +134,7 @@ export default function AddModal({
         </div>
         <DialogFooter className='mt-3 flex items-center justify-center'>
           {isPending ? (
-            <div className='flex flex-col items-center gap-2'>
+            <div className='flex w-full flex-col items-center justify-center gap-2'>
               <ClipLoader
                 className='animate-pulse'
                 loading={isPending}
