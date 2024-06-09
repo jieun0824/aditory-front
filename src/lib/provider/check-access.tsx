@@ -58,7 +58,7 @@ function SessionExpires() {
       <AlertDescription>
         Your session has expired. Please log in.
       </AlertDescription>
-      <Link href={'/signin'}>
+      <Link href={'/splash'}>
         <Button variant={'destructive'}>Login</Button>
       </Link>
     </Alert>

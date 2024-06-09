@@ -1,6 +1,7 @@
 import { Button } from '@/components/ui/button';
 import Image from 'next/image';
 import Link from 'next/link';
+import KakaoLoginBtn from './kakao-login';
 
 export default function InfoCard() {
   return (
@@ -16,7 +17,7 @@ export default function InfoCard() {
         <Link href={'/login'}>
           <Button className='w-full text-white shadow-md'>Login</Button>
         </Link>
-        <Button className='text-white shadow-md'>Google Login</Button>
+        <KakaoLoginBtn />
         <Link
           href={'/signup/1'}
           className='flex cursor-pointer justify-center text-zinc-600'
