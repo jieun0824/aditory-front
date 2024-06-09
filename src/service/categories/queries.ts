@@ -66,8 +66,8 @@ const CategoryQueryOptions = {
         page: pageParam,
       }),
     getNextPageParam: (lastPage, allPages) => {
-      return lastPage.data.currentPage != allPages[0].data.currentPage
-        ? lastPage.data.currentPage
+      return lastPage.data.currentPage != lastPage.data.totalPages //if not last page
+        ? lastPage.data.currentPage + 1
         : undefined;
     },
     initialPageParam: 0,

@@ -1,10 +1,7 @@
 'use client';
 import Loading from '../loading';
-import { Label } from '@/components/ui/label';
 import { Badge } from '@/components/ui/badge';
-import { Category } from '@/types/model/category';
 import { Button } from '@/components/ui/button';
-import { useMyLikes } from '@/service/user/useUserService';
 import { useEffect, useState } from 'react';
 import { FaHeart, FaRegHeart } from 'react-icons/fa';
 import { useQueryClient } from '@tanstack/react-query';
@@ -18,6 +15,7 @@ import {
   useUnLike,
 } from '@/service/categories/useCategoryService';
 import { Separator } from '@/components/ui/separator';
+import { useInView } from 'react-intersection-observer';
 
 export default function DefaultComponent({
   myLikes,
@@ -28,6 +26,7 @@ export default function DefaultComponent({
   randomPublic: any;
   accessToken: string;
 }) {
+  const queryClient = useQueryClient();
   const {
     data: allCategories,
     error,
@@ -37,7 +36,22 @@ export default function DefaultComponent({
     isFetchingNextPage,
     status,
   } = usePublic({ accessToken: accessToken });
-  console.log(allCategories);
+
+  const ObservationComponent = () => {
+    const [ref, inView] = useInView();
+
+    useEffect(() => {
+      if (!allCategories) return;
+
+      const pageLastIdx = allCategories.pages.length - 1;
+      const isLast =
+        allCategories?.pages[pageLastIdx].data.currentPage ===
+        allCategories?.pages[pageLastIdx].data.totalPages;
+      if (!isLast && inView) fetchNextPage();
+    }, [inView]);
+
+    return <div ref={ref} />;
+  };
 
   return (
     <>
@@ -69,22 +83,27 @@ export default function DefaultComponent({
       {status === 'pending' ? (
         <Loading />
       ) : (
-        <div className='grid h-full w-full grid-cols-2 gap-2'>
-          {allCategories && myLikes ? (
-            allCategories.pages[0].data.categoryList.map((category: any) => (
-              <CategoryCard category={category} key={category.categoryId}>
-                <OptionButton
-                  accessToken={accessToken}
-                  likeCount={category.likeCount!}
-                  categoryId={category.categoryId}
-                  isMyLike={myLikes.includes(category.categoryId)}
-                />
-              </CategoryCard>
-            ))
-          ) : (
-            <Loading />
-          )}
-        </div>
+        <>
+          <div className='grid h-full w-full grid-cols-2 gap-2'>
+            {allCategories && myLikes ? (
+              allCategories.pages.map((page: any) => {
+                return page.data.categoryList.map((category: any) => (
+                  <CategoryCard category={category} key={category.categoryId}>
+                    <OptionButton
+                      accessToken={accessToken}
+                      likeCount={category.likeCount!}
+                      categoryId={category.categoryId}
+                      isMyLike={myLikes.includes(category.categoryId)}
+                    />
+                  </CategoryCard>
+                ));
+              })
+            ) : (
+              <Loading />
+            )}
+            <ObservationComponent />
+          </div>
+        </>
       )}
     </>
   );
