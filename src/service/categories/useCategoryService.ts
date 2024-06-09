@@ -26,9 +26,6 @@ export function useMyCategories({
 }
 
 export function usePublic({ accessToken }: { accessToken: string }) {
-  // "currentPage": 0,
-  // 			"totalPages": 1,
-  // 			"totalItems": 2
   return useInfiniteQuery(queryOptions.public({ accessToken }));
 }
 

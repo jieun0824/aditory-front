@@ -1,4 +1,5 @@
 import CategoryService from '@/service/categories/categoryService';
+import { CategoryResponse, InfiniteResponse } from '@/types/model/category';
 import { CategoryState } from '@/types/types';
 import { useQueryClient } from '@tanstack/react-query';
 //create unique key
@@ -65,7 +66,7 @@ const CategoryQueryOptions = {
         accessToken: accessToken,
         page: pageParam,
       }),
-    getNextPageParam: (lastPage, allPages) => {
+    getNextPageParam: (lastPage: CategoryResponse, allPages: unknown) => {
       return lastPage.data.currentPage != lastPage.data.totalPages //if not last page
         ? lastPage.data.currentPage + 1
         : undefined;

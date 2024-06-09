@@ -7,6 +7,7 @@ import { FaHeart, FaRegHeart } from 'react-icons/fa';
 import { useQueryClient } from '@tanstack/react-query';
 import CategoryCard from '@/components/category-card';
 import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area';
+import RotateLoader from 'react-spinners/RotateLoader';
 
 import {
   useCopyCategory,
@@ -26,7 +27,6 @@ export default function DefaultComponent({
   randomPublic: any;
   accessToken: string;
 }) {
-  const queryClient = useQueryClient();
   const {
     data: allCategories,
     error,
@@ -81,7 +81,13 @@ export default function DefaultComponent({
       <Separator className='mt-8 bg-foreground/15' />
       <h1 className='my-6 text-2xl font-extrabold'>ALL LINKS</h1>
       {status === 'pending' ? (
-        <Loading />
+        <RotateLoader
+          className='animate-pulse'
+          loading={status === 'pending'}
+          size={20}
+          aria-label='Loading Spinner'
+          data-testid='loader'
+        />
       ) : (
         <>
           <div className='grid h-full w-full grid-cols-2 gap-2'>
