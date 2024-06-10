@@ -10,7 +10,6 @@ export default function ResultComponent() {
   const { data: myLikes } = useMyLikes({ accessToken: accessToken });
   const { data: randomPublic } = useRandom({ accessToken: accessToken });
 
-  const options = {};
   return (
     <div>
       <DefaultComponent

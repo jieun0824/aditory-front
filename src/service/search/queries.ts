@@ -32,7 +32,7 @@ const SearchQueryOptions = {
         : undefined;
     },
     initialPageParam: 0,
-    enabled: !!accessToken,
+    enabled: !!accessToken && !!query,
   }),
   searchLink: ({
     accessToken,
@@ -45,7 +45,7 @@ const SearchQueryOptions = {
   }) => ({
     queryKey: queryKeys.searchLink({ query }),
     queryFn: ({ pageParam }: { pageParam: number }) =>
-      SearchService.searchByCategory({
+      SearchService.searchByLink({
         accessToken: accessToken,
         query: query,
         categoryScope: categoryScope,
@@ -57,7 +57,7 @@ const SearchQueryOptions = {
         : undefined;
     },
     initialPageParam: 0,
-    enabled: !!accessToken,
+    enabled: !!accessToken && !!query,
   }),
 };
 

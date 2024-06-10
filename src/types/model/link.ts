@@ -27,3 +27,8 @@ export interface LinkResponse extends ResponseType {
 export interface LinkListResponse extends ResponseType {
   data: { linkList: Link[] };
 }
+
+export interface InfiniteLinkResponse {
+  pages: LinkResponse[];
+  pagesParams: number[];
+}

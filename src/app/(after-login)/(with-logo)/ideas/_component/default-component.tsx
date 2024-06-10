@@ -115,7 +115,7 @@ export default function DefaultComponent({
   );
 }
 
-function OptionButton({
+export function OptionButton({
   likeCount,
   accessToken,
   categoryId,

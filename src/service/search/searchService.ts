@@ -1,5 +1,6 @@
 import Service from '@/service/service';
-import { CategoryResponse } from '@/types/model/category';
+import { CategoryResponse, InfiniteResponse } from '@/types/model/category';
+import { InfiniteLinkResponse } from '@/types/model/link';
 
 // categoryScope
 export enum CategoryScope {
@@ -26,8 +27,8 @@ class SearchService extends Service {
     categoryScope: CategoryScope;
     page: number;
   }) {
-    return this.http.get<CategoryResponse>(
-      `/search/categories?query=${query}&categoryScope=${categoryScope}&page=${page}&size=8`,
+    return this.http.get<InfiniteResponse>(
+      `/search/categories?query=${query}&categoryScope=${CategoryScope[categoryScope]}&page=${page}&size=8`,
       this.authorization(accessToken)
     );
   }
@@ -42,8 +43,8 @@ class SearchService extends Service {
     categoryScope: CategoryScope;
     page: number;
   }) {
-    return this.http.get<CategoryResponse>(
-      `/search/links?query=${query}&categoryScope=${categoryScope}&page=${page}&size=8`,
+    return this.http.get<InfiniteLinkResponse>(
+      `/search/links?query=${query}&categoryScope=${CategoryScope[categoryScope]}&page=${page}&size=8`,
       this.authorization(accessToken)
     );
   }

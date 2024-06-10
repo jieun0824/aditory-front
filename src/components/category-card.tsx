@@ -36,7 +36,7 @@ export default function CategoryCard({
           className='cursor-pointer font-medium'
           onClick={() => router.push(`/category/${category.categoryId}`)}
         >
-          {category.categoryName}
+          {children ? category.asCategoryName : category.categoryName}
         </Label>
       </ChildProvider>
     </div>
