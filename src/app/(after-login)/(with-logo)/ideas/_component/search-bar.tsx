@@ -22,7 +22,12 @@ export default function SearchBar() {
     const formData = new FormData(e.target);
     const query = formData.get('query');
     const filter = formData.get('filter');
+
     if (query && filter) {
+      if (query?.toString().length < 2) {
+        alert('Please enter at least 2 characters');
+        return;
+      }
       router.push(`/ideas?query=${query}&filter=${filter}`);
     } else if (!query) {
       alert('Please enter any keyword');

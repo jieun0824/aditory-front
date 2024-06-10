@@ -20,20 +20,22 @@ export default function CategoryComponent({
   return (
     <>
       {data.pages[0].data.categoryList.length > 0 ? (
-        data.pages.map((page: CategoryResponse) => {
-          return page.data.categoryList.map((category) => (
-            <CategoryCard category={category} key={category.categoryId}>
-              <OptionButton
-                accessToken={accessToken}
-                likeCount={category.likeCount!}
-                categoryId={category.categoryId}
-                isMyLike={myLikes.includes(category.categoryId)}
-              />
-            </CategoryCard>
-          ));
-        })
+        <div className='grid h-full w-full grid-cols-2 gap-2'>
+          {data.pages.map((page: CategoryResponse) => {
+            return page.data.categoryList.map((category) => (
+              <CategoryCard category={category} key={category.categoryId}>
+                <OptionButton
+                  accessToken={accessToken}
+                  likeCount={category.likeCount!}
+                  categoryId={category.categoryId}
+                  isMyLike={myLikes.includes(category.categoryId)}
+                />
+              </CategoryCard>
+            ));
+          })}
+        </div>
       ) : (
-        <p>nothing</p>
+        <div className='w-full text-center text-foreground/15'>nothing</div>
       )}
     </>
   );

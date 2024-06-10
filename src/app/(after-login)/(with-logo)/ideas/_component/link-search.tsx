@@ -5,11 +5,11 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
-import { InfiniteLinkResponse } from '@/types/model/link';
+import { InfiniteLinkResponseData } from '@/types/model/link';
 import Link from 'next/link';
 
 interface LinkComponentProps {
-  data: InfiniteLinkResponse;
+  data: InfiniteLinkResponseData;
 }
 
 export default function LinkComponent({ data }: LinkComponentProps) {
@@ -38,7 +38,7 @@ export default function LinkComponent({ data }: LinkComponentProps) {
           ));
         })
       ) : (
-        <p>nothing</p>
+        <div className='w-full text-center text-foreground/15'>nothing</div>
       )}
     </>
   );

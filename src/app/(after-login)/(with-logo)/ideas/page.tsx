@@ -12,10 +12,11 @@ import { InfiniteData } from '@tanstack/react-query';
 import { useSearchParams } from 'next/navigation';
 import { useEffect } from 'react';
 import { useMyLikes } from '@/service/user/useUserService';
-import Loading from '@/app/(after-login)/(without-logo)/category/[categoryId]/loading';
+
 import { useInView } from 'react-intersection-observer';
 import CategoryComponent from './_component/category-component';
 import LinkComponent from './_component/link-search';
+import Loading from '@/app/loading';
 
 export default function IdeasPage() {
   const params = useSearchParams();
@@ -27,13 +28,13 @@ export default function IdeasPage() {
 
   const searchByCategory = useSearchByCategory({
     accessToken: accessToken,
-    query: query || '',
+    query: filter === 'category' ? query || '' : '',
     categoryScope: CategoryScope.IN_PUBLIC,
   });
 
   const searchByLink = useSearchByLink({
     accessToken: accessToken,
-    query: query || '',
+    query: filter === 'link' ? query || '' : '',
     categoryScope: CategoryScope.IN_PUBLIC,
   });
 
@@ -65,11 +66,11 @@ export default function IdeasPage() {
     return <div ref={ref} />;
   };
 
-  useEffect(() => {
-    if (data) {
-      console.log(data);
-    }
-  }, [data]);
+  // useEffect(() => {
+  //   if (data) {
+  //     console.log(data);
+  //   }
+  // }, [data]);
 
   const renderContent = () => {
     if (!query || !filter) return <ResultComponent />;
@@ -78,7 +79,7 @@ export default function IdeasPage() {
 
     if (filter === 'category') {
       return (
-        <div className='grid h-full w-full grid-cols-2 gap-2'>
+        <>
           {myLikes && (
             <CategoryComponent
               data={data}
@@ -87,7 +88,7 @@ export default function IdeasPage() {
             />
           )}
           <ObservationComponent />
-        </div>
+        </>
       );
     }
 
