@@ -25,5 +25,19 @@ export interface LinkResponse extends ResponseType {
 }
 
 export interface LinkListResponse extends ResponseType {
-  data: { linkList: Link[] };
+  data: {
+    linkList: Link[];
+    currentPage?: number;
+    totalItems?: number;
+    totalPages?: number;
+  };
+}
+
+export interface InfiniteLinkResponseData {
+  pages: LinkListResponse[];
+  pagesParams: number[];
+}
+
+export interface InfiniteLinkResponse extends ResponseType {
+  data: InfiniteLinkResponseData;
 }

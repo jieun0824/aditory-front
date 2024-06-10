@@ -28,9 +28,9 @@ export default function RedirectKakao() {
         }
       );
 
-      // if (!response.ok) {
-      //   throw new Error('Network response was not ok');
-      // }
+      if (!response.ok) {
+        return;
+      }
 
       return await response.json();
     } catch (error) {
@@ -42,19 +42,21 @@ export default function RedirectKakao() {
   useEffect(() => {
     if (code) {
       postCode().then((res) => {
-        console.log(res.data);
-        const accessTokenExpires = Date.now() + 10 * 60 * 1000;
-        const refreshTokenExpires = Date.now() + 6 * 60 * 60 * 1000;
+        if (res) {
+          console.log(res.data);
+          const accessTokenExpires = Date.now() + 10 * 60 * 1000;
+          const refreshTokenExpires = Date.now() + 6 * 60 * 60 * 1000;
 
-        addUserInfo({
-          ...res.data,
-          accessTokenExpires: accessTokenExpires,
-          refreshTokenExpires: refreshTokenExpires,
-        });
-        if (res.data.userCategories.length === 0) {
-          router.push('/oauth/kakao/signup');
-        } else {
-          router.push('/');
+          addUserInfo({
+            ...res.data,
+            accessTokenExpires: accessTokenExpires,
+            refreshTokenExpires: refreshTokenExpires,
+          });
+          if (res.data.userCategories.length === 0) {
+            router.push('/oauth/kakao/signup');
+          } else {
+            router.push('/');
+          }
         }
       });
     }

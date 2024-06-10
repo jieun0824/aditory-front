@@ -45,7 +45,11 @@ export interface specificCategoryResponse extends ResponseType {
   };
 }
 
-export interface InfiniteResponse {
+export interface InfiniteResponseData {
   pages: CategoryResponse[];
   pagesParams: number[];
+}
+
+export interface InfiniteResponse extends ResponseType {
+  data: InfiniteResponseData;
 }

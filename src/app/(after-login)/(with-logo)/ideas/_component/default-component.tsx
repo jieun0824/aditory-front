@@ -58,7 +58,7 @@ export default function DefaultComponent({
       {/* random component */}
       <h1 className='my-6 text-2xl font-extrabold'>TODAY&apos;s LINKS</h1>
       <ScrollArea className='h-full w-[410px] whitespace-nowrap rounded-md border'>
-        <div className='grid w-full auto-cols-[200px] grid-flow-col gap-4 overflow-scroll'>
+        <div className='grid h-full w-full auto-cols-[200px] grid-flow-col gap-4 overflow-scroll pb-2.5'>
           {randomPublic && myLikes ? (
             randomPublic.data.categoryList.map((category: any) => (
               <CategoryCard category={category} key={category.categoryId}>
@@ -115,7 +115,7 @@ export default function DefaultComponent({
   );
 }
 
-function OptionButton({
+export function OptionButton({
   likeCount,
   accessToken,
   categoryId,
@@ -166,7 +166,7 @@ function OptionButton({
       </Button>
       <Badge
         variant={'outline'}
-        className='gap-1 border-none p-0'
+        className='cursor-pointer gap-1 border-none p-0'
         onClick={() => {
           console.log(categoryId, isMyLike);
           isLike ? deleteMutate() : likeMutate();
