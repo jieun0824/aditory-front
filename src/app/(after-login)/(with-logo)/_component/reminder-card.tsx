@@ -14,7 +14,7 @@ export default function ReminderCard({
 }) {
   if (nothing) {
     return (
-      <Card className='bg-primary text-white'>
+      <Card className='h-[200px] bg-primary text-white'>
         <CardHeader>
           <CardTitle>Nothing to remind</CardTitle>
         </CardHeader>

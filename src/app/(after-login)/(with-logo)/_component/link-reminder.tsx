@@ -8,6 +8,8 @@ import ReminderCard from './reminder-card';
 import { useAccessToken } from '@/lib/useAccessToken';
 import { useLinkReminder } from '@/service/links/useLinkService';
 import { Link } from '@/types/model/link';
+import { Skeleton } from '@/components/ui/skeleton';
+import DotLoader from 'react-spinners/DotLoader';
 
 export default function LinkReminder() {
   const { accessToken } = useAccessToken();
@@ -21,12 +23,16 @@ export default function LinkReminder() {
         link reminder
       </p>
       <Carousel>
-        {isError ? (
+        {isLoading ? (
+          <Skeleton className='flex h-[200px] w-full items-center justify-center bg-primary/50'>
+            <DotLoader size={40} className='border-input' color='white' />
+          </Skeleton>
+        ) : isError ? (
           <ReminderCard nothing={true} />
         ) : (
           <CarouselContent>
             {data?.data.linkList.length != undefined &&
-            data?.data.linkList.length <= 3
+            data?.data.linkList.length! <= 3
               ? data?.data.linkList.map((link: Link) => {
                   return (
                     <CarouselItem key={link.linkId}>
