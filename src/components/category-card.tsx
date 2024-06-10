@@ -1,10 +1,8 @@
 import { Category } from '@/types/model/category';
-import Link from 'next/link';
 import { Card, CardHeader } from '@/components/ui/card';
 import LinkPreview from '@/app/(after-login)/(with-logo)/mypage/_component/link-preview';
 import { Label } from '@/components/ui/label';
 import { Badge } from '@/components/ui/badge';
-import { IoIosLink } from 'react-icons/io';
 import { useRouter } from 'next/navigation';
 import { FaLink } from 'react-icons/fa';
 

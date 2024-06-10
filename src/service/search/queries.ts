@@ -1,6 +1,8 @@
-import { CategoryResponse } from '@/types/model/category';
+import { CategoryResponse, InfiniteResponse } from '@/types/model/category';
 import { CategoryScope } from './searchService';
 import SearchService from './searchService';
+import { InfiniteData } from '@tanstack/react-query';
+import { LinkListResponse, LinkResponse } from '@/types/model/link';
 
 const queryKeys = {
   searchCategory: ({ query }: { query: string }) =>
@@ -26,7 +28,11 @@ const SearchQueryOptions = {
         categoryScope: categoryScope,
         page: pageParam,
       }),
-    getNextPageParam: (lastPage: CategoryResponse, allPages: unknown) => {
+    getNextPageParam: (
+      lastPage: CategoryResponse,
+      allPages: CategoryResponse
+    ) => {
+      console.log(lastPage);
       return lastPage.data.currentPage != lastPage.data.totalPages //if not last page
         ? lastPage.data.currentPage + 1
         : undefined;
@@ -51,9 +57,12 @@ const SearchQueryOptions = {
         categoryScope: categoryScope,
         page: pageParam,
       }),
-    getNextPageParam: (lastPage: CategoryResponse, allPages: unknown) => {
+    getNextPageParam: (
+      lastPage: LinkListResponse,
+      allPages: LinkListResponse
+    ) => {
       return lastPage.data.currentPage != lastPage.data.totalPages //if not last page
-        ? lastPage.data.currentPage + 1
+        ? lastPage.data.currentPage! + 1
         : undefined;
     },
     initialPageParam: 0,

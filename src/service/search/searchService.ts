@@ -1,6 +1,7 @@
 import Service from '@/service/service';
 import { CategoryResponse, InfiniteResponse } from '@/types/model/category';
 import { InfiniteLinkResponse } from '@/types/model/link';
+import { InfiniteData } from '@tanstack/react-query';
 
 // categoryScope
 export enum CategoryScope {

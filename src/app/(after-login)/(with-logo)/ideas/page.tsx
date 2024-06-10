@@ -2,30 +2,20 @@
 
 import ResultComponent from '@/app/(after-login)/(with-logo)/ideas/_component/result-component';
 import SearchBar from '@/app/(after-login)/(with-logo)/ideas/_component/search-bar';
-import CategoryCard from '@/components/category-card';
 import { useAccessToken } from '@/lib/useAccessToken';
 import { CategoryScope } from '@/service/search/searchService';
 import {
   useSearchByCategory,
   useSearchByLink,
 } from '@/service/search/useSearchService';
-import { InfiniteResponse } from '@/types/model/category';
 import { InfiniteData } from '@tanstack/react-query';
 import { useSearchParams } from 'next/navigation';
-import { useEffect, useState } from 'react';
-import { OptionButton } from '@/app/(after-login)/(with-logo)/ideas/_component/default-component';
+import { useEffect } from 'react';
 import { useMyLikes } from '@/service/user/useUserService';
 import Loading from '@/app/(after-login)/(without-logo)/category/[categoryId]/loading';
 import { useInView } from 'react-intersection-observer';
-import { InfiniteLinkResponse } from '@/types/model/link';
-import Link from 'next/link';
-import {
-  Card,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from '@/components/ui/card';
+import CategoryComponent from './_component/category-component';
+import LinkComponent from './_component/link-search';
 
 export default function IdeasPage() {
   const params = useSearchParams();
@@ -96,7 +86,7 @@ export default function IdeasPage() {
               myLikes={myLikes}
             />
           )}
-          <ObservationComponent data={data} fetchNextPage={fetchNextPage} />
+          <ObservationComponent />
         </div>
       );
     }
@@ -105,7 +95,7 @@ export default function IdeasPage() {
       return (
         <div className='h-full w-full'>
           <LinkComponent data={data} />
-          <ObservationComponent data={data} fetchNextPage={fetchNextPage} />
+          <ObservationComponent />
         </div>
       );
     }
@@ -116,76 +106,7 @@ export default function IdeasPage() {
   return (
     <>
       <SearchBar />
-
       {renderContent()}
-    </>
-  );
-}
-
-interface LinkComponentProps {
-  data: InfiniteLinkResponse;
-}
-
-function LinkComponent({ data }: LinkComponentProps) {
-  return (
-    <>
-      {data.pages[0].data.linkList.length > 0 ? (
-        data.pages.map((page) => {
-          return page.data.linkList.map((link) => (
-            <div className='relative w-full' key={link.linkId}>
-              <Link href={`/link/${link.linkId}`} draggable={false}>
-                <Card
-                  draggable={false}
-                  className='flex w-full cursor-pointer justify-between overflow-hidden transition hover:scale-105 dark:border-zinc-700'
-                >
-                  <CardHeader>
-                    <CardTitle className='text-md'>{link.title}</CardTitle>
-                    <CardDescription className='text-xs'>
-                      {link.summary}
-                    </CardDescription>
-                  </CardHeader>
-                  <CardFooter></CardFooter>
-                </Card>
-              </Link>
-            </div>
-          ));
-        })
-      ) : (
-        <p>nothing</p>
-      )}
-    </>
-  );
-}
-
-interface CategoryComponentProps {
-  data: InfiniteResponse;
-  accessToken: string;
-  myLikes: string[];
-}
-
-function CategoryComponent({
-  data,
-  accessToken,
-  myLikes,
-}: CategoryComponentProps) {
-  return (
-    <>
-      {data.pages[0].data.categoryList.length > 0 ? (
-        data.pages.map((page) => {
-          return page.data.categoryList.map((category) => (
-            <CategoryCard category={category} key={category.categoryId}>
-              <OptionButton
-                accessToken={accessToken}
-                likeCount={category.likeCount!}
-                categoryId={category.categoryId}
-                isMyLike={myLikes.includes(category.categoryId)}
-              />
-            </CategoryCard>
-          ));
-        })
-      ) : (
-        <p>nothing</p>
-      )}
     </>
   );
 }
