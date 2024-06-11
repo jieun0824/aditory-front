@@ -181,15 +181,15 @@ export default function LinkDetailComponent({ linkId }: { linkId: number }) {
 
   const { data: categoryList } = useMyCategories({ accessToken });
 
-  // useEffect(() => {
-  //   if (data) {
-  //     setTitle(data.data.title);
-  //     setSummary(data.data.summary);
-  //     setUrl(data.data.url);
-  //     setCategoryId(data.data.categoryId);
-  //     setCategoryName(data.data.categoryName);
-  //   }
-  // }, [data]);
+  useEffect(() => {
+    if (data) {
+      setTitle(data.data.title);
+      setSummary(data.data.summary);
+      setUrl(data.data.url);
+      setCategoryId(data.data.categoryId);
+      setCategoryName(data.data.categoryName);
+    }
+  }, [data]);
 
   const createdDate = dayjs(data?.data.createdAt).format('YYYY-MM-DD');
 
