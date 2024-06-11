@@ -1,5 +1,6 @@
 import { create } from 'zustand';
 import { persist, createJSONStorage } from 'zustand/middleware';
+import jwtDecode from 'jsonwebtoken';
 
 export interface loginInfo {
   userId?: number;
@@ -28,12 +29,27 @@ export const useStorage = create<State>()(
   persist(
     (set) => ({
       userInfo: {},
-      addUserInfo: (state: loginInfo) =>
+      addUserInfo: (state: loginInfo) => {
+        let accessTokenExpires;
+        let refreshTokenExpires;
+
+        if (state.accessToken) {
+          const decodedAccessToken: any = jwtDecode.decode(state.accessToken);
+          accessTokenExpires = decodedAccessToken.exp * 1000;
+        }
+
+        if (state.refreshToken) {
+          const decodedRefreshToken: any = jwtDecode.decode(state.refreshToken);
+          refreshTokenExpires = decodedRefreshToken.exp * 1000;
+        }
         set({
           userInfo: {
             ...state,
+            accessTokenExpires: accessTokenExpires,
+            refreshTokenExpires: refreshTokenExpires,
           },
-        }),
+        });
+      },
       removeUserInfo: () => set({ userInfo: {} }),
       addCategories: (category: { categoryId: number; categoryName: string }) =>
         set((state) => {

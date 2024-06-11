@@ -36,16 +36,12 @@ export function useSignIn({
   return useMutation({
     ...queryOptions.signIn({ username, password }),
     onSuccess: async (userInfo: any) => {
-      const accessTokenExpires = Date.now() + 10 * 60 * 1000;
-      const refreshTokenExpires = Date.now() + 6 * 60 * 60 * 1000;
       const { queryFn } = queryOptions.getProfileImage({
         accessToken: userInfo.data.accessToken,
       });
       await queryFn().then((data) => {
         addUserInfo({
           ...userInfo.data,
-          accessTokenExpires: accessTokenExpires,
-          refreshTokenExpires: refreshTokenExpires,
           profileImageUrl: data.data.s3DownloadResult.url,
         });
       });

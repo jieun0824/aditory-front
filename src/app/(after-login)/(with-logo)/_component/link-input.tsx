@@ -36,7 +36,7 @@ export default function LinkInput() {
     navigator.clipboard
       .readText()
       .then((textFromClipboard) => {
-        console.log('Text pasted from clipboard:', textFromClipboard);
+        // console.log('Text pasted from clipboard:', textFromClipboard);
         // inputRef.current!.value = textFromClipboard; // input 요소에 붙여넣기
         setPreviewUrl(textFromClipboard);
       })

@@ -27,7 +27,7 @@ export const OwnerProvider = ({ children }: OwnerProviderProps) => {
         (category) => category.categoryId == parseInt(params.categoryId)
       );
       setOwner(isOwner);
-      console.log(isOwner);
+      // console.log(isOwner);
     }
   }, [params]);
 
