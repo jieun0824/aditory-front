@@ -20,9 +20,9 @@ export default function LinkReminder() {
     accessToken: accessToken,
   });
 
-  useEffect(() => {
-    console.log(error);
-  }, [isError]);
+  // useEffect(() => {
+  //   console.log(error);
+  // }, [isError]);
 
   return (
     <div>

@@ -60,7 +60,7 @@ export default function AddModal({
           ? setPayloadData({ ...payloadData, [e.target.name]: e.target.value })
           : key && setPayloadData({ ...payloadData, [key]: e });
       }
-      console.log(payloadData);
+      // console.log(payloadData);
     },
     [payloadData]
   );

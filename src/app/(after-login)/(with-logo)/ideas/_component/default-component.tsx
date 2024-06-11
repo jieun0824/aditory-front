@@ -159,7 +159,7 @@ export function OptionButton({
         variant={'outline'}
         className='cursor-pointer gap-1 border-none p-0'
         onClick={() => {
-          console.log(categoryId, isMyLike);
+          // console.log(categoryId, isMyLike);
           isLike ? deleteMutate() : likeMutate();
         }}
       >

@@ -26,7 +26,7 @@ export default function LinkDetailComponent({ linkId }: { linkId: number }) {
   const { owner } = useOwner();
   const search = useSearchParams();
   const editMode = owner ? Boolean(search.get('editMode')) : false;
-  console.log(editMode);
+  // console.log(editMode);
   const { data, isLoading, refetch } = useLink({
     accessToken: accessToken,
     linkId: linkId,
@@ -36,7 +36,7 @@ export default function LinkDetailComponent({ linkId }: { linkId: number }) {
       setUrl(data.data.url);
       setCategoryId(data.data.categoryId);
       setCategoryName(data.data.categoryName);
-      console.log('selectFn', data);
+      // console.log('selectFn', data);
     },
   });
   const { data: categoryList } = useMyCategories({ accessToken: accessToken });
@@ -52,9 +52,9 @@ export default function LinkDetailComponent({ linkId }: { linkId: number }) {
   const [categoryName, setCategoryName] = useState<string>(
     data?.data.categoryName
   );
-  useEffect(() => {
-    console.log(categoryName);
-  }, [categoryName]);
+  // useEffect(() => {
+  //   console.log(categoryName);
+  // }, [categoryName]);
 
   const EditHandler = (
     e: React.ChangeEvent<HTMLInputElement> | number | string,
@@ -62,7 +62,7 @@ export default function LinkDetailComponent({ linkId }: { linkId: number }) {
   ) => {
     switch (name) {
       case 'title':
-        console.log(typeof e);
+        // console.log(typeof e);
         typeof e === 'object' && setTitle(e.target.value);
         break;
       case 'summary':

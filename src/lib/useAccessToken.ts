@@ -167,16 +167,14 @@ export function useAccessToken() {
   };
 
   const getRefreshToken = useCallback(async () => {
+    if (!userInfo?.refreshToken || !userInfo?.userId) {
+      console.error('User information is missing');
+      return false;
+    }
+
     const refreshToken = userInfo.refreshToken;
     const userId = userInfo.userId;
 
-    // const decodedRefreshToken = decodeToken(refreshToken);
-
-    // if (decodedRefreshToken && decodedRefreshToken.exp * 1000 <= Date.now()) {
-    //   console.error('You need to login again');
-    //   removeUserInfo();
-    //   return false;
-    // } else {
     console.log(refreshToken);
     const res = await fetch(
       `${process.env.NEXT_PUBLIC_BASE_URL}/users/refresh`,
@@ -195,11 +193,8 @@ export function useAccessToken() {
 
     if (res.ok) {
       const data = await res.json();
-      console.log(data);
-
       const newAccessToken = data.data.accessToken;
       const newRefreshToken = data.data.refreshToken;
-
       const newDecodedAccessToken = decodeToken(newAccessToken) as DecodedToken;
       const newDecodedRefreshToken = decodeToken(
         newRefreshToken
@@ -222,26 +217,30 @@ export function useAccessToken() {
     } else {
       throw new Error('Failed to refresh token');
     }
-    // }
-  }, [addUserInfo, decodeToken]);
+  }, [userInfo, addUserInfo, decodeToken]);
 
   useEffect(() => {
     const checkAccessToken = async () => {
-      console.log('check access token');
+      if (!userInfo?.accessToken || !userInfo?.refreshToken) {
+        console.error('User information is missing');
+        return;
+      }
+
       const decodedAccessToken = decodeToken(
-        userInfo.accessToken!
+        userInfo.accessToken
       ) as DecodedToken;
       const decodedRefreshToken = decodeToken(
-        userInfo.refreshToken!
+        userInfo.refreshToken
       ) as DecodedToken;
       console.log(decodedAccessToken, decodedRefreshToken);
-      const accessTokenExpires = decodedAccessToken!.exp * 1000;
+      const accessTokenExpires = decodedAccessToken?.exp * 1000;
       const refreshTokenExpires = decodedRefreshToken?.exp * 1000;
+
       if (refreshTokenExpires && refreshTokenExpires <= Date.now()) {
         console.error('Refresh token expired. Logging out...');
         removeUserInfo();
       } else if (accessTokenExpires && accessTokenExpires <= Date.now()) {
-        console.log('need to refresh token');
+        console.log('Need to refresh token');
         try {
           const newAccessToken = await getRefreshToken();
           setAccessToken(newAccessToken);
@@ -249,9 +248,10 @@ export function useAccessToken() {
           console.error(error);
         }
       } else {
-        setAccessToken(userInfo.accessToken!);
+        setAccessToken(userInfo.accessToken);
       }
     };
+
     checkAccessToken();
   }, [userInfo, getRefreshToken, decodeToken]);
 
