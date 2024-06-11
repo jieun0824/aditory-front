@@ -3,6 +3,7 @@ import {
   Category,
   CategoryResponse,
   InfiniteResponse,
+  LikeResponse,
   specificCategoryResponse,
 } from '@/types/model/category';
 import { CategoryState } from '@/types/types';
@@ -122,7 +123,7 @@ class CategoryService extends Service {
     accessToken: string;
     categoryId: number;
   }) {
-    return this.http.post<Category>(
+    return this.http.post<LikeResponse>(
       `/categories/${categoryId}/like`,
       undefined,
       this.authorization(accessToken)
@@ -137,7 +138,7 @@ class CategoryService extends Service {
     accessToken: string;
     categoryId: number;
   }) {
-    return this.http.delete<Category>(
+    return this.http.delete<LikeResponse>(
       `/categories/${categoryId}/like`,
       this.authorization(accessToken)
     );

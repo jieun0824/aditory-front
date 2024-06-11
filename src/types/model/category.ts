@@ -17,6 +17,13 @@ export interface Category extends CategoryPost {
   prevLinks?: string[];
 }
 
+export interface LikeResponse extends ResponseType {
+  data: {
+    categoryId: number;
+    likeCount: number;
+  };
+}
+
 export interface CategoryResponse extends ResponseType {
   data: {
     categoryList: Category[];

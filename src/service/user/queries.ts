@@ -1,5 +1,6 @@
 import UserService from '@/service/user/userService';
 import { MyLikes } from '@/types/model/user';
+import { useQueryClient } from '@tanstack/react-query';
 
 const queryKeys = {
   getUser: ['user'] as const,

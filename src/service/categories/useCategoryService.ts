@@ -84,10 +84,14 @@ export function useLike({
   categoryId: number;
   selectedFn?: (data: any) => any;
 }) {
+  const queryClient = useQueryClient();
   return useMutation({
     ...queryOptions.addLike({ accessToken, categoryId }),
     onSuccess: (data) => {
       if (selectedFn) selectedFn(data);
+      queryClient.invalidateQueries({
+        queryKey: ['getLike'],
+      });
     },
   });
 }
@@ -217,10 +221,14 @@ export function useUnLike({
   categoryId: number;
   selectedFn?: (data: any) => any;
 }) {
+  const queryClient = useQueryClient();
   return useMutation({
     ...queryOptions.deleteLike({ accessToken, categoryId }),
     onSuccess: (data) => {
       if (selectedFn) selectedFn(data);
+      queryClient.invalidateQueries({
+        queryKey: ['getLike'],
+      });
     },
   });
 }

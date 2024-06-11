@@ -3,7 +3,7 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { useEffect, useState } from 'react';
 import { FaHeart, FaRegHeart } from 'react-icons/fa';
-import { useQueryClient } from '@tanstack/react-query';
+import { useMutationState, useQueryClient } from '@tanstack/react-query';
 import CategoryCard from '@/components/category-card';
 import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area';
 import RotateLoader from 'react-spinners/RotateLoader';
@@ -80,37 +80,25 @@ export default function DefaultComponent({
       {/* all component */}
       <Separator className='mt-8 bg-foreground/15' />
       <h1 className='my-6 text-2xl font-extrabold'>ALL LINKS</h1>
-      {status === 'pending' ? (
-        <RotateLoader
-          className='animate-pulse'
-          loading={status === 'pending'}
-          size={20}
-          aria-label='Loading Spinner'
-          data-testid='loader'
-        />
-      ) : (
-        <>
-          <div className='grid h-full w-full grid-cols-2 gap-2'>
-            {allCategories && myLikes ? (
-              allCategories.pages.map((page: any) => {
-                return page.data.categoryList.map((category: any) => (
-                  <CategoryCard category={category} key={category.categoryId}>
-                    <OptionButton
-                      accessToken={accessToken}
-                      likeCount={category.likeCount!}
-                      categoryId={category.categoryId}
-                      isMyLike={myLikes.includes(category.categoryId)}
-                    />
-                  </CategoryCard>
-                ));
-              })
-            ) : (
-              <Loading />
-            )}
-            <ObservationComponent />
-          </div>
-        </>
-      )}
+      <div className='grid h-full w-full grid-cols-2 gap-2'>
+        {allCategories && myLikes ? (
+          allCategories.pages.map((page: any) => {
+            return page.data.categoryList.map((category: any) => (
+              <CategoryCard category={category} key={category.categoryId}>
+                <OptionButton
+                  accessToken={accessToken}
+                  likeCount={category.likeCount!}
+                  categoryId={category.categoryId}
+                  isMyLike={myLikes.includes(category.categoryId)}
+                />
+              </CategoryCard>
+            ));
+          })
+        ) : (
+          <Loading />
+        )}
+        <ObservationComponent />
+      </div>
     </>
   );
 }
@@ -128,6 +116,7 @@ export function OptionButton({
 }) {
   const queryClient = useQueryClient();
   const [isLike, setIsLike] = useState(isMyLike);
+  const [likes, setLikes] = useState(likeCount);
   const { mutate: copyMutate } = useCopyCategory({
     accessToken: accessToken,
     categoryId: categoryId,
@@ -136,6 +125,10 @@ export function OptionButton({
     accessToken: accessToken,
     categoryId: categoryId,
     selectedFn: (data) => {
+      // queryClient.invalidateQueries({
+      //   queryKey: ['public'],
+      // });
+      setLikes(data.data.likeCount);
       setIsLike(true);
     },
   });
@@ -143,15 +136,13 @@ export function OptionButton({
     accessToken: accessToken,
     categoryId: categoryId,
     selectedFn: (data) => {
+      // queryClient.invalidateQueries({
+      //   queryKey: ['public'],
+      // });
+      setLikes(data.data.likeCount);
       setIsLike(false);
     },
   });
-
-  useEffect(() => {
-    queryClient.invalidateQueries({
-      queryKey: ['publicCategory'],
-    });
-  }, [isLike]);
 
   return (
     <>
@@ -177,7 +168,7 @@ export function OptionButton({
         ) : (
           <FaRegHeart className='text-xs' />
         )}
-        {likeCount}
+        {likes}
       </Badge>
     </>
   );

@@ -66,12 +66,6 @@ export default function IdeasPage() {
     return <div ref={ref} />;
   };
 
-  // useEffect(() => {
-  //   if (data) {
-  //     console.log(data);
-  //   }
-  // }, [data]);
-
   const renderContent = () => {
     if (!query || !filter) return <ResultComponent />;
 

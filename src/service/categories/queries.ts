@@ -6,7 +6,7 @@ import { useQueryClient } from '@tanstack/react-query';
 const queryKeys = {
   //get method
   my: ['myCategory'] as const,
-  public: ({ page }: { page: number }) => ['page', page] as const,
+  public: ({ page }: { page: number }) => ['public'] as const,
   randomPublic: ['randomPublicCategory'] as const,
   specific: ({ categoryId }: { categoryId: number }) => {
     return ['specificCategory', categoryId] as const;
@@ -207,9 +207,6 @@ const CategoryQueryOptions = {
   }) => ({
     queryKey: queryKeys.addLike({ categoryId }),
     mutationFn: () => CategoryService.postLike({ accessToken, categoryId }),
-    onSuccess: async (data: any) => {
-      console.log(data);
-    },
     onError: errorHandler,
   }),
   deleteLike: ({
@@ -221,9 +218,6 @@ const CategoryQueryOptions = {
   }) => ({
     queryKey: queryKeys.deleteLike({ categoryId }),
     mutationFn: () => CategoryService.deleteLike({ accessToken, categoryId }),
-    onSuccess: async (data: any) => {
-      console.log(data);
-    },
     onError: errorHandler,
   }),
 };
