@@ -36,16 +36,16 @@ export default function LinkPreview({ prevLinks }: { prevLinks: string[] }) {
     fetchAllData();
   }, [prevLinks]);
 
-  if (loading) {
-    return (
-      <div className='grid h-full w-full grid-cols-2 grid-rows-2 gap-2'>
-        <Skeleton className='h-full w-full border border-bgColor' />
-        <Skeleton className='h-full w-full' />
-        <Skeleton className='h-full w-full' />
-        <Skeleton className='h-full w-full' />
-      </div>
-    );
-  }
+  // if (loading) {
+  //   return (
+  //     <div className='grid h-full w-full grid-cols-2 grid-rows-2 gap-2'>
+  //       <Skeleton className='h-full w-full border border-bgColor' />
+  //       <Skeleton className='h-full w-full' />
+  //       <Skeleton className='h-full w-full' />
+  //       <Skeleton className='h-full w-full' />
+  //     </div>
+  //   );
+  // }
 
   if (!loading && prevLinks.length === 0) {
     return (
@@ -63,12 +63,14 @@ export default function LinkPreview({ prevLinks }: { prevLinks: string[] }) {
   return (
     <div className='grid h-full w-full grid-cols-2 grid-rows-2 gap-2'>
       {ogData.map((meta, index) => (
-        <img
-          key={index + meta.ogImage}
-          alt={meta.ogTitle}
-          src={meta.ogImage}
-          className='h-full rounded-xl object-cover shadow'
-        />
+        <div className='h-full rounded-xl object-cover shadow'>
+          <img
+            key={index + meta.ogImage}
+            alt={meta.ogTitle}
+            src={meta.ogImage}
+            className='h-full w-full rounded-xl object-cover shadow'
+          />
+        </div>
       ))}
     </div>
   );

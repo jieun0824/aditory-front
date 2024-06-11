@@ -19,7 +19,7 @@ export default function CategoryCard({
 }) {
   const router = useRouter();
   return (
-    <div className='h-full min-h-64 w-full'>
+    <div className='h-64 w-full'>
       <Card
         className='h-3/4 cursor-pointer border-none'
         onClick={() => router.push(`/category/${category.categoryId}`)}
