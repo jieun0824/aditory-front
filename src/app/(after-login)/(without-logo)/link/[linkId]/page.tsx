@@ -1,3 +1,4 @@
+import ErrorBoundary from './_component/ErrorBoundary';
 import LinkDetailComponent from './_component/link-detail-component';
 
 export default function LinkDetailPage({
@@ -5,5 +6,8 @@ export default function LinkDetailPage({
 }: {
   params: { linkId: string };
 }) {
-  return <LinkDetailComponent linkId={parseInt(params.linkId)} />;
+  return;
+  <ErrorBoundary>
+    <LinkDetailComponent linkId={parseInt(params.linkId)} />;
+  </ErrorBoundary>;
 }
