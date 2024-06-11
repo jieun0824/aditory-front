@@ -6,8 +6,9 @@ export default function LinkDetailPage({
 }: {
   params: { linkId: string };
 }) {
-  return;
-  <ErrorBoundary>
-    <LinkDetailComponent linkId={parseInt(params.linkId)} />;
-  </ErrorBoundary>;
+  return (
+    <ErrorBoundary>
+      <LinkDetailComponent linkId={parseInt(params.linkId)} />
+    </ErrorBoundary>
+  );
 }
