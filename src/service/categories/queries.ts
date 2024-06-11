@@ -110,7 +110,7 @@ const CategoryQueryOptions = {
     mutationFn: () =>
       CategoryService.postCategory({ accessToken, categoryName }),
     onSuccess: async (data: any) => {
-      console.log(data);
+      // console.log(data);
     },
     onError: (error: any) => {
       if (error.status === 401) {
@@ -150,7 +150,7 @@ const CategoryQueryOptions = {
         targetCategoryId,
       }),
     onSuccess: async (data: any) => {
-      console.log(data);
+      // console.log(data);
     },
     onError: errorHandler,
   }),
@@ -178,7 +178,7 @@ const CategoryQueryOptions = {
         asCategoryName,
       }),
     onSuccess: async (data: any) => {
-      console.log(data);
+      // console.log(data);
     },
     onError: errorHandler,
   }),
@@ -194,7 +194,7 @@ const CategoryQueryOptions = {
     mutationFn: () =>
       CategoryService.deleteCategory({ accessToken, categoryId }),
     onSuccess: async (data: any) => {
-      console.log(data);
+      // console.log(data);
     },
     onError: errorHandler,
   }),

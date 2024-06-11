@@ -26,16 +26,16 @@ export default function CheckAccess({
   };
   const limitAccess = ['/mypage', '/', '/ideas'];
   useEffect(() => {
-    console.log(Date.now());
+    // console.log(Date.now());
     if (
       (isEmptyObj(userInfo) ||
         (userInfo && userInfo.refreshTokenExpires! <= Date.now())) &&
       limitAccess.includes(pathName)
     ) {
-      console.log(`isLoggedIn: ${isNotLoggedIn}`);
+      // console.log(`isLoggedIn: ${isNotLoggedIn}`);
       setIsNotLoggedIn(true);
     } else {
-      console.log(`isLoggedIn: ${isNotLoggedIn}`);
+      // console.log(`isLoggedIn: ${isNotLoggedIn}`);
       setIsNotLoggedIn(false);
     }
   }, [userInfo, pathName]);

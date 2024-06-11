@@ -175,7 +175,7 @@ export function useAccessToken() {
     const refreshToken = userInfo.refreshToken;
     const userId = userInfo.userId;
 
-    console.log(refreshToken);
+    // console.log(refreshToken);
     const res = await fetch(
       `${process.env.NEXT_PUBLIC_BASE_URL}/users/refresh`,
       {
@@ -232,7 +232,7 @@ export function useAccessToken() {
       const decodedRefreshToken = decodeToken(
         userInfo.refreshToken
       ) as DecodedToken;
-      console.log(decodedAccessToken, decodedRefreshToken);
+      // console.log(decodedAccessToken, decodedRefreshToken);
       const accessTokenExpires = decodedAccessToken?.exp * 1000;
       const refreshTokenExpires = decodedRefreshToken?.exp * 1000;
 
@@ -240,7 +240,7 @@ export function useAccessToken() {
         console.error('Refresh token expired. Logging out...');
         removeUserInfo();
       } else if (accessTokenExpires && accessTokenExpires <= Date.now()) {
-        console.log('Need to refresh token');
+        // console.log('Need to refresh token');
         try {
           const newAccessToken = await getRefreshToken();
           setAccessToken(newAccessToken);

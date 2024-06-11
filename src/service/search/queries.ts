@@ -32,7 +32,7 @@ const SearchQueryOptions = {
       lastPage: CategoryResponse,
       allPages: CategoryResponse[]
     ) => {
-      console.log(lastPage);
+      // console.log(lastPage);
       return lastPage.data.currentPage != lastPage.data.totalPages //if not last page
         ? lastPage.data.currentPage + 1
         : undefined;
