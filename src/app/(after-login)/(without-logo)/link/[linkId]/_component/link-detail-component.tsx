@@ -176,6 +176,7 @@ export default function LinkDetailComponent({ linkId }: { linkId: number }) {
       setUrl(data.data.url);
       setCategoryId(data.data.categoryId);
       setCategoryName(data.data.categoryName);
+      return data;
     },
   });
 
