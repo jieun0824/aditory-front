@@ -6,6 +6,7 @@ import {
 } from '@tanstack/react-query';
 import queryOptions from '@/service/links/queries';
 import { Link, LinkResponse } from '@/types/model/link';
+import { useToast } from '@/components/ui/use-toast';
 
 export function useLink({
   accessToken,
@@ -23,7 +24,7 @@ export function useLink({
 }
 
 export function useLinkReminder({ accessToken }: { accessToken: string }) {
-  return useQuery(queryOptions.linkReminder({ accessToken }));
+  return useQuery({ ...queryOptions.linkReminder({ accessToken }) });
 }
 
 export function usePostLink({
@@ -43,8 +44,8 @@ export function usePostLink({
   categoryId: number;
   additionalFn?: () => void;
 }) {
+  const { toast } = useToast();
   const queryClient = useQueryClient();
-
   return useMutation({
     ...queryOptions.newLink({
       accessToken,
@@ -54,13 +55,26 @@ export function usePostLink({
       url,
       categoryId,
     }),
-    onSettled: () =>
+    onSettled: (data, error) => {
+      if (data) {
+        toast({
+          title: 'successfully created link',
+        });
+      } else if (error) {
+        toast({
+          title: 'failed to create link',
+          variant: 'destructive',
+        });
+      }
+
       Promise.all([
         queryClient.invalidateQueries({ queryKey: ['myCategory'] }),
         queryClient.invalidateQueries({
           queryKey: ['reminder'],
         }),
-      ]),
+      ]);
+      return data;
+    },
     onSuccess: () => additionalFn && additionalFn(),
   });
 }

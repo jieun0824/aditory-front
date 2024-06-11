@@ -10,12 +10,19 @@ import { useLinkReminder } from '@/service/links/useLinkService';
 import { Link } from '@/types/model/link';
 import { Skeleton } from '@/components/ui/skeleton';
 import DotLoader from 'react-spinners/DotLoader';
+import LinkQueryOptions from '@/service/links/queries';
+import { useEffect } from 'react';
 
 export default function LinkReminder() {
   const { accessToken } = useAccessToken();
-  const { data, isLoading, isError } = useLinkReminder({
+  const { queryKey, queryFn } = LinkQueryOptions.linkReminder({ accessToken });
+  const { data, isLoading, isError, error } = useLinkReminder({
     accessToken: accessToken,
   });
+
+  useEffect(() => {
+    console.log(error);
+  }, [isError]);
 
   return (
     <div>

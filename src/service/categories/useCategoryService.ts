@@ -105,6 +105,8 @@ export function useCopyCategory({
     ...queryOptions.copyCategory({ accessToken, categoryId }),
     onSuccess(data) {},
     onSettled: (data, error) => {
+      // console.log(data);
+      // console.log(error);
       if (data) {
         toast({
           title: 'Copied successfully to your categories',
@@ -113,7 +115,7 @@ export function useCopyCategory({
           queryKey: ['myCategory'],
         });
         return data;
-      } else {
+      } else if (error) {
         toast({
           title: 'You already have this category',
           variant: 'destructive',

@@ -43,7 +43,9 @@ class Service {
       });
 
       if (!response.ok) {
-        throw new Error('Network response was not ok');
+        // Extract and throw a custom error message
+        const errorData = await response.json();
+        throw errorData;
       }
 
       return await response.json();

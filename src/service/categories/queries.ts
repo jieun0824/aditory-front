@@ -112,7 +112,13 @@ const CategoryQueryOptions = {
     onSuccess: async (data: any) => {
       console.log(data);
     },
-    onError: errorHandler,
+    onError: (error: any) => {
+      if (error.status === 401) {
+        window.location.href = '/login';
+      } else if (error.httpStatus === 'CONFLICT') {
+        alert('already exists');
+      }
+    },
   }),
 
   copyCategory: ({
