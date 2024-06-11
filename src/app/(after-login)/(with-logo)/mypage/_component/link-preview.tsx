@@ -63,9 +63,11 @@ export default function LinkPreview({ prevLinks }: { prevLinks: string[] }) {
   return (
     <div className='grid h-full w-full grid-cols-2 grid-rows-2 gap-2'>
       {ogData.map((meta, index) => (
-        <div className='h-full rounded-xl object-cover shadow'>
+        <div
+          className='h-full rounded-xl object-cover shadow'
+          key={index + meta.ogImage}
+        >
           <img
-            key={index + meta.ogImage}
             alt={meta.ogTitle}
             src={meta.ogImage}
             className='h-full w-full rounded-xl object-cover shadow'
