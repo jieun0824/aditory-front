@@ -7,7 +7,7 @@ import { OptionButton } from '@/app/(after-login)/(with-logo)/ideas/_component/d
 import CategoryCard from '@/components/category-card';
 
 interface CategoryComponentProps {
-  data: InfiniteResponseData;
+  data: any;
   accessToken: string;
   myLikes: number[];
 }

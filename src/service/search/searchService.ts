@@ -1,7 +1,6 @@
 import Service from '@/service/service';
-import { CategoryResponse, InfiniteResponse } from '@/types/model/category';
-import { InfiniteLinkResponse } from '@/types/model/link';
-import { InfiniteData } from '@tanstack/react-query';
+import { CategoryResponse } from '@/types/model/category';
+import { LinkListResponse } from '@/types/model/link';
 
 // categoryScope
 export enum CategoryScope {
@@ -28,7 +27,7 @@ class SearchService extends Service {
     categoryScope: CategoryScope;
     page: number;
   }) {
-    return this.http.get<InfiniteResponse>(
+    return this.http.get<CategoryResponse>(
       `/search/categories?query=${query}&categoryScope=${CategoryScope[categoryScope]}&page=${page}&size=8`,
       this.authorization(accessToken)
     );
@@ -44,7 +43,7 @@ class SearchService extends Service {
     categoryScope: CategoryScope;
     page: number;
   }) {
-    return this.http.get<InfiniteLinkResponse>(
+    return this.http.get<LinkListResponse>(
       `/search/links?query=${query}&categoryScope=${CategoryScope[categoryScope]}&page=${page}&size=8`,
       this.authorization(accessToken)
     );

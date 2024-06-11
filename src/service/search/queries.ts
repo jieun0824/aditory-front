@@ -30,7 +30,7 @@ const SearchQueryOptions = {
       }),
     getNextPageParam: (
       lastPage: CategoryResponse,
-      allPages: CategoryResponse
+      allPages: CategoryResponse[]
     ) => {
       console.log(lastPage);
       return lastPage.data.currentPage != lastPage.data.totalPages //if not last page
@@ -59,7 +59,7 @@ const SearchQueryOptions = {
       }),
     getNextPageParam: (
       lastPage: LinkListResponse,
-      allPages: LinkListResponse
+      allPages: LinkListResponse[]
     ) => {
       return lastPage.data.currentPage != lastPage.data.totalPages //if not last page
         ? lastPage.data.currentPage! + 1

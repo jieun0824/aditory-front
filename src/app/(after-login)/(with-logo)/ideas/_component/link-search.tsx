@@ -5,18 +5,18 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
-import { InfiniteLinkResponseData } from '@/types/model/link';
+import { LinkListResponse } from '@/types/model/link';
 import Link from 'next/link';
 
 interface LinkComponentProps {
-  data: InfiniteLinkResponseData;
+  data: any;
 }
 
 export default function LinkComponent({ data }: LinkComponentProps) {
   return (
     <>
       {data.pages[0].data.linkList.length > 0 ? (
-        data.pages.map((page) => {
+        data.pages.map((page: LinkListResponse) => {
           return page.data.linkList.map((link) => (
             <div className='relative w-full' key={link.linkId}>
               <Link href={`/link/${link.linkId}`} draggable={false}>
