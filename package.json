@@ -30,6 +30,7 @@
     "@tanstack/react-query-devtools": "^5.40.0",
     "@tanstack/react-query-next-experimental": "^5.35.1",
     "axios": "^1.7.2",
+    "base-64": "^1.0.0",
     "cheerio": "^1.0.0-rc.12",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.0",
@@ -37,6 +38,7 @@
     "dotenv": "^16.4.5",
     "embla-carousel-react": "^8.0.2",
     "immer": "^10.1.1",
+    "jsonwebtoken": "^9.0.2",
     "lucide-react": "^0.367.0",
     "next": "14.1.4",
     "next-themes": "^0.3.0",
@@ -53,6 +55,7 @@
     "zustand": "^4.5.2"
   },
   "devDependencies": {
+    "@types/jsonwebtoken": "^9.0.6",
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
