@@ -1,3 +1,4 @@
+'use client';
 import ErrorBoundary from './_component/ErrorBoundary';
 import LinkDetailComponent from './_component/link-detail-component';
 
