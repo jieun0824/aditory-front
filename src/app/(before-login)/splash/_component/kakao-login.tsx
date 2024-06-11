@@ -4,7 +4,7 @@ import Image from 'next/image';
 
 export default function KakaoLoginBtn() {
   return (
-    <Link href={process.env.NEXT_PUBLIC_KAKAO_AUTH_URL!}>
+    <Link href={process.env.NEXT_PUBLIC_KAKAO_AUTH_URL ?? ''}>
       <Button className='w-full bg-[#FFE808] text-black shadow-md hover:bg-[#FFE808]/70'>
         <Image
           src={'/icon/KakaoTalk_logo.svg'}
