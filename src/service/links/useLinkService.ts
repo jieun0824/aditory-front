@@ -15,11 +15,14 @@ export function useLink({
 }: {
   accessToken: string;
   linkId: number;
-  selectFn: (data: any) => any;
+  selectFn?: (data: any) => any;
 }) {
   return useQuery({
     ...queryOptions.link({ accessToken, linkId }),
-    select: (data) => selectFn(data),
+    select: (data) => {
+      selectFn && selectFn(data);
+      return data;
+    },
   });
 }
 

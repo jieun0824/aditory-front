@@ -251,9 +251,8 @@ export function useAccessToken() {
         setAccessToken(userInfo.accessToken);
       }
     };
-
     checkAccessToken();
-  }, [userInfo, getRefreshToken, decodeToken]);
+  }, [userInfo]);
 
   return { accessToken, getRefreshToken };
 }
