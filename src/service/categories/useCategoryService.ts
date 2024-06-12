@@ -150,8 +150,14 @@ export function useMoveCategory({
       targetCategoryId,
     }),
     onSettled: () => {
-      return queryClient.invalidateQueries({
+      queryClient.invalidateQueries({
         queryKey: ['specificCategory', categoryId],
+      });
+      queryClient.invalidateQueries({
+        queryKey: ['myCategory'],
+      });
+      queryClient.invalidateQueries({
+        queryKey: ['specificCategory', targetCategoryId],
       });
     },
   });

@@ -201,15 +201,16 @@ import { useRef, useState } from 'react';
 import { usePatchUserInfo } from '@/service/user/useUserService';
 import { useAccessToken } from '@/lib/useAccessToken';
 import { useQueryClient } from '@tanstack/react-query';
-
 export default function EditDrawer({
   onOpenHandler,
   children,
   variant,
+  userData,
 }: {
   onOpenHandler?: () => void;
   children: React.ReactNode;
   variant: 'editCategory' | 'editProfile';
+  userData: any;
 }) {
   const variants = {
     editCategory: { trigger: '', drawer: '' },
@@ -225,20 +226,24 @@ export default function EditDrawer({
         {children}
       </DrawerTrigger>
       <DrawerContent className={cn(variants[variant].drawer)}>
-        {variant === 'editProfile' ? <EditProfileForm /> : <></>}
+        {variant === 'editProfile' ? (
+          <EditProfileForm userData={userData} />
+        ) : (
+          <></>
+        )}
       </DrawerContent>
     </Drawer>
   );
 }
 
-function EditProfileForm() {
-  const { userInfo } = useStorage();
+function EditProfileForm({ userData }: { userData: any }) {
+  const { userInfo } = useStorage(); //only for image
   const { accessToken } = useAccessToken();
   const queryClient = useQueryClient();
   const inputRef = useRef<HTMLInputElement>(null);
   const [patchData, setPatchData] = useState({
-    nickname: (userInfo.nickname as string) || '',
-    contact: '010-9132-6380',
+    nickname: (userData.nickname as string) || '',
+    contact: '010-9132-6380', //need to fix
     profileImage: (userInfo.profileImageUrl as string) || '',
     previewUrl: (userInfo.profileImageUrl as string) || '',
   });
@@ -302,7 +307,7 @@ function EditProfileForm() {
         alert(`Error uploading image:, ${error}`);
       }
     } else {
-      alert('No file selected');
+      mutate();
     }
   };
 

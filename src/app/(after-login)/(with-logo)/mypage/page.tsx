@@ -1,5 +1,6 @@
 'use client';
 import { Label } from '@/components/ui/label';
+import { useUsers } from '@/service/user/useUserService';
 import ProfileCard from '@/components/profile-card';
 import { MdLibraryBooks } from 'react-icons/md';
 import { FaCirclePlus } from 'react-icons/fa6';
@@ -31,9 +32,16 @@ export default function MyPage() {
     }
   }, [profileImage]);
 
+  const { data: activeUser } = useUsers({
+    accessToken: accessToken,
+    selectFn: (data) => data.data,
+  });
+
   return (
     <>
-      <ProfileCard data={userInfo} profileImage={profileImage} />
+      {activeUser && (
+        <ProfileCard data={activeUser} profileImage={profileImage} />
+      )}
       <div className='flex w-full justify-between'>
         <div className='flex items-center gap-2 text-left'>
           <MdLibraryBooks className='text-md' />

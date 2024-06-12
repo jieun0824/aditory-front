@@ -1,4 +1,4 @@
-import { useMutation, useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import queryOptions from '@/service/user/queries';
 import { useStorage } from '@/lib/useStorage';
 import { useRouter } from 'next/navigation';
@@ -114,18 +114,22 @@ export function usePatchUserInfo({
   contact: string;
   profileImage?: string;
 }) {
+  const queryClient = useQueryClient();
   return useMutation({
     ...queryOptions.updateUser({
       accessToken,
       nickname,
       contact,
     }),
-    // onSettled: () => {
-    //   usePostProfileImage({
-    //     accessToken,
-    //     profileImage,
-    //   });
-    // },
+    onSuccess(data, variables, context) {
+      queryClient.invalidateQueries({
+        queryKey: ['getProfileImage'],
+      });
+      queryClient.invalidateQueries({
+        queryKey: ['user'],
+      });
+      return data;
+    },
   });
 }
 

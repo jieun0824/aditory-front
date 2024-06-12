@@ -59,7 +59,7 @@ export default function ProfileCard({
         >
           Logout
         </Button>
-        <EditDrawer variant='editProfile'>
+        <EditDrawer variant='editProfile' userData={data}>
           <Button variant={'outline'}>Edit Profile</Button>
         </EditDrawer>
       </CardFooter>
