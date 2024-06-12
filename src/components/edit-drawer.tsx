@@ -197,7 +197,7 @@ import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar';
 import { Label } from '@radix-ui/react-label';
 import { Input } from './ui/input';
 import { useStorage } from '@/lib/useStorage';
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { usePatchUserInfo } from '@/service/user/useUserService';
 import { useAccessToken } from '@/lib/useAccessToken';
 import { useQueryClient } from '@tanstack/react-query';
@@ -310,6 +310,10 @@ function EditProfileForm({ userData }: { userData: any }) {
       mutate();
     }
   };
+
+  // useEffect(() => {
+  //   console.log(patchData.profileImage);
+  // }, [patchData]);
 
   return (
     <div className='mx-auto flex h-full w-full max-w-sm flex-col'>

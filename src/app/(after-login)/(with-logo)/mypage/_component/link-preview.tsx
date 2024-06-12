@@ -36,16 +36,16 @@ export default function LinkPreview({ prevLinks }: { prevLinks: string[] }) {
     fetchAllData();
   }, [prevLinks]);
 
-  // if (loading) {
-  //   return (
-  //     <div className='grid h-full w-full grid-cols-2 grid-rows-2 gap-2'>
-  //       <Skeleton className='h-full w-full border border-bgColor' />
-  //       <Skeleton className='h-full w-full' />
-  //       <Skeleton className='h-full w-full' />
-  //       <Skeleton className='h-full w-full' />
-  //     </div>
-  //   );
-  // }
+  if (loading) {
+    return (
+      <div className='grid h-full w-full grid-cols-2 grid-rows-2 gap-2'>
+        <Skeleton className='h-full w-full border border-bgColor' />
+        <Skeleton className='h-full w-full' />
+        <Skeleton className='h-full w-full' />
+        <Skeleton className='h-full w-full' />
+      </div>
+    );
+  }
 
   if (!loading && prevLinks.length === 0) {
     return (
