@@ -1,7 +1,7 @@
 'use client';
 import { Badge } from '@/components/ui/badge';
 import { Skeleton } from '@/components/ui/skeleton';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, Suspense } from 'react';
 
 type LinkMetadata = {
   ogImage: string;
@@ -10,7 +10,7 @@ type LinkMetadata = {
 };
 
 export default function LinkPreview({ prevLinks }: { prevLinks: string[] }) {
-  const [ogData, setOgData] = useState<LinkMetadata[]>([]);
+  const [ogData, setOgData] = useState<LinkMetadata[] | null>(null);
   const [loading, setLoading] = useState(true);
 
   const getOgData = async (externalUrl: string) => {
@@ -36,7 +36,7 @@ export default function LinkPreview({ prevLinks }: { prevLinks: string[] }) {
     fetchAllData();
   }, [prevLinks]);
 
-  if (loading) {
+  if (!ogData) {
     return (
       <div className='grid h-full w-full grid-cols-2 grid-rows-2 gap-2'>
         <Skeleton className='h-full w-full border border-bgColor' />
