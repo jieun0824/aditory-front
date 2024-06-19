@@ -33,7 +33,6 @@ export default function ImportPocket() {
         `${process.env.NEXT_PUBLIC_BASE_URL}/categories/import`,
         {
           headers: {
-            'Content-Type': 'multipart/form-data',
             Authorization: `Bearer ${accessToken}`,
           },
           method: 'POST',
