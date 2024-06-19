@@ -1,13 +1,17 @@
 'use client';
 
+import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { useAccessToken } from '@/lib/useAccessToken';
+import { useQueryClient } from '@tanstack/react-query';
+import Link from 'next/link';
 import { useState } from 'react';
 
 export default function ImportPocket() {
   const [file, setFile] = useState<File | null>(null);
   const { accessToken } = useAccessToken();
+  const queryClient = useQueryClient();
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files) {
@@ -39,6 +43,12 @@ export default function ImportPocket() {
 
       if (response.ok) {
         alert('File uploaded successfully!');
+        queryClient.invalidateQueries({
+          queryKey: ['myCategory'],
+        });
+        queryClient.invalidateQueries({
+          queryKey: ['reminder'],
+        });
       } else {
         alert('Failed to upload file.');
       }
@@ -50,7 +60,12 @@ export default function ImportPocket() {
 
   return (
     <div>
-      <span className='text-md font-semibold'>Import Pocket</span>
+      <div>
+        <span className='text-md font-semibold'>Import Pocket</span>
+        <Badge variant={'outline'}>
+          <Link href={'http://getpocket.com/export'}>Go to POCKET</Link>
+        </Badge>
+      </div>
       <div className='flex w-full gap-2'>
         <Input type='file' accept='.html' onChange={handleFileChange} />
         <Button
