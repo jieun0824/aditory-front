@@ -4,6 +4,7 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { useAccessToken } from '@/lib/useAccessToken';
+import { useStorage } from '@/lib/useStorage';
 import { useQueryClient } from '@tanstack/react-query';
 import Link from 'next/link';
 import { useState } from 'react';
@@ -12,6 +13,7 @@ export default function ImportPocket() {
   const [file, setFile] = useState<File | null>(null);
   const { accessToken } = useAccessToken();
   const queryClient = useQueryClient();
+  const { addCategories } = useStorage();
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files) {
@@ -48,6 +50,24 @@ export default function ImportPocket() {
         queryClient.invalidateQueries({
           queryKey: ['reminder'],
         });
+        try {
+          const data = await response.json();
+          console.log(data);
+          data.data.userCategories.forEach(
+            (category: { categoryId: number; categoryName: string }) => {
+              addCategories({
+                categoryId: category.categoryId,
+                categoryName: category.categoryName,
+              });
+              queryClient.invalidateQueries({
+                queryKey: ['specificCategory', category.categoryId],
+              });
+            }
+          );
+        } catch (jsonError) {
+          console.error('Error parsing JSON:', jsonError);
+          alert('Error processing server response.');
+        }
       } else {
         alert('Failed to upload file.');
       }
