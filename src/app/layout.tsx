@@ -16,6 +16,9 @@ const notoSans = Noto_Sans({
 export const metadata: Metadata = {
   title: 'aDitory',
   description: 'Where is my link? aDitory!',
+  icons: {
+    icon: '/icon.svg',
+  },
 };
 
 export default function RootLayout({
