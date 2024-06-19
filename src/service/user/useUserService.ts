@@ -36,15 +36,15 @@ export function useSignIn({
   return useMutation({
     ...queryOptions.signIn({ username, password }),
     onSuccess: async (userInfo: any) => {
-      const { queryFn } = queryOptions.getProfileImage({
-        accessToken: userInfo.data.accessToken,
+      // const { queryFn } = queryOptions.getProfileImage({
+      //   accessToken: userInfo.data.accessToken,
+      // });
+      // await queryFn().then((data) => {
+      addUserInfo({
+        ...userInfo.data,
+        // profileImageUrl: data.data.s3DownloadResult.url,
       });
-      await queryFn().then((data) => {
-        addUserInfo({
-          ...userInfo.data,
-          profileImageUrl: data.data.s3DownloadResult.url,
-        });
-      });
+      // });
 
       router.push('/');
       return userInfo;
