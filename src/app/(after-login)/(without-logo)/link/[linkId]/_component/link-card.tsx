@@ -79,6 +79,25 @@ export function LinkCardComponent({
     }
   }, [position]);
 
+  const handleTouchStart = (e: React.TouchEvent) => {
+    const touch = e.touches[0];
+    setPosition({ start: touch.clientX, end: touch.clientX });
+    setIsDrag(true);
+  };
+
+  const handleTouchMove = (e: React.TouchEvent) => {
+    const touch = e.touches[0];
+    if (position) {
+      setPosition({ ...position, end: touch.clientX });
+    }
+  };
+
+  const handleTouchEnd = () => {
+    if (position && position.start === position.end) {
+      setIsDrag(false); // is click
+    }
+  };
+
   return (
     <div className={`relative w-full`}>
       <Link href={isDrag ? `` : `${'/link/' + link.linkId}`} draggable={false}>
@@ -104,6 +123,9 @@ export function LinkCardComponent({
               }
             }
           }}
+          onTouchStart={handleTouchStart}
+          onTouchMove={handleTouchMove}
+          onTouchEnd={handleTouchEnd}
           draggable={false}
           className={`w-full} flex cursor-pointer justify-between overflow-hidden transition hover:scale-105 dark:border-zinc-700`}
         >
