@@ -11,6 +11,7 @@ import { Suspense, useCallback, useState } from 'react';
 import LinkCard from '@/app/(after-login)/(without-logo)/link/[linkId]/_component/link-card';
 import { useSearchParams } from 'next/navigation';
 import MoveBtn from '@/app/(after-login)/(without-logo)/category/[categoryId]/_component/move-btn';
+import { useOwner } from '@/lib/provider/owner-provider';
 
 export default function CategoryDetailPage({
   params,
@@ -29,6 +30,7 @@ export default function CategoryDetailPage({
   const { data: myCategories } = useMyCategories({
     accessToken: accessToken,
   });
+  const { owner } = useOwner();
   const convertToId = (categoryName: string): number => {
     return myCategories!.data.categoryList.find(
       (item: any) => item.categoryName == categoryName
@@ -59,7 +61,7 @@ export default function CategoryDetailPage({
       {data && (
         <div className='flex h-full min-h-dvh w-full flex-col items-center gap-4'>
           <Label htmlFor='categoryName' className='text-2xl font-semibold'>
-            {data.categoryName}
+            {owner ? data.categoryName : data.asCategoryName}
           </Label>
           <LinkCard
             linkList={data.linkList}
