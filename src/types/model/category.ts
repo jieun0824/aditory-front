@@ -48,6 +48,7 @@ export interface specificCategoryResponse extends ResponseType {
     categoryName: string;
     linkCount: number;
     categoryState: CategoryState;
+    asCategoryName: string;
     linkList: Links[];
   };
 }
