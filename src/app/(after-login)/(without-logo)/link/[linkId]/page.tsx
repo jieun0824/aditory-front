@@ -1,4 +1,3 @@
-'use client';
 import LinkDetailComponent from './_component/link-detail-component';
 
 export default function LinkDetailPage({
