@@ -23,6 +23,7 @@ export function useLink({
       selectFn && selectFn(data);
       return data;
     },
+    staleTime: Infinity,
   });
 }
 
